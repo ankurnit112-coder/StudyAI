@@ -1,0 +1,46 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="200" fill="#f8fafc"/>
+  
+  <!-- Study Plan Document -->
+  <rect x="75" y="40" width="150" height="120" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect x="85" y="50" width="130" height="25" fill="#0ea5e9"/>
+  <text x="95" y="67" fill="white" font-family="Arial" font-size="12" font-weight="bold">Your Study Plan</text>
+  
+  <!-- Schedule Items -->
+  <rect x="85" y="85" width="120" height="15" rx="2" fill="#dcfce7"/>
+  <text x="90" y="95" fill="#22c55e" font-family="Arial" font-size="8">✓ Math: Algebra (9-10 AM)</text>
+  
+  <rect x="85" y="105" width="120" height="15" rx="2" fill="#fef3c7"/>
+  <text x="90" y="115" fill="#f59e0b" font-family="Arial" font-size="8">📚 Physics: Mechanics (10-11 AM)</text>
+  
+  <rect x="85" y="125" width="120" height="15" rx="2" fill="#dbeafe"/>
+  <text x="90" y="135" fill="#0ea5e9" font-family="Arial" font-size="8">📝 Chemistry: Revision (2-3 PM)</text>
+  
+  <!-- Progress Bar -->
+  <rect x="85" y="150" width="120" height="8" rx="4" fill="#e5e7eb"/>
+  <rect x="85" y="150" width="80" height="8" rx="4" fill="#22c55e"/>
+  <text x="150" y="170" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="8">67% Complete</text>
+  
+  <!-- Calendar Icon -->
+  <rect x="40" y="60" width="25" height="25" rx="2" fill="#ef4444"/>
+  <rect x="42" y="65" width="21" height="18" fill="white"/>
+  <text x="47" y="75" fill="#ef4444" font-family="Arial" font-size="8">15</text>
+  <text x="47" y="82" fill="#64748b" font-family="Arial" font-size="6">MAR</text>
+  
+  <!-- Target Score -->
+  <circle cx="250" cy="80" r="20" fill="#22c55e"/>
+  <text x="245" y="85" fill="white" font-family="Arial" font-size="10" font-weight="bold">85%</text>
+  <text x="235" y="105" fill="#64748b" font-family="Arial" font-size="8">Target Score</text>
+  
+  <!-- AI Recommendations -->
+  <rect x="230" y="120" width="60" height="30" rx="4" fill="#8b5cf6" opacity="0.1"/>
+  <text x="235" y="135" fill="#8b5cf6" font-family="Arial" font-size="8">🤖 AI Tips</text>
+  <text x="235" y="145" fill="#64748b" font-family="Arial" font-size="6">Focus on weak</text>
+  
+  <!-- Title -->
+  <text x="150" y="25" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Personalized Plan</text>
+  <text x="150" y="185" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="10">Daily tasks & progress tracking</text>
+</svg>

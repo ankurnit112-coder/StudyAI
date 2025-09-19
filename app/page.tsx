@@ -1,0 +1,555 @@
+import { Button } from "@/components/ui/button"
+import NavigationButton from "@/components/ui/navigation-button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import MainNav from "@/components/navigation/main-nav"
+import Footer from "@/components/layout/footer"
+import { SafeImage } from "@/components/ui/safe-image"
+import { studyAIImages } from "@/lib/image-utils"
+import {
+  Brain,
+  TrendingUp,
+  BookOpen,
+  Users,
+  Star,
+  CheckCircle,
+  BarChart3,
+  Target,
+  GraduationCap,
+  Calendar,
+  Trophy,
+  Smartphone,
+} from "lucide-react"
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-background">
+      <MainNav isAuthenticated={false} />
+
+      {/* Hero Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto text-center max-w-4xl">
+          <Badge className="mb-6 bg-sky text-white">
+            <GraduationCap className="h-4 w-4 mr-2" />
+            {"Designed for CBSE Classes 9-12 Students"}
+          </Badge>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-navy">
+            Predict Your Board Exam Success with{" "}
+            <span className="text-sky">
+              AI-Powered Insights
+            </span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            {
+              "Get personalized study strategies, accurate performance predictions, and CBSE board exam guidance that adapts to your learning style. Perfect for Classes 9, 10, 11, and 12."
+            }
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <NavigationButton
+              href="/auth/signup"
+              size="lg"
+              className="bg-sky hover:bg-sky/90 text-white font-semibold px-8 py-4 text-lg"
+            >
+              Get Started Now
+            </NavigationButton>
+            <NavigationButton
+              href="/demo"
+              size="lg"
+              variant="outline"
+              className="border-sky text-sky hover:bg-sky hover:text-white"
+            >
+              Watch Demo (2 min)
+            </NavigationButton>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm text-gray-600 mb-12">
+            <div className="flex flex-col items-center professional-card p-6 rounded-lg">
+              <div className="text-3xl font-bold text-sky mb-2">50K+</div>
+              <div className="font-medium">CBSE Students</div>
+            </div>
+            <div className="flex flex-col items-center professional-card p-6 rounded-lg">
+              <div className="text-3xl font-bold text-sage mb-2">95%</div>
+              <div className="font-medium">Accuracy Rate</div>
+            </div>
+            <div className="flex flex-col items-center professional-card p-6 rounded-lg">
+              <div className="text-3xl font-bold text-yellow mb-2">15%</div>
+              <div className="font-medium">Avg Score Boost</div>
+            </div>
+            <div className="flex flex-col items-center professional-card p-6 rounded-lg">
+              <div className="text-3xl font-bold text-teal mb-2">4.8★</div>
+              <div className="font-medium">Student Rating</div>
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <div className="relative">
+              <SafeImage
+                src={studyAIImages.heroDashboard}
+                alt="Modern dashboard interface showing student performance analytics, grade predictions, and study recommendations for CBSE board exam preparation"
+                className="rounded-lg shadow-lg mx-auto max-w-full h-auto bg-white p-4 border border-gray-200"
+                loading="lazy"
+                fallbackSrc="/images/hero-dashboard.svg"
+                width={1200}
+                height={600}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg pointer-events-none"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CBSE-Specific Features Section */}
+      <section id="cbse-support" className="py-20 px-4 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy">
+              {"Built Specifically for CBSE Board Exams"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+              {
+                "Our AI understands CBSE marking schemes, question patterns, and syllabus changes to give you the most accurate guidance."
+              }
+            </p>
+            <div className="mb-12">
+              <div className="relative">
+                <SafeImage
+                  src={studyAIImages.cbseFeatures}
+                  alt="CBSE textbooks and study materials showcasing updated 2024-25 syllabus, mobile learning apps, and bilingual educational resources for Classes 9-12"
+                  className="rounded-lg shadow-lg mx-auto max-w-full h-auto bg-white p-4 border border-gray-200"
+                  loading="lazy"
+                  fallbackSrc="/images/cbse-features.svg"
+                  width={1200}
+                  height={600}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-lg pointer-events-none"></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="professional-card professional-hover">
+              <CardHeader className="pb-4">
+                <Calendar className="h-10 w-10 text-sky mb-3" />
+                <CardTitle className="text-navy text-lg">2024-25 Syllabus</CardTitle>
+                <CardDescription className="text-sm text-gray-600">
+                  {"Updated with latest CBSE syllabus changes and reduced curriculum for all subjects."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader className="pb-4">
+                <Trophy className="h-10 w-10 text-yellow mb-3" />
+                <CardTitle className="text-navy text-lg">Board Exam Prep</CardTitle>
+                <CardDescription className="text-sm text-gray-600">
+                  {"Specialized preparation for Class 10 and 12 board exams with previous year analysis."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader className="pb-4">
+                <Smartphone className="h-10 w-10 text-sage mb-3" />
+                <CardTitle className="text-navy text-lg">Mobile-First Design</CardTitle>
+                <CardDescription className="text-sm text-gray-600">
+                  {"Optimized for Indian students who primarily study on mobile devices."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader className="pb-4">
+                <BookOpen className="h-10 w-10 text-teal mb-3" />
+                <CardTitle className="text-navy text-lg">Hindi & English</CardTitle>
+                <CardDescription className="text-sm text-gray-600">
+                  {"Support for both Hindi and English medium students with bilingual interface."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy">
+              {"AI-Powered Features for Academic Excellence"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              {"Advanced AI analyzes your performance against 10 years of CBSE data to provide personalized insights."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="professional-card professional-hover">
+              <CardHeader>
+                <TrendingUp className="h-12 w-12 text-sky mb-4" />
+                <CardTitle className="text-navy">Board Exam Prediction</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {
+                    "Get accurate predictions for your Class 10/12 board exam scores based on current performance and CBSE trends."
+                  }
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader>
+                <BookOpen className="h-12 w-12 text-sage mb-4" />
+                <CardTitle className="text-navy">Subject-Wise Study Plans</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {
+                    "Customized study schedules for Physics, Chemistry, Math, Biology, and other CBSE subjects with chapter-wise breakdown."
+                  }
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader>
+                <BarChart3 className="h-12 w-12 text-yellow mb-4" />
+                <CardTitle className="text-navy">Performance Analytics</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {"Real-time tracking of your progress with detailed insights into strengths and improvement areas."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader>
+                <Target className="h-12 w-12 text-teal mb-4" />
+                <CardTitle className="text-navy">Competitive Exam Prep</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {"Integrated preparation for JEE, NEET, and other competitive exams alongside board exam prep."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader>
+                <Users className="h-12 w-12 text-sky mb-4" />
+                <CardTitle className="text-navy">Parent Dashboard</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {"Parents receive weekly progress reports and can monitor study habits and performance trends."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardHeader>
+                <Brain className="h-12 w-12 text-sage mb-4" />
+                <CardTitle className="text-navy">Smart Revision</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {"AI-powered revision schedules that adapt based on your retention patterns and exam dates."}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-20 px-4 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy">
+              {"How StudyAI Works"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              {"Simple 3-step process to unlock your academic potential with AI-powered insights."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            <div className="hidden md:block absolute top-8 left-1/3 w-1/3 h-0.5 bg-sky/30"></div>
+            <div className="hidden md:block absolute top-8 right-1/3 w-1/3 h-0.5 bg-sky/30"></div>
+
+            <div className="text-center">
+              <div className="bg-sky text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                1
+              </div>
+              <h3 className="text-xl font-semibold mb-4 text-navy">{"Quick Assessment"}</h3>
+              <p className="text-gray-600 mb-6">
+                {
+                  "Take a 15-minute assessment covering your current class subjects. Input your recent test scores and study preferences."
+                }
+              </p>
+              <div className="bg-white p-4 rounded-lg shadow-sm border">
+                <SafeImage
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop&crop=center&auto=format&q=80"
+                  alt="Indian student taking CBSE assessment on laptop with study materials, showcasing the initial evaluation process for personalized AI recommendations"
+                  className="rounded-lg mx-auto w-full max-w-xs object-cover h-48"
+                  loading="lazy"
+                  fallbackSrc="/images/student-studying.svg"
+                  width={400}
+                  height={300}
+                />
+              </div>
+            </div>
+
+            <div className="text-center">
+              <div className="bg-sage text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                2
+              </div>
+              <h3 className="text-xl font-semibold mb-4 text-navy">{"AI Analysis"}</h3>
+              <p className="text-gray-600 mb-6">
+                {
+                  "Our AI compares your data with CBSE board patterns and 50,000+ student records to predict your performance."
+                }
+              </p>
+              <div className="bg-white p-4 rounded-lg shadow-sm border">
+                <SafeImage
+                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop&crop=center&auto=format&q=80"
+                  alt="AI and machine learning visualization showing data analysis, neural networks processing CBSE student performance patterns and generating predictive insights"
+                  className="rounded-lg mx-auto w-full max-w-xs object-cover h-48"
+                  loading="lazy"
+                  fallbackSrc="/images/ai-brain-analysis.svg"
+                  width={400}
+                  height={300}
+                />
+              </div>
+            </div>
+
+            <div className="text-center">
+              <div className="bg-teal text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                3
+              </div>
+              <h3 className="text-xl font-semibold mb-4 text-navy">{"Personalized Plan"}</h3>
+              <p className="text-gray-600 mb-6">
+                {"Receive your customized study plan with daily tasks, revision schedules, and progress tracking."}
+              </p>
+              <div className="bg-white p-4 rounded-lg shadow-sm border">
+                <SafeImage
+                  src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=300&fit=crop&crop=center&auto=format&q=80"
+                  alt="Organized study schedule and planner showing personalized CBSE study plan with daily tasks, revision timetable, and progress tracking for board exam preparation"
+                  className="rounded-lg mx-auto w-full max-w-xs object-cover h-48"
+                  loading="lazy"
+                  fallbackSrc="/images/personalized-study-plan.svg"
+                  width={400}
+                  height={300}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy">
+              {"Success Stories from CBSE Students"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              {"Real results from students across India who improved their board exam performance."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="professional-card professional-hover">
+              <CardContent className="pt-6">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-5 w-5 text-yellow fill-current"
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4">
+                  {
+                    "StudyAI predicted my Physics board exam score within 2 marks! The chapter-wise study plan helped me go from 65% to 89% in Class 12."
+                  }
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-sky rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                    A
+                  </div>
+                  <div>
+                    <p className="font-semibold text-navy">Arjun Sharma</p>
+                    <p className="text-sm text-gray-600">Class 12, Delhi - 89% in Boards</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardContent className="pt-6">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-5 w-5 text-yellow fill-current"
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4">
+                  {
+                    "The parent dashboard helped me track my daughter's progress. She scored 95% in Class 10 boards - exactly as StudyAI predicted!"
+                  }
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-sage rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                    P
+                  </div>
+                  <div>
+                    <p className="font-semibold text-navy">Priya Patel</p>
+                    <p className="text-sm text-gray-600">Parent, Mumbai - Daughter scored 95%</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="professional-card professional-hover">
+              <CardContent className="pt-6">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-5 w-5 text-yellow fill-current"
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4">
+                  {
+                    "The CBSE-specific guidance helped me understand marking schemes. My English writing improved from 12/20 to 18/20 in boards!"
+                  }
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-teal rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                    S
+                  </div>
+                  <div>
+                    <p className="font-semibold text-navy">Sneha Gupta</p>
+                    <p className="text-sm text-gray-600">Class 10, Bangalore - 92% in Boards</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* App Screenshots Section */}
+      <section className="py-20 px-4 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy">
+              {"Experience StudyAI Interface"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              {"Take a closer look at our intuitive dashboard and powerful features designed specifically for CBSE students."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
+                <img
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center&auto=format&q=80"
+                  alt="StudyAI main dashboard showing performance overview, upcoming exams, and AI recommendations for CBSE students"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="p-6">
+                  <h3 className="font-semibold text-navy mb-2">Main Dashboard</h3>
+                  <p className="text-sm text-gray-600">Your academic command center with AI insights</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
+                <img
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&crop=center&auto=format&q=80"
+                  alt="Performance analytics page showing detailed charts, grade trends, and subject-wise analysis for CBSE board exam preparation"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="p-6">
+                  <h3 className="font-semibold text-navy mb-2">Performance Analytics</h3>
+                  <p className="text-sm text-gray-600">Detailed insights into your academic progress</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
+                <img
+                  src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop&crop=center&auto=format&q=80"
+                  alt="Personalized study planner interface showing daily schedules, revision timetables, and task management for CBSE exam preparation"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="p-6">
+                  <h3 className="font-semibold text-navy mb-2">Study Planner</h3>
+                  <p className="text-sm text-gray-600">AI-generated personalized study schedules</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <NavigationButton
+              href="/demo"
+              size="lg"
+              className="bg-sky hover:bg-sky/90 text-white font-semibold px-8 py-4"
+            >
+              Explore All Features
+            </NavigationButton>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-navy">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+            {"Ready to Ace Your Board Exams?"}
+          </h2>
+          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
+            {
+              "Join 50,000+ CBSE students who are already using AI to improve their board exam scores. Get started today."
+            }
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <NavigationButton
+              href="/auth/signup"
+              size="lg"
+              className="bg-yellow hover:bg-yellow/90 text-navy font-semibold px-8 py-4 text-lg"
+            >
+              Get Started - Classes 9-12
+            </NavigationButton>
+            <NavigationButton
+              href="/demo"
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-navy"
+            >
+              Watch Demo
+            </NavigationButton>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-300 max-w-md mx-auto">
+            <div className="flex items-center justify-center">
+              <CheckCircle className="h-5 w-5 text-sky mr-2" />
+              {"Quick setup"}
+            </div>
+            <div className="flex items-center justify-center">
+              <CheckCircle className="h-5 w-5 text-sky mr-2" />
+              {"Full access"}
+            </div>
+            <div className="flex items-center justify-center">
+              <CheckCircle className="h-5 w-5 text-sky mr-2" />
+              {"Start immediately"}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  )
+}

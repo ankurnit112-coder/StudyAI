@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Frontend - Next.js Application
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - studyai-dev
+
+  # Backend - Python ML API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./studyai_dev.db
+      - ML_MODEL_PATH=/app/models
+      - TRAINING_DATA_PATH=/app/data
+      - DEBUG=true
+    volumes:
+      - ./backend:/app
+      - ml_models_dev:/app/models
+      - training_data_dev:/app/data
+    restart: unless-stopped
+    networks:
+      - studyai-dev
+
+volumes:
+  ml_models_dev:
+  training_data_dev:
+
+networks:
+  studyai-dev:
+    driver: bridge

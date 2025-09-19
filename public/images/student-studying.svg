@@ -1,0 +1,39 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="200" fill="#f8fafc"/>
+  
+  <!-- Desk -->
+  <rect x="50" y="120" width="200" height="60" rx="4" fill="#8b5a2b"/>
+  
+  <!-- Student (simplified) -->
+  <circle cx="150" cy="90" r="20" fill="#fbbf24"/>
+  <rect x="140" y="110" width="20" height="30" fill="#3b82f6"/>
+  
+  <!-- Book -->
+  <rect x="120" y="115" width="25" height="15" rx="2" fill="#ef4444"/>
+  <rect x="122" y="117" width="21" height="2" fill="white"/>
+  <rect x="122" y="121" width="21" height="2" fill="white"/>
+  <rect x="122" y="125" width="21" height="2" fill="white"/>
+  
+  <!-- Laptop -->
+  <rect x="160" y="110" width="40" height="25" rx="2" fill="#1f2937"/>
+  <rect x="162" y="112" width="36" height="20" rx="1" fill="#0ea5e9"/>
+  <text x="170" y="125" fill="white" font-family="Arial" font-size="8">AI</text>
+  
+  <!-- Study Notes -->
+  <rect x="210" y="115" width="20" height="15" rx="1" fill="white" stroke="#e5e7eb"/>
+  <rect x="212" y="118" width="16" height="1" fill="#6b7280"/>
+  <rect x="212" y="121" width="16" height="1" fill="#6b7280"/>
+  <rect x="212" y="124" width="16" height="1" fill="#6b7280"/>
+  
+  <!-- Progress indicators -->
+  <circle cx="80" cy="60" r="8" fill="#22c55e"/>
+  <text x="76" y="65" fill="white" font-family="Arial" font-size="10">✓</text>
+  
+  <circle cx="220" cy="60" r="8" fill="#0ea5e9"/>
+  <text x="216" y="65" fill="white" font-family="Arial" font-size="10">📊</text>
+  
+  <!-- Title -->
+  <text x="150" y="30" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Quick Assessment</text>
+  <text x="150" y="45" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="10">Input your scores & preferences</text>
+</svg>

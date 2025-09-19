@@ -1,0 +1,47 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="200" fill="#f8fafc"/>
+  
+  <!-- AI Brain -->
+  <circle cx="150" cy="100" r="40" fill="#8b5cf6" opacity="0.2"/>
+  <circle cx="150" cy="100" r="30" fill="#8b5cf6" opacity="0.4"/>
+  <circle cx="150" cy="100" r="20" fill="#8b5cf6"/>
+  
+  <!-- Neural Network Nodes -->
+  <circle cx="120" cy="80" r="4" fill="#0ea5e9"/>
+  <circle cx="180" cy="80" r="4" fill="#0ea5e9"/>
+  <circle cx="120" cy="120" r="4" fill="#0ea5e9"/>
+  <circle cx="180" cy="120" r="4" fill="#0ea5e9"/>
+  <circle cx="100" cy="100" r="4" fill="#22c55e"/>
+  <circle cx="200" cy="100" r="4" fill="#22c55e"/>
+  
+  <!-- Connections -->
+  <line x1="120" y1="80" x2="150" y2="100" stroke="#0ea5e9" stroke-width="2"/>
+  <line x1="180" y1="80" x2="150" y2="100" stroke="#0ea5e9" stroke-width="2"/>
+  <line x1="120" y1="120" x2="150" y2="100" stroke="#0ea5e9" stroke-width="2"/>
+  <line x1="180" y1="120" x2="150" y2="100" stroke="#0ea5e9" stroke-width="2"/>
+  <line x1="100" y1="100" x2="150" y2="100" stroke="#22c55e" stroke-width="2"/>
+  <line x1="200" y1="100" x2="150" y2="100" stroke="#22c55e" stroke-width="2"/>
+  
+  <!-- Data Points -->
+  <rect x="60" y="50" width="30" height="20" rx="2" fill="#fbbf24"/>
+  <text x="65" y="63" fill="white" font-family="Arial" font-size="8">CBSE</text>
+  
+  <rect x="210" y="50" width="30" height="20" rx="2" fill="#ef4444"/>
+  <text x="215" y="63" fill="white" font-family="Arial" font-size="8">50K+</text>
+  
+  <rect x="60" y="130" width="30" height="20" rx="2" fill="#22c55e"/>
+  <text x="65" y="143" fill="white" font-family="Arial" font-size="8">Scores</text>
+  
+  <rect x="210" y="130" width="30" height="20" rx="2" fill="#06b6d4"/>
+  <text x="215" y="143" fill="white" font-family="Arial" font-size="8">Trends</text>
+  
+  <!-- Processing Animation -->
+  <circle cx="150" cy="100" r="35" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5">
+    <animateTransform attributeName="transform" type="rotate" values="0 150 100;360 150 100" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Title -->
+  <text x="150" y="30" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">AI Analysis</text>
+  <text x="150" y="180" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="10">Processing your data with ML algorithms</text>
+</svg>

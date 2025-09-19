@@ -1,0 +1,175 @@
+{
+  "timestamp": "20250919_003248",
+  "use_real_data": false,
+  "optimize_hyperparams": true,
+  "results": {
+    "Mathematics": {
+      "mae": 2.4558012317513676,
+      "rmse": 2.980799887033967,
+      "r2": 0.9434897592736076,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "English": {
+      "mae": 2.5669006230768736,
+      "rmse": 3.0947251783578817,
+      "r2": 0.9521740593146704,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Hindi": {
+      "mae": 2.80797511893123,
+      "rmse": 3.325747696634119,
+      "r2": 0.940183767986974,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Physical Education": {
+      "mae": 3.259549783918579,
+      "rmse": 3.9480710085398925,
+      "r2": 0.9240384665969716,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Physics": {
+      "mae": 8.119176805638975,
+      "rmse": 10.397284402355258,
+      "r2": -0.10742864112006467,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Chemistry": {
+      "mae": 8.115095324855027,
+      "rmse": 10.078288987558029,
+      "r2": -0.04434168199747557,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Biology": {
+      "mae": 7.347662286482292,
+      "rmse": 9.079439421525317,
+      "r2": -0.06561299645091068,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Computer Science": {
+      "mae": 8.055861023245015,
+      "rmse": 10.384811813161267,
+      "r2": -0.03740282417088481,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Economics": {
+      "mae": 10.576045573005164,
+      "rmse": 12.470626706614416,
+      "r2": -0.019839551338641792,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Business Studies": {
+      "mae": 9.581907535049814,
+      "rmse": 11.989623573134937,
+      "r2": -0.06806926381966516,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Accountancy": {
+      "mae": 10.170523532452961,
+      "rmse": 12.784560504318716,
+      "r2": -0.21293956625745447,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "History": {
+      "mae": 10.429079258516781,
+      "rmse": 12.686468182945408,
+      "r2": -0.2410299209192439,
+      "model_type": "ridge",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Political Science": {
+      "mae": 9.784668272578864,
+      "rmse": 12.622045818782071,
+      "r2": -0.05722725335727774,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    },
+    "Geography": {
+      "mae": 10.59556494091579,
+      "rmse": 13.025606414203896,
+      "r2": -0.19730001906675043,
+      "model_type": "gradient_boosting",
+      "n_features": 25,
+      "n_samples": 267
+    }
+  },
+  "feature_names": [
+    "current_class",
+    "gender_male",
+    "math_avg",
+    "math_std",
+    "physics_avg",
+    "physics_std",
+    "chemistry_avg",
+    "chemistry_std",
+    "biology_avg",
+    "biology_std",
+    "english_avg",
+    "english_std",
+    "hindi_avg",
+    "hindi_std",
+    "cs_avg",
+    "cs_std",
+    "economics_avg",
+    "economics_std",
+    "unit_test_avg",
+    "mid_term_avg",
+    "final_avg",
+    "pre_board_avg",
+    "board_avg",
+    "first_term_avg",
+    "second_term_avg",
+    "term_improvement",
+    "overall_avg",
+    "overall_median",
+    "overall_std",
+    "min_score",
+    "max_score",
+    "num_exams",
+    "early_avg",
+    "middle_avg",
+    "late_avg",
+    "overall_improvement",
+    "num_subjects",
+    "top_3_avg"
+  ],
+  "subjects": [
+    "Mathematics",
+    "English",
+    "Hindi",
+    "Physical Education",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Computer Science",
+    "Economics",
+    "Business Studies",
+    "Accountancy",
+    "History",
+    "Political Science",
+    "Geography"
+  ]
+}

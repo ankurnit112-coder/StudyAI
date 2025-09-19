@@ -1,0 +1,60 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f8fafc"/>
+  
+  <!-- Calendar/Planner -->
+  <rect x="100" y="50" width="400" height="300" fill="#ffffff" rx="16" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect x="100" y="50" width="400" height="50" fill="#3b82f6" rx="16 16 0 0"/>
+  <text x="300" y="80" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Personalized Study Plan</text>
+  
+  <!-- Calendar Icon -->
+  <rect x="120" y="65" width="20" height="20" fill="white" rx="2"/>
+  <rect x="122" y="67" width="16" height="2" fill="#3b82f6"/>
+  <rect x="122" y="71" width="16" height="2" fill="#3b82f6"/>
+  <rect x="122" y="75" width="16" height="2" fill="#3b82f6"/>
+  <rect x="122" y="79" width="16" height="2" fill="#3b82f6"/>
+  
+  <!-- Study Sessions -->
+  <rect x="120" y="120" width="360" height="40" fill="#dbeafe" rx="8"/>
+  <text x="130" y="135" fill="#1e40af" font-family="Arial, sans-serif" font-size="12" font-weight="bold">9:00 AM - 11:00 AM</text>
+  <text x="130" y="150" fill="#1e40af" font-family="Arial, sans-serif" font-size="14">Physics: Electromagnetic Induction</text>
+  
+  <rect x="120" y="170" width="360" height="40" fill="#dcfce7" rx="8"/>
+  <text x="130" y="185" fill="#15803d" font-family="Arial, sans-serif" font-size="12" font-weight="bold">2:00 PM - 3:30 PM</text>
+  <text x="130" y="200" fill="#15803d" font-family="Arial, sans-serif" font-size="14">Mathematics: Integration Practice</text>
+  
+  <rect x="120" y="220" width="360" height="40" fill="#fef3c7" rx="8"/>
+  <text x="130" y="235" fill="#92400e" font-family="Arial, sans-serif" font-size="12" font-weight="bold">7:00 PM - 8:00 PM</text>
+  <text x="130" y="250" fill="#92400e" font-family="Arial, sans-serif" font-size="14">English: Essay Writing Practice</text>
+  
+  <rect x="120" y="270" width="360" height="40" fill="#f3e8ff" rx="8"/>
+  <text x="130" y="285" fill="#7c3aed" font-family="Arial, sans-serif" font-size="12" font-weight="bold">8:30 PM - 9:00 PM</text>
+  <text x="130" y="300" fill="#7c3aed" font-family="Arial, sans-serif" font-size="14">Chemistry: Quick Revision</text>
+  
+  <!-- Progress Indicators -->
+  <circle cx="460" cy="140" r="8" fill="#22c55e"/>
+  <text x="456" y="145" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">✓</text>
+  
+  <circle cx="460" cy="190" r="8" fill="#f59e0b"/>
+  <text x="457" y="195" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">•</text>
+  
+  <circle cx="460" cy="240" r="8" fill="#e5e7eb"/>
+  <circle cx="460" cy="290" r="8" fill="#e5e7eb"/>
+  
+  <!-- Study Tips -->
+  <rect x="120" y="320" width="360" height="20" fill="#f1f5f9" rx="4"/>
+  <text x="130" y="333" fill="#64748b" font-family="Arial, sans-serif" font-size="11">💡 Tip: Take 10-minute breaks between sessions for better retention</text>
+  
+  <!-- Clock Icon -->
+  <circle cx="50" cy="200" r="25" fill="#3b82f6" opacity="0.1"/>
+  <circle cx="50" cy="200" r="15" fill="#3b82f6"/>
+  <line x1="50" y1="200" x2="50" y2="190" stroke="white" stroke-width="2"/>
+  <line x1="50" y1="200" x2="55" y2="200" stroke="white" stroke-width="2"/>
+  
+  <!-- Books Icon -->
+  <rect x="540" y="180" width="15" height="20" fill="#22c55e" rx="2"/>
+  <rect x="545" y="175" width="15" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="550" y="170" width="15" height="20" fill="#f59e0b" rx="2"/>
+</svg>

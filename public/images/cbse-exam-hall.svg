@@ -1,0 +1,127 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f8fafc"/>
+  
+  <!-- Exam Hall -->
+  <rect x="50" y="100" width="500" height="250" fill="#ffffff" rx="12" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- CBSE Header Board -->
+  <rect x="50" y="50" width="500" height="50" fill="#0d173b" rx="8"/>
+  <text x="300" y="80" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">CENTRAL BOARD OF SECONDARY EDUCATION</text>
+  <text x="300" y="95" fill="#4ab7e0" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">Class XII Board Examination - Mathematics</text>
+  
+  <!-- Students at Desks -->
+  <!-- Student 1 -->
+  <g id="student1">
+    <circle cx="150" cy="180" r="12" fill="#fbbf24"/>
+    <rect x="142" y="192" width="16" height="25" fill="#3b82f6" rx="4"/>
+    <rect x="130" y="217" width="40" height="20" fill="#8b5cf6" rx="4"/>
+    <!-- Desk -->
+    <rect x="120" y="237" width="60" height="30" fill="#6b7280" rx="4"/>
+    <!-- Answer Sheet -->
+    <rect x="125" y="242" width="25" height="20" fill="#ffffff" rx="2" stroke="#e5e7eb"/>
+    <line x1="127" y1="247" x2="148" y2="247" stroke="#4ab7e0" stroke-width="1"/>
+    <line x1="127" y1="252" x2="145" y2="252" stroke="#84ac64" stroke-width="1"/>
+    <line x1="127" y1="257" x2="148" y2="257" stroke="#e2d64b" stroke-width="1"/>
+  </g>
+  
+  <!-- Student 2 -->
+  <g id="student2">
+    <circle cx="250" cy="180" r="12" fill="#f87171"/>
+    <rect x="242" y="192" width="16" height="25" fill="#22c55e" rx="4"/>
+    <rect x="230" y="217" width="40" height="20" fill="#8b5cf6" rx="4"/>
+    <!-- Desk -->
+    <rect x="220" y="237" width="60" height="30" fill="#6b7280" rx="4"/>
+    <!-- Answer Sheet -->
+    <rect x="225" y="242" width="25" height="20" fill="#ffffff" rx="2" stroke="#e5e7eb"/>
+    <line x1="227" y1="247" x2="248" y2="247" stroke="#4ab7e0" stroke-width="1"/>
+    <line x1="227" y1="252" x2="245" y2="252" stroke="#84ac64" stroke-width="1"/>
+  </g>
+  
+  <!-- Student 3 -->
+  <g id="student3">
+    <circle cx="350" cy="180" r="12" fill="#a78bfa"/>
+    <rect x="342" y="192" width="16" height="25" fill="#ef4444" rx="4"/>
+    <rect x="330" y="217" width="40" height="20" fill="#8b5cf6" rx="4"/>
+    <!-- Desk -->
+    <rect x="320" y="237" width="60" height="30" fill="#6b7280" rx="4"/>
+    <!-- Answer Sheet -->
+    <rect x="325" y="242" width="25" height="20" fill="#ffffff" rx="2" stroke="#e5e7eb"/>
+    <line x1="327" y1="247" x2="348" y2="247" stroke="#4ab7e0" stroke-width="1"/>
+    <line x1="327" y1="252" x2="345" y2="252" stroke="#84ac64" stroke-width="1"/>
+    <line x1="327" y1="257" x2="348" y2="257" stroke="#e2d64b" stroke-width="1"/>
+  </g>
+  
+  <!-- Student 4 -->
+  <g id="student4">
+    <circle cx="450" cy="180" r="12" fill="#34d399"/>
+    <rect x="442" y="192" width="16" height="25" fill="#f59e0b" rx="4"/>
+    <rect x="430" y="217" width="40" height="20" fill="#8b5cf6" rx="4"/>
+    <!-- Desk -->
+    <rect x="420" y="237" width="60" height="30" fill="#6b7280" rx="4"/>
+    <!-- Answer Sheet -->
+    <rect x="425" y="242" width="25" height="20" fill="#ffffff" rx="2" stroke="#e5e7eb"/>
+    <line x1="427" y1="247" x2="448" y2="247" stroke="#4ab7e0" stroke-width="1"/>
+    <line x1="427" y1="252" x2="445" y2="252" stroke="#84ac64" stroke-width="1"/>
+  </g>
+  
+  <!-- Blackboard -->
+  <rect x="100" y="120" width="400" height="40" fill="#1f2937" rx="4"/>
+  <text x="300" y="140" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Time Remaining: 2 Hours 30 Minutes</text>
+  <text x="300" y="155" fill="#4ab7e0" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">Section A: Attempt All Questions | Section B: Choose Any 4</text>
+  
+  <!-- Clock -->
+  <circle cx="520" cy="140" r="25" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+  <circle cx="520" cy="140" r="2" fill="#1f2937"/>
+  <line x1="520" y1="140" x2="520" y2="120" stroke="#1f2937" stroke-width="2"/>
+  <line x1="520" y1="140" x2="535" y2="140" stroke="#1f2937" stroke-width="1"/>
+  <text x="520" y="180" fill="#666" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">10:30 AM</text>
+  
+  <!-- Invigilator -->
+  <circle cx="80" cy="200" r="15" fill="#fbbf24"/>
+  <rect x="70" y="215" width="20" height="30" fill="#1f2937" rx="4"/>
+  <rect x="65" y="245" width="30" height="15" fill="#6b7280" rx="2"/>
+  <text x="80" y="270" fill="#666" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Invigilator</text>
+  
+  <!-- Subject Icons on Wall -->
+  <circle cx="80" cy="300" r="20" fill="#4ab7e0" opacity="0.2"/>
+  <text x="80" y="305" fill="#4ab7e0" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">∫</text>
+  <text x="80" y="330" fill="#4ab7e0" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Calculus</text>
+  
+  <circle cx="120" cy="300" r="20" fill="#84ac64" opacity="0.2"/>
+  <text x="120" y="305" fill="#84ac64" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Σ</text>
+  <text x="120" y="330" fill="#84ac64" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Statistics</text>
+  
+  <circle cx="480" cy="300" r="20" fill="#e2d64b" opacity="0.2"/>
+  <text x="480" y="305" fill="#e2d64b" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">∆</text>
+  <text x="480" y="330" fill="#e2d64b" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Geometry</text>
+  
+  <circle cx="520" cy="300" r="20" fill="#2d6668" opacity="0.2"/>
+  <text x="520" y="305" fill="#2d6668" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">f(x)</text>
+  <text x="520" y="330" fill="#2d6668" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Functions</text>
+  
+  <!-- StudyAI Prediction Box -->
+  <rect x="200" y="290" width="200" height="60" fill="#ffffff" rx="8" stroke="#4ab7e0" stroke-width="2"/>
+  <text x="300" y="310" fill="#4ab7e0" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">StudyAI Prediction</text>
+  <text x="300" y="325" fill="#0d173b" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">Based on preparation:</text>
+  <text x="300" y="340" fill="#84ac64" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Expected Score: 92%</text>
+  
+  <!-- Success Indicators -->
+  <circle cx="150" cy="320" r="12" fill="#22c55e"/>
+  <text x="150" y="325" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">✓</text>
+  <text x="150" y="340" fill="#22c55e" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Well Prepared</text>
+  
+  <circle cx="450" cy="320" r="12" fill="#f59e0b"/>
+  <text x="450" y="325" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">!</text>
+  <text x="450" y="340" fill="#f59e0b" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">Time Management</text>
+  
+  <!-- CBSE Logo Area -->
+  <rect x="20" y="20" width="60" height="60" fill="#0d173b" rx="8"/>
+  <text x="50" y="45" fill="#4ab7e0" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">CBSE</text>
+  <text x="50" y="60" fill="white" font-family="Arial, sans-serif" font-size="8" text-anchor="middle">2024-25</text>
+  
+  <!-- Question Paper -->
+  <rect x="155" y="242" width="20" height="20" fill="#f8fafc" rx="2" stroke="#e5e7eb"/>
+  <text x="165" y="250" fill="#0d173b" font-family="Arial, sans-serif" font-size="6" text-anchor="middle">Q1.</text>
+  <text x="165" y="257" fill="#0d173b" font-family="Arial, sans-serif" font-size="6" text-anchor="middle">Q2.</text>
+</svg>

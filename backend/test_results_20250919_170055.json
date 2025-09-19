@@ -1,0 +1,88 @@
+{
+  "Data Generation": {
+    "status": "PASSED",
+    "duration": 0.033535,
+    "details": {
+      "students_generated": 50,
+      "avg_records_per_student": 41.76,
+      "subjects_with_scores": 4,
+      "sample_subjects": [
+        "Mathematics",
+        "English",
+        "Hindi",
+        "Physical Education"
+      ]
+    }
+  },
+  "Feature Engineering": {
+    "status": "PASSED",
+    "duration": 0.009939,
+    "details": {
+      "num_features": 38,
+      "feature_range": [
+        -10.037908496732022,
+        90.3
+      ],
+      "feature_mean": 36.95571329938636,
+      "feature_std": 29.560451647390995
+    }
+  },
+  "Model Training": {
+    "status": "PASSED",
+    "duration": 0.120138,
+    "details": {
+      "training_samples": 23,
+      "num_subjects": 14,
+      "mathematics_mae": 4.796857142857147,
+      "mathematics_r2": 0.6478490231405891,
+      "sample_prediction": 50.562000000000005
+    }
+  },
+  "Real Data Processing": {
+    "status": "PASSED",
+    "duration": 0.008531,
+    "details": {
+      "students_loaded": 2,
+      "sample_class": "12",
+      "sample_records": 12,
+      "sample_subjects": [
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "English"
+      ]
+    }
+  },
+  "Model Persistence": {
+    "status": "PASSED",
+    "duration": 0.002656,
+    "details": {
+      "model_files_found": 14,
+      "scaler_files_found": 15,
+      "sample_model_type": "Ridge",
+      "training_timestamp": "20250919_003442",
+      "subjects_trained": 4
+    }
+  },
+  "Evaluation System": {
+    "status": "PASSED",
+    "duration": 0.042007,
+    "details": {
+      "models_evaluated": 4,
+      "average_mae": 5.0,
+      "average_r2": NaN,
+      "top_feature": "hindi_std"
+    }
+  },
+  "Prediction Pipeline": {
+    "status": "PASSED",
+    "duration": 0.015146,
+    "details": {
+      "test_student_class": 12,
+      "academic_records_count": 63,
+      "features_extracted": 38,
+      "mathematics_prediction": 88.0,
+      "prediction_valid": "True"
+    }
+  }
+}

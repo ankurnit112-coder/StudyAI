@@ -1,0 +1,85 @@
+{
+  "timestamp": "20250919_003442",
+  "use_real_data": true,
+  "optimize_hyperparams": true,
+  "results": {
+    "Mathematics": {
+      "mae": 7.0,
+      "rmse": 7.0,
+      "r2": NaN,
+      "model_type": "random_forest_default",
+      "n_features": 25,
+      "n_samples": 1
+    },
+    "Physics": {
+      "mae": 5.0,
+      "rmse": 5.0,
+      "r2": NaN,
+      "model_type": "random_forest_default",
+      "n_features": 25,
+      "n_samples": 1
+    },
+    "Chemistry": {
+      "mae": 5.0,
+      "rmse": 5.0,
+      "r2": NaN,
+      "model_type": "random_forest_default",
+      "n_features": 25,
+      "n_samples": 1
+    },
+    "English": {
+      "mae": 3.0,
+      "rmse": 3.0,
+      "r2": NaN,
+      "model_type": "random_forest_default",
+      "n_features": 25,
+      "n_samples": 1
+    }
+  },
+  "feature_names": [
+    "current_class",
+    "gender_male",
+    "math_avg",
+    "math_std",
+    "physics_avg",
+    "physics_std",
+    "chemistry_avg",
+    "chemistry_std",
+    "biology_avg",
+    "biology_std",
+    "english_avg",
+    "english_std",
+    "hindi_avg",
+    "hindi_std",
+    "cs_avg",
+    "cs_std",
+    "economics_avg",
+    "economics_std",
+    "unit_test_avg",
+    "mid_term_avg",
+    "final_avg",
+    "pre_board_avg",
+    "board_avg",
+    "first_term_avg",
+    "second_term_avg",
+    "term_improvement",
+    "overall_avg",
+    "overall_median",
+    "overall_std",
+    "min_score",
+    "max_score",
+    "num_exams",
+    "early_avg",
+    "middle_avg",
+    "late_avg",
+    "overall_improvement",
+    "num_subjects",
+    "top_3_avg"
+  ],
+  "subjects": [
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "English"
+  ]
+}
