@@ -249,37 +249,12 @@ We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTIN
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **CBSE Board** for curriculum guidelines and marking schemes
-- **Indian Students** who provided feedback and testing
-- **Open Source Community** for the amazing tools and libraries
-- **Educational Institutions** for supporting our research
-
-## 📞 Support
-
-- **Email**: support@studyai.com
-- **Phone**: +91 1800-123-4567
-- **Live Chat**: Available 24/7 on our website
-- **Documentation**: [docs.studyai.com](https://docs.studyai.com)
-
-## 🔗 Links
-
-- **Live Demo**: [demo.studyai.com](https://demo.studyai.com)
-- **API Documentation**: [api.studyai.com/docs](https://api.studyai.com/docs)
-- **Blog**: [blog.studyai.com](https://blog.studyai.com)
-- **Status Page**: [status.studyai.com](https://status.studyai.com)
 
 ---
 
 <div align="center">
 
 **Made with ❤️ for Indian Students**
-
-[Website](https://studyai.com) • [Documentation](https://docs.studyai.com) • [Support](mailto:support@studyai.com)
 
 </div>
