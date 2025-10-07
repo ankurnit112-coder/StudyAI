@@ -36,6 +36,8 @@ def create_sample_student():
             logger.info("Sample student already exists")
             return existing_student.id
         
+        from datetime import date
+        
         # Create sample student
         student = Student(
             email="test@example.com",
@@ -46,7 +48,7 @@ def create_sample_student():
             school_name="Test School",
             school_code="TS001",
             academic_year="2024-25",
-            date_of_birth="2006-01-01",
+            date_of_birth=date(2006, 1, 1),
             gender="other"
         )
         

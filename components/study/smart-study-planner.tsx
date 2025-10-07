@@ -179,7 +179,7 @@ export default function SmartStudyPlanner() {
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [isTimerRunning])
+  }, [isTimerRunning, timer])
 
   const startSession = (session: StudySession) => {
     setCurrentSession(session)

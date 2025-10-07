@@ -327,6 +327,21 @@ def create_sample_dataset(output_file: str = "sample_cbse_data.csv"):
 if __name__ == "__main__":
     # Generate sample dataset for inspection
     create_sample_dataset()
+def generate_sample_data_for_testing() -> Dict:
+    """Generate sample data for testing purposes"""
+    generator = CBSEDataGenerator()
+    
+    # Generate a single student profile
+    student_profile = generator.generate_student_profile(1)
+    
+    # Generate academic records for this student
+    academic_records = generator.generate_academic_records(student_profile, years_of_data=1)
+    
+    return {
+        "student_profile": student_profile,
+        "academic_records": academic_records
+    }
+
 def generate_training_data(num_students: int = 1000, years_of_data: int = 3) -> List[Tuple]:
     """Generate historical academic data for training (simplified version)"""
     generator = CBSEDataGenerator()

@@ -61,8 +61,17 @@ class CBSEFeatureEngineer:
         if not academic_records:
             return self._get_default_academic_features()
         
-        df = pd.DataFrame(academic_records)
-        df['percentage'] = (df['score'] / df['max_score']) * 100
+        try:
+            df = pd.DataFrame(academic_records)
+            
+            # Ensure numeric types
+            df['score'] = pd.to_numeric(df['score'], errors='coerce')
+            df['max_score'] = pd.to_numeric(df['max_score'], errors='coerce')
+            
+            df['percentage'] = (df['score'] / df['max_score']) * 100
+        except Exception as e:
+            print(f"Error creating DataFrame or percentage column: {str(e)}")
+            return self._get_default_academic_features()
         
         # Overall performance metrics
         features['overall_avg'] = df['percentage'].mean()
@@ -115,6 +124,11 @@ class CBSEFeatureEngineer:
         df = pd.DataFrame(academic_records)
         df['exam_date'] = pd.to_datetime(df['exam_date'])
         
+        # Create percentage column
+        df['score'] = pd.to_numeric(df['score'], errors='coerce')
+        df['max_score'] = pd.to_numeric(df['max_score'], errors='coerce')
+        df['percentage'] = (df['score'] / df['max_score']) * 100
+        
         # Time since last exam
         last_exam_date = df['exam_date'].max()
         days_since_last = (datetime.now() - last_exam_date).days
@@ -154,6 +168,12 @@ class CBSEFeatureEngineer:
         # Subject combination analysis
         if academic_records:
             df = pd.DataFrame(academic_records)
+            
+            # Create percentage column
+            df['score'] = pd.to_numeric(df['score'], errors='coerce')
+            df['max_score'] = pd.to_numeric(df['max_score'], errors='coerce')
+            df['percentage'] = (df['score'] / df['max_score']) * 100
+            
             subjects_taken = set(df['subject'].unique())
             
             # Science stream indicators

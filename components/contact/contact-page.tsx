@@ -336,7 +336,7 @@ export default function ContactPage() {
           <h1 className="text-4xl font-bold text-navy">Contact Us</h1>
         </div>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-          We're here to help you succeed! Get in touch with our team for support, 
+          We&apos;re here to help you succeed! Get in touch with our team for support, 
           questions, or to learn more about how StudyAI can transform your CBSE board exam preparation.
         </p>
         

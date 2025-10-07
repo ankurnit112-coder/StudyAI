@@ -124,6 +124,9 @@ export default function EnhancedAcademicRecords() {
       // Calculate percentage and grade
       const percentage = Math.round(((obtainedMarks / maxMarks) * 100) * 100) / 100 // Round to 2 decimal places
       const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : percentage >= 50 ? "C" : "D"
+      
+      // Log the calculated values for debugging
+      console.log(`Calculated: ${percentage}% (Grade: ${grade})`)
 
       toast.success("Exam record added successfully!")
       setShowAddForm(false)
@@ -157,6 +160,7 @@ export default function EnhancedAcademicRecords() {
   }
 
   const handleDelete = (id: string) => {
+    console.log(`Deleting record with ID: ${id}`)
     toast.success("Exam record deleted successfully!")
   }
 
