@@ -29,6 +29,9 @@ class CBSEFeatureEngineer:
         # CBSE-specific features
         features.update(self._extract_cbse_features(student_data, academic_records))
         
+        # Enhanced humanities features
+        features.update(self._extract_humanities_features(academic_records))
+        
         # Convert to feature vector
         return self._dict_to_vector(features)
     
@@ -256,6 +259,101 @@ class CBSEFeatureEngineer:
         if hasattr(self, 'scaler'):
             return self.scaler.transform(feature_matrix)
         return feature_matrix
+    
+    def _extract_humanities_features(self, academic_records: List[Dict]) -> Dict:
+        """Extract enhanced features for humanities subjects"""
+        features = {}
+        
+        if not academic_records:
+            return features
+            
+        df = pd.DataFrame(academic_records)
+        df['exam_date'] = pd.to_datetime(df['exam_date'])
+        df['percentage'] = (df['score'] / df['max_score']) * 100
+        
+        # Define subject groups
+        humanities = ['History', 'Geography', 'Economics', 'Political Science']
+        languages = ['English', 'Hindi']
+        
+        # Language proficiency correlation with humanities
+        for subject in humanities:
+            subj_scores = df[df['subject'] == subject]
+            if not subj_scores.empty:
+                # Language performance correlation
+                for lang in languages:
+                    lang_scores = df[df['subject'] == lang]
+                    if not lang_scores.empty:
+                        # Synchronize dates for correlation
+                        common_dates = set(subj_scores['exam_date']) & set(lang_scores['exam_date'])
+                        if common_dates:
+                            subj_aligned = subj_scores[subj_scores['exam_date'].isin(common_dates)]
+                            lang_aligned = lang_scores[lang_scores['exam_date'].isin(common_dates)]
+                            corr = np.corrcoef(subj_aligned['percentage'], lang_aligned['percentage'])[0, 1]
+                            features[f'{subject.lower()}_{lang.lower()}_correlation'] = corr if not np.isnan(corr) else 0
+                        else:
+                            features[f'{subject.lower()}_{lang.lower()}_correlation'] = 0
+                            
+        # Temporal patterns for humanities
+        for subject in humanities:
+            subj_df = df[df['subject'] == subject]
+            if len(subj_df) >= 3:
+                # Monthly performance variation
+                subj_df['month'] = subj_df['exam_date'].dt.month
+                monthly_avg = subj_df.groupby('month')['percentage'].mean()
+                features[f'{subject.lower()}_seasonal_variation'] = monthly_avg.std() if len(monthly_avg) > 1 else 0
+                
+                # Performance trend analysis
+                sorted_scores = subj_df.sort_values('exam_date')
+                x = np.arange(len(sorted_scores))
+                y = sorted_scores['percentage'].values
+                # Fit quadratic trend for better pattern capture
+                coeffs = np.polyfit(x, y, 2)
+                features[f'{subject.lower()}_trend_quadratic'] = coeffs[0]
+                features[f'{subject.lower()}_trend_linear'] = coeffs[1]
+                
+                # Recent performance momentum (last 3 exams)
+                recent_scores = sorted_scores.tail(3)['percentage'].values
+                if len(recent_scores) == 3:
+                    momentum = recent_scores[-1] - np.mean(recent_scores[:-1])
+                    features[f'{subject.lower()}_recent_momentum'] = momentum
+                else:
+                    features[f'{subject.lower()}_recent_momentum'] = 0
+                    
+                # Performance stability
+                features[f'{subject.lower()}_stability'] = 1 / (1 + subj_df['percentage'].std())
+            else:
+                features.update({
+                    f'{subject.lower()}_seasonal_variation': 0,
+                    f'{subject.lower()}_trend_quadratic': 0,
+                    f'{subject.lower()}_trend_linear': 0,
+                    f'{subject.lower()}_recent_momentum': 0,
+                    f'{subject.lower()}_stability': 0
+                })
+                
+        # Cross-subject performance patterns
+        if len(humanities) > 1:
+            humanities_scores = df[df['subject'].isin(humanities)]
+            if not humanities_scores.empty:
+                # Overall humanities performance metrics
+                features['humanities_overall_avg'] = humanities_scores['percentage'].mean()
+                features['humanities_overall_std'] = humanities_scores['percentage'].std()
+                
+                # Paired subject correlations
+                for i, subj1 in enumerate(humanities[:-1]):
+                    for subj2 in humanities[i+1:]:
+                        subj1_scores = df[df['subject'] == subj1]
+                        subj2_scores = df[df['subject'] == subj2]
+                        if not subj1_scores.empty and not subj2_scores.empty:
+                            common_dates = set(subj1_scores['exam_date']) & set(subj2_scores['exam_date'])
+                            if common_dates:
+                                s1_aligned = subj1_scores[subj1_scores['exam_date'].isin(common_dates)]
+                                s2_aligned = subj2_scores[subj2_scores['exam_date'].isin(common_dates)]
+                                corr = np.corrcoef(s1_aligned['percentage'], s2_aligned['percentage'])[0, 1]
+                                features[f'{subj1.lower()}_{subj2.lower()}_correlation'] = corr if not np.isnan(corr) else 0
+                            else:
+                                features[f'{subj1.lower()}_{subj2.lower()}_correlation'] = 0
+        
+        return features
     
     def get_feature_names(self) -> List[str]:
         """Get list of feature names"""

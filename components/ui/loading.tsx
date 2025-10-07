@@ -10,15 +10,23 @@ interface LoadingProps {
 
 export function Loading({ className, size = "md", text, fullScreen = false }: LoadingProps) {
   const content = (
-    <div className={cn(
-      "flex flex-col items-center justify-center space-y-4",
-      fullScreen ? "min-h-screen" : "min-h-[200px]",
-      className
-    )}>
+    <div 
+      className={cn(
+        "flex flex-col items-center justify-center space-y-4",
+        fullScreen ? "min-h-screen" : "min-h-[200px]",
+        className
+      )}
+      role="alert"
+      aria-busy="true"
+      aria-label={text || "Loading"}
+    >
       <LoadingSpinner size={size} />
       {text && (
-        <p className="text-gray-600 text-sm animate-pulse">{text}</p>
+        <p className="text-muted-foreground text-sm animate-pulse font-medium">{text}</p>
       )}
+      <div className="w-48 h-1 bg-secondary rounded-full overflow-hidden">
+        <div className="h-full bg-primary animate-progress-indeterminate" />
+      </div>
     </div>
   )
 

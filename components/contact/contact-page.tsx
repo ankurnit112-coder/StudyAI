@@ -85,8 +85,8 @@ export default function ContactPage() {
     if (!formData.email.trim()) errors.email = "Email is required"
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Invalid email format"
     
-    if (formData.phone && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ''))) {
-      errors.phone = "Invalid phone number format"
+    if (formData.phone && !/^[\+]?[1-9][\d]{9,14}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ''))) {
+      errors.phone = "Invalid phone number format (10-15 digits required)"
     }
     
     if (!formData.category) errors.category = "Please select a category"
@@ -157,8 +157,10 @@ export default function ContactPage() {
       
       // Check file type
       const allowedTypes = ['.jpg', '.jpeg', '.png', '.pdf', '.doc', '.docx', '.txt']
-      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase()
-      if (!allowedTypes.includes(fileExtension)) {
+      const fileExtension = file.name.lastIndexOf('.') !== -1 
+        ? file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
+        : ''
+      if (!fileExtension || !allowedTypes.includes(fileExtension)) {
         errors.push(`${file.name} is not a supported file type`)
         continue
       }

@@ -19,7 +19,7 @@ from sklearn.feature_selection import SelectKBest, f_regression
 import joblib
 import logging
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import argparse
 
 logging.basicConfig(level=logging.INFO)
@@ -36,6 +36,22 @@ class EnhancedCBSETrainer:
         self.scalers = {}
         self.feature_selectors = {}
         self.training_history = []
+        self.test_data = {}
+        self.hyperparameter_configs = {
+            'random_forest': {
+                'n_estimators': [100, 200],
+                'max_depth': [10, 20, None],
+                'min_samples_split': [2, 5]
+            },
+            'gradient_boosting': {
+                'n_estimators': [100, 200],
+                'learning_rate': [0.01, 0.1],
+                'max_depth': [3, 5]
+            },
+            'ridge': {
+                'alpha': [0.1, 1.0, 10.0]
+            }
+        }
         
     def load_real_data(self, data_path):
         """Load real student data from CSV or database"""
@@ -97,9 +113,183 @@ class EnhancedCBSETrainer:
         
         logger.info(f"Processed {len(training_data)} students from CSV")
         return training_data
+        
+    def _prepare_data(self, data):
+        """Prepare data for training"""
+        # Organize data by subject
+        subjects = {}
+        for student, records, board_scores in data:
+            for subject, board_score in board_scores.items():
+                if subject not in subjects:
+                    subjects[subject] = {'features': [], 'targets': []}
+                
+                # Extract subject-specific records
+                subject_records = [r for r in records if r['subject'] == subject]
+                
+                if not subject_records:
+                    continue
+                
+                # Calculate features
+                features = self._extract_features(student, subject_records, records)
+                
+                subjects[subject]['features'].append(features)
+                subjects[subject]['targets'].append(board_score)
+        
+        # Split into train/test sets
+        X_train = {}
+        X_test = {}
+        y_train = {}
+        y_test = {}
+        
+        for subject, data in subjects.items():
+            if len(data['targets']) < 10:  # Skip subjects with too few samples
+                logger.warning(f"Skipping {subject}: insufficient data ({len(data['targets'])} samples)")
+                continue
+                
+            X = np.array(data['features'])
+            y = np.array(data['targets'])
+            
+            # Split data
+            X_train[subject], X_test[subject], y_train[subject], y_test[subject] = \
+                train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        return X_train, X_test, y_train, y_test
+        
+    def _extract_features(self, student, subject_records, all_records):
+        """Extract features from student records"""
+        features = []
+        
+        # Basic statistics for the subject
+        scores = [r['score'] / r['max_score'] * 100 for r in subject_records]
+        features.extend([
+            np.mean(scores) if scores else 0,  # Average score
+            np.std(scores) if len(scores) > 1 else 0,  # Score consistency
+            max(scores) if scores else 0,  # Best performance
+            min(scores) if scores else 0   # Worst performance
+        ])
+        
+        # Performance trend
+        if len(scores) >= 2:
+            trend = np.polyfit(range(len(scores)), scores, 1)[0]
+        else:
+            trend = 0
+        features.append(trend)
+        
+        # Exam type performance
+        exam_types = ['unit_test', 'mid_term', 'pre_board', 'final']
+        for exam_type in exam_types:
+            type_scores = [r['score'] / r['max_score'] * 100 
+                        for r in subject_records if r['exam_type'] == exam_type]
+            features.append(np.mean(type_scores) if type_scores else 0)
+        
+        # Term performance
+        terms = ['first_term', 'second_term']
+        term_scores = []
+        for term in terms:
+            term_records = [r['score'] / r['max_score'] * 100 
+                        for r in subject_records if r['term'] == term]
+            term_scores.append(np.mean(term_records) if term_records else 0)
+        features.extend(term_scores)
+        
+        # Performance in other subjects
+        other_subjects = set(r['subject'] for r in all_records) - {subject_records[0]['subject']}
+        for other_subject in sorted(other_subjects):
+            other_scores = [r['score'] / r['max_score'] * 100 
+                        for r in all_records if r['subject'] == other_subject]
+            features.append(np.mean(other_scores) if other_scores else 0)
+        
+        # Student profile features
+        features.append(float(student['current_class']))
+        
+        # Convert gender to one-hot encoding
+        gender_map = {'male': [1,0,0], 'female': [0,1,0], 'other': [0,0,1]}
+        features.extend(gender_map.get(student['gender'].lower(), [0,0,1]))
+        
+        return features
     
     def _process_json_data(self, data):
         """Process JSON data into training format"""
+        logger.info("Processing JSON data...")
+        training_data = []
+        for student in data:
+            if 'profile' in student and 'records' in student and 'board_scores' in student:
+                training_data.append((
+                    student['profile'],
+                    student['records'],
+                    student['board_scores']
+                ))
+        return training_data
+        
+    def train(self):
+        """Train models using real or synthetic data"""
+        if self.use_real_data:
+            logger.info("Loading real training data...")
+            training_data = self.load_real_data(self.real_data_path)
+        else:
+            logger.info("Generating synthetic training data...")
+            from app.ml.data_generator import generate_training_data
+            training_data = generate_training_data(n_samples=1500)
+            
+        # Process and prepare data
+        X_train, X_test, y_train, y_test = self._prepare_data(training_data)
+        self.training_metadata = {
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'real_data': self.use_real_data,
+            'data_path': self.real_data_path if self.use_real_data else None,
+            'n_samples': len(training_data),
+        }
+        
+        # Train models for each subject
+        for subject in X_train.keys():
+            logger.info(f"Training model for {subject}...")
+            
+            # Scale features
+            scaler = RobustScaler()
+            X_train_scaled = scaler.fit_transform(X_train[subject])
+            X_test_scaled = scaler.transform(X_test[subject])
+            self.scalers[subject] = scaler
+            
+            # Feature selection
+            selector = SelectKBest(f_regression, k=25)
+            X_train_selected = selector.fit_transform(X_train_scaled, y_train[subject])
+            X_test_selected = selector.transform(X_test_scaled)
+            self.feature_selectors[subject] = selector
+            
+            # Initialize models
+            models = {
+                'random_forest': RandomForestRegressor(),
+                'gradient_boosting': GradientBoostingRegressor(),
+                'ridge': Ridge()
+            }
+            
+            # Train and evaluate each model
+            best_score = float('-inf')
+            best_model = None
+            
+            for model_name, model in models.items():
+                if self.optimize_hyperparams:
+                    logger.info(f"Optimizing {model_name} hyperparameters...")
+                    cv = GridSearchCV(model, self.hyperparameter_configs[model_name], cv=3)
+                    cv.fit(X_train_selected, y_train[subject])
+                    model = cv.best_estimator_
+                else:
+                    model.fit(X_train_selected, y_train[subject])
+                
+                # Evaluate model
+                cv_scores = cross_val_score(model, X_train_selected, y_train[subject], cv=3)
+                avg_score = cv_scores.mean()
+                
+                if avg_score > best_score:
+                    best_score = avg_score
+                    best_model = model
+            
+            self.models[subject] = best_model
+            
+            # Save validation data
+            self.test_data[subject] = {
+                'X': X_test_selected,
+                'y': y_test[subject]
+            }
         logger.info("Processing JSON data...")
         
         # Expected JSON format: list of student objects

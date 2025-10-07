@@ -20,20 +20,20 @@ def main():
     # Test 1: Data Generation
     print("1. Testing data generation...")
     data = generate_training_data(num_students=10, years_of_data=1)
-    print(f"   ✅ Generated data for {len(data)} students")
+    print(f"   [PASS] Generated data for {len(data)} students")
     
     # Test 2: Feature Engineering
     print("2. Testing feature engineering...")
     trainer = EnhancedCBSETrainer()
     student_profile, academic_records, board_scores = data[0]
     features = trainer.extract_enhanced_features(student_profile, academic_records)
-    print(f"   ✅ Extracted {len(features)} features")
+    print(f"   [PASS] Extracted {len(features)} features")
     
     # Test 3: Model Loading
     print("3. Testing model loading...")
     models_dir = "models"
     model_files = [f for f in os.listdir(models_dir) if f.endswith('_enhanced_model.joblib')]
-    print(f"   ✅ Found {len(model_files)} model files")
+    print(f"   [PASS] Found {len(model_files)} model files")
     
     # Test 4: Prediction
     print("4. Testing prediction...")
@@ -57,12 +57,12 @@ def main():
                 features_selected = selector.transform(features_scaled)
                 prediction = model.predict(features_selected)[0]
                 
-                print(f"   ✅ Mathematics prediction: {prediction:.1f}")
-                print(f"   ✅ Prediction valid: {0 <= prediction <= 100}")
+                print(f"   [PASS] Mathematics prediction: {prediction:.1f}")
+                print(f"   [PASS] Prediction valid: {0 <= prediction <= 100}")
             else:
-                print("   ⚠️  Scaler/selector files missing")
+                print("   [WARN] Scaler/selector files missing")
         else:
-            print("   ⚠️  Mathematics model not found")
+            print("   [WARN] Mathematics model not found")
     
     # Test 5: Training Metadata
     print("5. Checking training metadata...")
@@ -75,16 +75,16 @@ def main():
         if results:
             # Get best performing subjects
             sorted_subjects = sorted(results.items(), key=lambda x: x[1]['mae'])
-            print(f"   ✅ Best subject: {sorted_subjects[0][0]} (MAE: {sorted_subjects[0][1]['mae']:.2f})")
+            print(f"   [PASS] Best subject: {sorted_subjects[0][0]} (MAE: {sorted_subjects[0][1]['mae']:.2f})")
             
             # Calculate success metrics
             excellent_subjects = [s for s, m in results.items() if m['mae'] < 5 and m['r2'] > 0.8]
-            print(f"   ✅ Excellent subjects: {len(excellent_subjects)}")
-            print(f"   ✅ Total subjects: {len(results)}")
+            print(f"   [PASS] Excellent subjects: {len(excellent_subjects)}")
+            print(f"   [PASS] Total subjects: {len(results)}")
         else:
-            print("   ⚠️  No results in metadata")
+            print("   [WARN] No results in metadata")
     else:
-        print("   ⚠️  No metadata file found")
+        print("   [WARN] No metadata file found")
     
     print("\nVERIFICATION COMPLETE!")
     print("="*50)

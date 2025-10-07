@@ -38,6 +38,25 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         const FallbackComponent = this.props.fallback
         return <FallbackComponent error={this.state.error} resetError={this.resetError} />
       }
+      
+      // Default fallback UI
+      return (
+        <div className="min-h-[400px] flex flex-col items-center justify-center p-6 text-center">
+          <AlertTriangle className="h-12 w-12 text-destructive mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Something went wrong</h2>
+          <p className="text-muted-foreground mb-4">
+            {this.state.error?.message || "An unexpected error occurred"}
+          </p>
+          <Button
+            onClick={this.resetError}
+            variant="outline"
+            className="gap-2"
+          >
+            <RefreshCw className="h-4 w-4" />
+            Try again
+          </Button>
+        </div>
+      )
 
       return (
         <div className="min-h-[400px] flex items-center justify-center p-8">
@@ -66,7 +85,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                   Error Details (Development)
                 </summary>
                 <pre className="mt-2 text-xs bg-gray-100 p-2 rounded overflow-auto">
-                  {this.state.error.stack}
+                  {this.state.error?.stack || this.state.error?.message || 'Unknown error'}
                 </pre>
               </details>
             )}

@@ -43,6 +43,8 @@ class ModelEvaluator:
             logger.warning("No training metadata found")
             return False
         
+        self.training_metadata = {}
+        
         # Load models for each subject
         for subject in self.metadata.get('subjects', []):
             subject_clean = subject.lower().replace(' ', '_')
@@ -75,7 +77,11 @@ class ModelEvaluator:
         """Evaluate and compare model performance"""
         if not self.metadata:
             logger.error("No metadata available")
-            return
+            return None
+            
+        results = {}
+        results['subject_performance'] = {}
+        overall_metrics = []
         
         results = self.metadata.get('results', {})
         

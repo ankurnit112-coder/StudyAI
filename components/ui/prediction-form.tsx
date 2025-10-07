@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, TrendingUp, BookOpen, Target } from "lucide-react"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Loader2, TrendingUp, BookOpen, Target, AlertCircle, CheckCircle } from "lucide-react"
 
 interface PredictionResult {
   subject: string
@@ -36,6 +37,9 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
   const [predictions, setPredictions] = useState<PredictionResult[]>([])
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState(1)
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [lastError, setLastError] = useState<string>("")
 
   const cbseSubjects = [
     "Mathematics", "Physics", "Chemistry", "Biology", 
@@ -44,15 +48,64 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
     "Political Science", "History", "Geography"
   ]
 
+  const validateStep = (currentStep: number): boolean => {
+    setErrors({})
+    const newErrors: { [key: string]: string } = {}
+
+    switch (currentStep) {
+      case 1:
+        if (!studentData.name.trim()) {
+          newErrors.name = "Name is required"
+        }
+        if (!studentData.currentClass) {
+          newErrors.currentClass = "Class is required"
+        }
+        break
+      case 2:
+        if (studentData.subjects.length === 0) {
+          newErrors.subjects = "Please select at least one subject"
+        }
+        if (studentData.subjects.length > 6) {
+          newErrors.subjects = "Maximum 6 subjects allowed"
+        }
+        break
+      case 3:
+        studentData.subjects.forEach(subject => {
+          const score = studentData.recentScores[subject]
+          if (score === undefined) {
+            newErrors[subject] = "Score is required"
+          } else if (score < 0 || score > 100) {
+            newErrors[subject] = "Score must be between 0 and 100"
+          }
+        })
+        break
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
   const handleSubjectSelection = (subject: string) => {
     const newSubjects = studentData.subjects.includes(subject)
       ? studentData.subjects.filter(s => s !== subject)
       : [...studentData.subjects, subject]
+    setErrors({}) // Clear errors when selection changes
     
     setStudentData({ ...studentData, subjects: newSubjects })
   }
 
   const handleScoreChange = (subject: string, score: string) => {
+    if (score === '') {
+      // Allow empty input for deletion
+      const newScores = { ...studentData.recentScores }
+      delete newScores[subject]
+      setStudentData({
+        ...studentData,
+        recentScores: newScores
+      })
+      return
+    }
+    
     const numScore = parseFloat(score)
     if (!isNaN(numScore) && numScore >= 0 && numScore <= 100) {
       setStudentData({
@@ -63,7 +116,13 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
   }
 
   const generatePredictions = async () => {
+    if (!validateStep(step)) {
+      return
+    }
+
     setLoading(true)
+    setFormState('submitting')
+    setLastError("")
     
     try {
       // Call our ML prediction API
@@ -75,27 +134,32 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
         body: JSON.stringify(studentData)
       })
       
-      if (!response.ok) {
-        throw new Error('Failed to generate predictions')
-      }
-      
       const result = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to generate predictions')
+      }
       
       if (result.success) {
         setPredictions(result.predictions)
         setStep(3)
+        setFormState('success')
         onComplete?.(result.predictions)
       } else {
         throw new Error(result.error || 'Prediction failed')
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Prediction failed:", error)
+      setFormState('error')
+      setLastError(error instanceof Error ? error.message : "Failed to generate predictions")
       // Fallback to mock data if API fails
       const mockPredictions = studentData.subjects.map(subject => {
         const recentScore = studentData.recentScores[subject] || 70
+        // Ensure recent score is within valid range
+        const validRecentScore = Math.min(100, Math.max(0, recentScore))
         const improvement = Math.random() * 8 + 1 // 1-9 points improvement
-        const predictedScore = Math.min(95, Math.max(35, recentScore + improvement))
-        const confidence = 0.85 + Math.random() * 0.1
+        const predictedScore = Math.min(100, Math.max(0, validRecentScore + improvement))
+        const confidence = Math.min(1.0, Math.max(0.7, 0.85 + Math.random() * 0.1))
         
         return {
           subject,
@@ -126,7 +190,7 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
 
   if (step === 1) {
     return (
-      <Card className="w-full max-w-2xl mx-auto">
+      <Card className="w-full max-w-2xl mx-auto animate-fade-in">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-blue-600" />
@@ -144,6 +208,7 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
               placeholder="Enter your full name"
               value={studentData.name}
               onChange={(e) => setStudentData({ ...studentData, name: e.target.value })}
+              className={errors.name ? "border-red-500 animate-shake" : ""}
             />
           </div>
           
@@ -196,7 +261,7 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
 
   if (step === 2) {
     return (
-      <Card className="w-full max-w-2xl mx-auto">
+      <Card className="w-full max-w-2xl mx-auto animate-fade-in">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-blue-600" />
@@ -223,6 +288,35 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
               </div>
             ))}
           </div>
+
+          {/* Form Status Alerts */}
+          {formState === 'error' && (
+            <Alert variant="destructive" className="animate-shake">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{lastError}</AlertDescription>
+            </Alert>
+          )}
+          {formState === 'success' && (
+            <Alert className="border-green-500 text-green-700 bg-green-50 animate-fade-in">
+              <CheckCircle className="h-4 w-4" />
+              <AlertTitle>Success</AlertTitle>
+              <AlertDescription>Predictions generated successfully!</AlertDescription>
+            </Alert>
+          )}
+          {Object.keys(errors).length > 0 && (
+            <Alert variant="destructive" className="animate-shake">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Validation Error</AlertTitle>
+              <AlertDescription>
+                <ul className="list-disc list-inside">
+                  {Object.entries(errors).map(([field, error]) => (
+                    <li key={field}>{error}</li>
+                  ))}
+                </ul>
+              </AlertDescription>
+            </Alert>
+          )}
 
           <div className="flex gap-4">
             <Button variant="outline" onClick={() => setStep(1)} className="flex-1">
@@ -253,7 +347,7 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5 text-green-600" />
@@ -292,7 +386,7 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Your strongest subject appears to be {predictions.sort((a, b) => b.predicted_score - a.predicted_score)[0]?.subject}</li>
               <li>• Focus extra attention on {predictions.sort((a, b) => a.predicted_score - b.predicted_score)[0]?.subject} for maximum improvement</li>
-              <li>• Overall predicted average: {Math.round(predictions.reduce((sum, p) => sum + p.predicted_score, 0) / predictions.length)}%</li>
+              <li>• Overall predicted average: {predictions.length > 0 ? Math.round(predictions.reduce((sum, p) => sum + p.predicted_score, 0) / predictions.length) : 0}%</li>
             </ul>
           </div>
 

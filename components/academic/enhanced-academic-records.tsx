@@ -105,14 +105,24 @@ export default function EnhancedAcademicRecords() {
     const obtainedMarks = parseInt(formData.obtainedMarks)
     const maxMarks = parseInt(formData.maxMarks)
     
+    if (isNaN(obtainedMarks) || isNaN(maxMarks)) {
+      toast.error("Please enter valid numeric values for marks")
+      return
+    }
+    
+    if (obtainedMarks < 0 || maxMarks <= 0) {
+      toast.error("Marks must be positive numbers and max marks must be greater than 0")
+      return
+    }
+    
     if (obtainedMarks > maxMarks) {
       toast.error("Obtained marks cannot be greater than maximum marks")
       return
     }
 
     // Calculate percentage and grade
-    const percentage = (obtainedMarks / maxMarks) * 100
-    const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : "C"
+    const percentage = Math.round(((obtainedMarks / maxMarks) * 100) * 100) / 100 // Round to 2 decimal places
+    const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : percentage >= 50 ? "C" : "D"
 
     toast.success("Exam record added successfully!")
     setShowAddForm(false)

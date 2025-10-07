@@ -191,8 +191,9 @@ export default function SmartStudyPlanner() {
   }
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
+    const totalSeconds = Math.max(0, Math.floor(seconds)) // Ensure non-negative integer
+    const mins = Math.floor(totalSeconds / 60)
+    const secs = totalSeconds % 60
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
