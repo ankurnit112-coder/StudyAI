@@ -88,6 +88,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
       requiresAuth: false
     },
     {
+      title: "CBSE Classes",
+      href: "/cbse-classes",
+      description: "Class-specific guidance for CBSE 9-12",
+      icon: GraduationCap,
+      requiresAuth: false
+    },
+    {
       title: "Features",
       href: "#features",
       description: "Explore StudyAI capabilities",
@@ -196,8 +203,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
             <>
               <button 
                 onClick={() => {
-                  const element = document.querySelector('#features')
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  // Check if we're on the home page, if not navigate there first
+                  if (window.location.pathname !== '/') {
+                    window.location.href = '/#features'
+                  } else {
+                    const element = document.querySelector('#features')
+                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
               >
@@ -206,8 +218,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               </button>
               <button 
                 onClick={() => {
-                  const element = document.querySelector('#how-it-works')
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  // Check if we're on the home page, if not navigate there first
+                  if (window.location.pathname !== '/') {
+                    window.location.href = '/#how-it-works'
+                  } else {
+                    const element = document.querySelector('#how-it-works')
+                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
               >
@@ -216,8 +233,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               </button>
               <button 
                 onClick={() => {
-                  const element = document.querySelector('#testimonials')
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  // Check if we're on the home page, if not navigate there first
+                  if (window.location.pathname !== '/') {
+                    window.location.href = '/#testimonials'
+                  } else {
+                    const element = document.querySelector('#testimonials')
+                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
               >
@@ -226,8 +248,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               </button>
               <button 
                 onClick={() => {
-                  const element = document.querySelector('#cbse-support')
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  // Check if we're on the home page, if not navigate there first
+                  if (window.location.pathname !== '/') {
+                    window.location.href = '/#cbse-support'
+                  } else {
+                    const element = document.querySelector('#cbse-support')
+                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
               >
@@ -307,9 +334,14 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                       <button
                         onClick={() => {
                           setIsOpen(false)
-                          const element = document.querySelector(item.href)
-                          if (element) {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                          // Check if we're on the home page, if not navigate there first
+                          if (window.location.pathname !== '/') {
+                            window.location.href = '/' + item.href
+                          } else {
+                            const element = document.querySelector(item.href)
+                            if (element) {
+                              element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                            }
                           }
                         }}
                         className="flex items-center space-x-3 p-4 rounded-lg hover:bg-sky/10 transition-all duration-200 w-full text-left border border-transparent hover:border-sky/20"

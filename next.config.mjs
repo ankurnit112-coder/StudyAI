@@ -1,7 +1,16 @@
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable standalone output for Docker
-  output: 'standalone',
+  // Remove standalone output for Vercel deployment
+  // output: 'standalone', // Only needed for Docker/self-hosting
+  
+  // Set output file tracing root to silence workspace detection warning
+  outputFileTracingRoot: __dirname,
   
   // Optimize for production
   poweredByHeader: false,
@@ -9,7 +18,7 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['localhost'],
+    domains: ['vercel.app', 'vercel.com'],
     formats: ['image/webp', 'image/avif'],
   },
   
@@ -75,10 +84,12 @@ const nextConfig = {
     return config
   },
   
+  // Server external packages (moved from experimental.serverComponentsExternalPackages)
+  serverExternalPackages: ['@prisma/client'],
+  
   // Experimental features
   experimental: {
-    // Server components
-    serverComponentsExternalPackages: ['@prisma/client'],
+    // Add any experimental features here
   },
 }
 

@@ -132,8 +132,18 @@ export default function CBSEClassesPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center space-x-2">
-                    <div className={`w-10 h-10 bg-${classInfo.color}/20 rounded-lg flex items-center justify-center`}>
-                      <GraduationCap className={`h-5 w-5 text-${classInfo.color}`} />
+                    <div className={`w-10 h-10 ${
+                      classInfo.color === 'sky' ? 'bg-sky/20' :
+                      classInfo.color === 'sage' ? 'bg-sage/20' :
+                      classInfo.color === 'teal' ? 'bg-teal/20' :
+                      'bg-yellow/20'
+                    } rounded-lg flex items-center justify-center`}>
+                      <GraduationCap className={`h-5 w-5 ${
+                        classInfo.color === 'sky' ? 'text-sky' :
+                        classInfo.color === 'sage' ? 'text-sage' :
+                        classInfo.color === 'teal' ? 'text-teal' :
+                        'text-yellow'
+                      }`} />
                     </div>
                     <span className="text-navy">{classInfo.class}</span>
                   </CardTitle>
@@ -175,7 +185,12 @@ export default function CBSEClassesPage() {
                 {/* CTA */}
                 <div className="pt-4 border-t border-gray-100">
                   <Link href="/auth/signup">
-                    <Button className={`w-full bg-${classInfo.color} hover:bg-${classInfo.color}/90 text-white`}>
+                    <Button className={`w-full ${
+                      classInfo.color === 'sky' ? 'bg-sky hover:bg-sky/90' :
+                      classInfo.color === 'sage' ? 'bg-sage hover:bg-sage/90' :
+                      classInfo.color === 'teal' ? 'bg-teal hover:bg-teal/90' :
+                      'bg-yellow hover:bg-yellow/90'
+                    } text-white`}>
                       <Brain className="h-4 w-4 mr-2" />
                       Get Started - {classInfo.class}
                     </Button>

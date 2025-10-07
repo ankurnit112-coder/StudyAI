@@ -29,7 +29,10 @@
     "format:check": "prettier --check .",
     "build:analyze": "ANALYZE=true npm run build",
     "build:pwa": "next build",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "deploy": "node deploy-vercel.js",
+    "deploy:vercel": "vercel --prod",
+    "verify": "node verify-deployment.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
