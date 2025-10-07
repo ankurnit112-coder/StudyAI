@@ -97,44 +97,49 @@ export default function EnhancedAcademicRecords() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!formData.subject || !formData.examType || !formData.obtainedMarks || !formData.maxMarks) {
-      toast.error("Please fill in all required fields")
-      return
-    }
+    try {
+      if (!formData.subject || !formData.examType || !formData.obtainedMarks || !formData.maxMarks) {
+        toast.error("Please fill in all required fields")
+        return
+      }
 
-    const obtainedMarks = parseInt(formData.obtainedMarks)
-    const maxMarks = parseInt(formData.maxMarks)
-    
-    if (isNaN(obtainedMarks) || isNaN(maxMarks)) {
-      toast.error("Please enter valid numeric values for marks")
-      return
-    }
-    
-    if (obtainedMarks < 0 || maxMarks <= 0) {
-      toast.error("Marks must be positive numbers and max marks must be greater than 0")
-      return
-    }
-    
-    if (obtainedMarks > maxMarks) {
-      toast.error("Obtained marks cannot be greater than maximum marks")
-      return
-    }
+      const obtainedMarks = parseInt(formData.obtainedMarks)
+      const maxMarks = parseInt(formData.maxMarks)
+      
+      if (isNaN(obtainedMarks) || isNaN(maxMarks)) {
+        toast.error("Please enter valid numeric values for marks")
+        return
+      }
+      
+      if (obtainedMarks < 0 || maxMarks <= 0) {
+        toast.error("Marks must be positive numbers and max marks must be greater than 0")
+        return
+      }
+      
+      if (obtainedMarks > maxMarks) {
+        toast.error("Obtained marks cannot be greater than maximum marks")
+        return
+      }
 
-    // Calculate percentage and grade
-    const percentage = Math.round(((obtainedMarks / maxMarks) * 100) * 100) / 100 // Round to 2 decimal places
-    const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : percentage >= 50 ? "C" : "D"
+      // Calculate percentage and grade
+      const percentage = Math.round(((obtainedMarks / maxMarks) * 100) * 100) / 100 // Round to 2 decimal places
+      const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : percentage >= 50 ? "C" : "D"
 
-    toast.success("Exam record added successfully!")
-    setShowAddForm(false)
-    setFormData({
-      subject: "",
-      examType: "",
-      date: "",
-      maxMarks: "",
-      obtainedMarks: "",
-      term: "",
-      notes: ""
-    })
+      toast.success("Exam record added successfully!")
+      setShowAddForm(false)
+      setFormData({
+        subject: "",
+        examType: "",
+        date: "",
+        maxMarks: "",
+        obtainedMarks: "",
+        term: "",
+        notes: ""
+      })
+    } catch (error) {
+      console.error('Academic record submission error:', error)
+      toast.error("Failed to save exam record. Please try again.")
+    }
   }
 
   const handleEdit = (record: ExamRecord) => {

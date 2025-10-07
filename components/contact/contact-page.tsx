@@ -133,6 +133,7 @@ export default function ContactPage() {
         throw new Error("Submission failed")
       }
     } catch (error) {
+      console.error('Contact form submission error:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -537,6 +538,12 @@ export default function ContactPage() {
                       }}
                       className={formErrors.phone ? "border-red-500 focus:border-red-500" : ""}
                     />
+                    {formErrors.phone && (
+                      <p className="text-red-500 text-xs mt-1 flex items-center">
+                        <AlertCircle className="h-3 w-3 mr-1" />
+                        {formErrors.phone}
+                      </p>
+                    )}
                     {formErrors.phone && (
                       <p className="text-red-500 text-xs mt-1 flex items-center">
                         <AlertCircle className="h-3 w-3 mr-1" />

@@ -166,14 +166,20 @@ export default function SmartStudyPlanner() {
     let interval: NodeJS.Timeout
     if (isTimerRunning && timer > 0) {
       interval = setInterval(() => {
-        setTimer(timer - 1)
+        setTimer(prevTimer => {
+          if (prevTimer <= 1) {
+            setIsTimerRunning(false)
+            // Handle session completion
+            return 0
+          }
+          return prevTimer - 1
+        })
       }, 1000)
-    } else if (timer === 0 && isTimerRunning) {
-      setIsTimerRunning(false)
-      // Handle session completion
     }
-    return () => clearInterval(interval)
-  }, [isTimerRunning, timer])
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isTimerRunning])
 
   const startSession = (session: StudySession) => {
     setCurrentSession(session)
