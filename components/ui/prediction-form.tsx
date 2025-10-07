@@ -236,7 +236,7 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
                   variant={studentData.subjects.includes(subject) ? "default" : "outline"}
                   size="sm"
                   onClick={() => handleSubjectSelection(subject)}
-                  className="text-xs"
+                  className="text-xs h-auto py-2 px-3 whitespace-normal text-center"
                 >
                   {subject}
                 </Button>

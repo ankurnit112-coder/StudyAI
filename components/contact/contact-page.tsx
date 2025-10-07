@@ -468,7 +468,7 @@ export default function ContactPage() {
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Personal Information */}
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="name" className="text-sm font-medium text-gray-700 mb-2 block">
                         Full Name *
@@ -546,7 +546,7 @@ export default function ContactPage() {
                   </div>
 
                   {/* Message Details */}
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="category" className="text-sm font-medium text-gray-700 mb-2 block">
                         Category *
@@ -735,7 +735,7 @@ export default function ContactPage() {
                               ) : (
                                 <FileText className="h-4 w-4 text-gray-500" />
                               )}
-                              <span className="text-sm text-gray-700 truncate max-w-[200px]">{file.name}</span>
+                              <span className="text-sm text-gray-700 truncate flex-1 min-w-0">{file.name}</span>
                               <span className="text-xs text-gray-500">({formatFileSize(file.size)})</span>
                             </div>
                             <Button

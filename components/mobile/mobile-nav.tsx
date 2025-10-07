@@ -26,6 +26,8 @@ import {
   Brain,
   Menu,
   X,
+  HelpCircle,
+  GraduationCap,
 } from "lucide-react"
 
 interface MobileNavProps {
@@ -119,7 +121,7 @@ export default function MobileNav({ isAuthenticated = false }: MobileNavProps) {
   return (
     <>
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-gray-200 md:hidden shadow-lg">
         <div className="grid grid-cols-5 h-16">
           {items.slice(0, 4).map((item) => {
             const Icon = item.icon
@@ -157,7 +159,7 @@ export default function MobileNav({ isAuthenticated = false }: MobileNavProps) {
                 <span className="text-xs font-medium">More</span>
               </button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="h-[80vh]">
+            <SheetContent side="bottom" className="h-[80vh] z-[70]">
               <SheetHeader>
                 <SheetTitle className="flex items-center justify-between">
                   StudyAI Menu

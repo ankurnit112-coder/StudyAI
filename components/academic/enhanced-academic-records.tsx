@@ -510,8 +510,9 @@ export default function EnhancedAcademicRecords() {
 
       {/* Add/Edit Form Modal */}
       {showAddForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <Card className="w-full max-w-2xl my-8 max-h-[calc(100vh-4rem)]">
+            <div className="max-h-[calc(100vh-8rem)] overflow-y-auto">
             <CardHeader>
               <CardTitle>
                 {editingRecord ? "Edit Exam Record" : "Add New Exam Record"}
@@ -645,6 +646,7 @@ export default function EnhancedAcademicRecords() {
                 </div>
               </form>
             </CardContent>
+            </div>
           </Card>
         </div>
       )}
