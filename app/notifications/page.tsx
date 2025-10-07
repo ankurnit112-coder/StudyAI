@@ -6,8 +6,8 @@ import Footer from "@/components/layout/footer"
 export default function NotificationsPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MainNav isAuthenticated={true} />
-      <MobileNav isAuthenticated={true} />
+      <MainNav isAuthenticated={false} />
+      <MobileNav isAuthenticated={false} />
       
       <div className="container mx-auto py-8 px-4 pb-20 md:pb-8">
         <NotificationSystem />

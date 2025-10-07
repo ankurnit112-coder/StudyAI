@@ -9,8 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export default function StudyPlanPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MainNav isAuthenticated={true} userRole="student" />
-      <MobileNav isAuthenticated={true} />
+      <MainNav isAuthenticated={false} userRole="student" />
+      <MobileNav isAuthenticated={false} />
       
       <div className="container mx-auto py-8 px-4 pb-20 md:pb-8">
         <div className="text-center mb-8">

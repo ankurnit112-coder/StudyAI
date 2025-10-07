@@ -67,25 +67,25 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
       requiresAuth: true
     },
     {
-      title: "Study Plan",
+      title: "AI Study Plans",
       href: "/study-plan",
       description: "AI-generated personalized study recommendations",
       icon: Target,
-      requiresAuth: true
+      requiresAuth: false
     },
     {
-      title: "Performance",
+      title: "Performance Analytics",
       href: "/performance",
       description: "Detailed analytics and performance insights",
       icon: TrendingUp,
-      requiresAuth: true
+      requiresAuth: false
     },
     {
-      title: "Predictions",
-      href: "/predictions",
+      title: "Board Predictions",
+      href: "/board-predictions",
       description: "AI-powered board exam score predictions",
       icon: Brain,
-      requiresAuth: true
+      requiresAuth: false
     },
     {
       title: "Features",

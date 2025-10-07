@@ -6,6 +6,7 @@ import MainNav from "@/components/navigation/main-nav"
 import Footer from "@/components/layout/footer"
 import { SafeImage } from "@/components/ui/safe-image"
 import { studyAIImages } from "@/lib/image-utils"
+import Link from "next/link"
 import {
   Brain,
   TrendingUp,
@@ -166,6 +167,63 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Demo Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-sky/5 via-sage/5 to-teal/5">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy">
+              {"Try StudyAI Features Now"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              {"Experience our AI-powered tools instantly. Click any feature below to explore how StudyAI can transform your CBSE board exam preparation."}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
+            <Link href="/study-plan">
+              <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3 w-full hover:bg-sky/10 hover:border-sky transition-all duration-200 hover:scale-105">
+                <BookOpen className="h-8 w-8 text-sky" />
+                <span className="text-sm font-medium">AI Study Plans</span>
+                <span className="text-xs text-gray-500 text-center">Personalized study schedules</span>
+              </Button>
+            </Link>
+            <Link href="/board-predictions">
+              <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3 w-full hover:bg-sage/10 hover:border-sage transition-all duration-200 hover:scale-105">
+                <Brain className="h-8 w-8 text-sage" />
+                <span className="text-sm font-medium">Board Predictions</span>
+                <span className="text-xs text-gray-500 text-center">94%+ accurate predictions</span>
+              </Button>
+            </Link>
+            <Link href="/performance">
+              <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3 w-full hover:bg-teal/10 hover:border-teal transition-all duration-200 hover:scale-105">
+                <BarChart3 className="h-8 w-8 text-teal" />
+                <span className="text-sm font-medium">Analytics</span>
+                <span className="text-xs text-gray-500 text-center">Performance insights</span>
+              </Button>
+            </Link>
+            <Link href="/cbse-classes">
+              <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-3 w-full hover:bg-yellow/10 hover:border-yellow transition-all duration-200 hover:scale-105">
+                <GraduationCap className="h-8 w-8 text-yellow" />
+                <span className="text-sm font-medium">CBSE Classes</span>
+                <span className="text-xs text-gray-500 text-center">Classes 9-12 support</span>
+              </Button>
+            </Link>
+          </div>
+
+          <div className="text-center">
+            <p className="text-sm text-gray-600 mb-4">
+              {"✨ All features work with demo data - no signup required to explore!"}
+            </p>
+            <Link href="/auth/signup">
+              <Button className="bg-sky hover:bg-sky/90 text-white">
+                <GraduationCap className="h-4 w-4 mr-2" />
+                Sign Up for Real Data
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

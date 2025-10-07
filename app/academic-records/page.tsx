@@ -6,8 +6,8 @@ import Footer from "@/components/layout/footer"
 export default function AcademicRecordsPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MainNav isAuthenticated={true} userRole="student" />
-      <MobileNav isAuthenticated={true} />
+      <MainNav isAuthenticated={false} userRole="student" />
+      <MobileNav isAuthenticated={false} />
       
       <div className="container mx-auto px-4 py-8 pb-20 md:pb-8">
         <EnhancedAcademicRecords />

@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+
+# Host
+Host: https://studyai.com
+
+# Sitemaps
+Sitemap: https://studyai.com/sitemap.xml
