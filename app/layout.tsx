@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   generator: 'StudyAI',
   keywords: 'CBSE, board exams, AI tutoring, study plan, academic performance, Class 10, Class 12, India education',
   manifest: '/manifest.json',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

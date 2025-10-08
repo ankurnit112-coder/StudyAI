@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '475px',
+        '3xl': '1600px',
+      },
       colors: {
         // Custom StudyAI colors - using standard Tailwind color names
         navy: '#1e293b', // slate-800
@@ -19,6 +23,10 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-geist-mono)', 'monospace'],
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.5s ease-out',

@@ -3,15 +3,15 @@ import { Brain } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-background border-t border-border py-12 px-4">
+    <footer className="bg-background border-t border-border py-8 sm:py-12 px-4">
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <Brain className="h-6 w-6 text-primary" />
-              <span className="text-lg font-bold text-primary">StudyAI</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+              <Brain className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <span className="text-base sm:text-lg font-bold text-primary">StudyAI</span>
             </div>
-            <p className="text-muted-foreground text-sm mb-4">
+            <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4">
               Empowering CBSE students with AI-powered insights for board exam success.
             </p>
             <div className="flex space-x-4">
@@ -34,8 +34,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground mb-4">CBSE Classes</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">CBSE Classes</h4>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-muted-foreground">
               <li>
                 <Link href="#" className="hover:text-primary transition-colors">
                   Class 9
@@ -60,8 +60,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Features</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">Features</h4>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-muted-foreground">
               <li>
                 <Link href="/dashboard" className="hover:text-primary transition-colors">
                   Performance Dashboard
@@ -85,9 +85,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Support</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <h4 className="font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">Support</h4>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-muted-foreground">
               <li>
                 <Link href="#" className="hover:text-primary transition-colors">
                   Help Center
@@ -112,18 +112,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-          <div className="text-sm text-muted-foreground">
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center">
+          <div className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
             © 2024 StudyAI. All rights reserved. Designed for CBSE students.
           </div>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          <div className="flex flex-wrap justify-center sm:justify-end space-x-4 sm:space-x-6 mt-3 sm:mt-0">
+            <Link href="#" className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <Link href="#" className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors">
               Terms of Service
             </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <Link href="#" className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors">
               Cookie Policy
             </Link>
           </div>

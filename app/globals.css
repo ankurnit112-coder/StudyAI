@@ -308,6 +308,55 @@
   }
 }
 
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  /* Improve touch targets */
+  .btn, button, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better text readability on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  /* Better spacing for mobile cards */
+  .professional-card {
+    @apply mx-2;
+  }
+  
+  /* Mobile-friendly form inputs */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Better mobile navigation */
+  .mobile-nav-item {
+    @apply py-4 px-6 text-base;
+  }
+}
+
+/* Tablet improvements */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .professional-card {
+    @apply mx-1;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .professional-card {
+    @apply border-gray-300;
+  }
+}
+
 /* Print styles */
 @media print {
   .no-print {
