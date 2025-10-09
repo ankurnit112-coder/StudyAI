@@ -46,7 +46,7 @@ export default function EnhancedDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
   const [studyStreak] = useState(0) // Default to 0 for new users
   const [todayProgress] = useState(0) // Default to 0 for new users
-  const [isNewUser] = useState(true) // Check if user is new
+  const [isNewUser, setIsNewUser] = useState(true) // Check if user is new
   const [hasAcademicData] = useState(false) // Check if user has academic records
 
   // Sample data - only show if user has academic records
