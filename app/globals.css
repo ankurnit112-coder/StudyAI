@@ -281,7 +281,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-white dark:bg-slate-900 text-foreground;
+    @apply bg-background text-foreground;
   }
 }
 

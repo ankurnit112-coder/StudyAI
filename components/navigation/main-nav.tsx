@@ -116,7 +116,7 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
   )
 
   return (
-    <header className="border-b border-border bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-sm">
+    <header className="border-b border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between min-h-[60px]">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-1 sm:space-x-2 hover:opacity-80 transition-all duration-200 group">

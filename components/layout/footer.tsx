@@ -3,7 +3,7 @@ import { Brain } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-background dark:bg-slate-900 border-t border-border dark:border-slate-700 py-8 sm:py-12 px-4">
+    <footer className="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 py-8 sm:py-12 px-4">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
@@ -112,7 +112,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center">
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-center">
           <div className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
             © 2024 StudyAI. All rights reserved. Designed for CBSE students.
           </div>
