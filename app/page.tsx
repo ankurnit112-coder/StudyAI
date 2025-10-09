@@ -28,19 +28,19 @@ export default function HomePage() {
       <MainNav isAuthenticated={false} />
 
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-section-light">
         <div className="container mx-auto text-center max-w-4xl">
           <Badge className="mb-4 sm:mb-6 bg-sky text-white text-xs sm:text-sm">
             <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             {"Designed for CBSE Classes 9-12 Students"}
           </Badge>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-navy leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-heading leading-tight">
             Predict Your Board Exam Success with{" "}
             <span className="text-sky">
               AI-Powered Insights
             </span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
+          <p className="text-base sm:text-lg lg:text-xl text-content mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
             {
               "Get personalized study strategies, accurate performance predictions, and CBSE board exam guidance that adapts to your learning style. Perfect for Classes 9, 10, 11, and 12."
             }
@@ -63,7 +63,7 @@ export default function HomePage() {
             </NavigationButton>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 text-xs sm:text-sm text-gray-600 mb-8 sm:mb-12 px-2 sm:px-0">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 text-xs sm:text-sm text-content mb-8 sm:mb-12 px-2 sm:px-0">
             <div className="flex flex-col items-center professional-card p-3 sm:p-4 lg:p-6 rounded-lg">
               <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-sky mb-1 sm:mb-2">50K+</div>
               <div className="font-medium text-center">CBSE Students</div>
@@ -87,7 +87,7 @@ export default function HomePage() {
               <SafeImage
                 src={studyAIImages.heroDashboard}
                 alt="Modern dashboard interface showing student performance analytics, grade predictions, and study recommendations for CBSE board exam preparation"
-                className="rounded-lg shadow-lg mx-auto w-full h-auto bg-white p-2 sm:p-4 border border-gray-200"
+                className="rounded-lg shadow-lg mx-auto w-full h-auto bg-white dark:bg-slate-800 p-2 sm:p-4 border border-gray-200 dark:border-slate-700"
                 loading="lazy"
                 fallbackSrc="/images/hero-dashboard.svg"
                 width={1200}
@@ -100,13 +100,13 @@ export default function HomePage() {
       </section>
 
       {/* CBSE-Specific Features Section */}
-      <section id="cbse-support" className="py-12 sm:py-16 lg:py-20 px-4 bg-gray-50">
+      <section id="cbse-support" className="py-12 sm:py-16 lg:py-20 px-4 bg-section-gray">
         <div className="container mx-auto">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
               {"Built Specifically for CBSE Board Exams"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto mb-6 sm:mb-8 px-2 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto mb-6 sm:mb-8 px-2 leading-relaxed">
               {
                 "Our AI understands CBSE marking schemes, question patterns, and syllabus changes to give you the most accurate guidance."
               }
@@ -116,7 +116,7 @@ export default function HomePage() {
                 <SafeImage
                   src={studyAIImages.cbseFeatures}
                   alt="CBSE textbooks and study materials showcasing updated 2024-25 syllabus, mobile learning apps, and bilingual educational resources for Classes 9-12"
-                  className="rounded-lg shadow-lg mx-auto w-full h-auto bg-white p-2 sm:p-4 border border-gray-200"
+                  className="rounded-lg shadow-lg mx-auto w-full h-auto bg-white dark:bg-slate-800 p-2 sm:p-4 border border-gray-200 dark:border-slate-700"
                   loading="lazy"
                   fallbackSrc="/images/cbse-features.svg"
                   width={1200}
@@ -131,8 +131,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="pb-3 sm:pb-4">
                 <Calendar className="h-8 w-8 sm:h-10 sm:w-10 text-sky mb-2 sm:mb-3" />
-                <CardTitle className="text-navy text-base sm:text-lg">2024-25 Syllabus</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-gray-600">
+                <CardTitle className="text-navy dark:text-slate-200 text-base sm:text-lg">2024-25 Syllabus</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">
                   {"Updated with latest CBSE syllabus changes and reduced curriculum for all subjects."}
                 </CardDescription>
               </CardHeader>
@@ -172,13 +172,13 @@ export default function HomePage() {
       </section>
 
       {/* Interactive Demo Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-br from-sky/5 via-sage/5 to-teal/5">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-br from-sky/5 via-sage/5 to-teal/5 dark:from-sky-900/20 dark:via-emerald-900/20 dark:to-teal-900/20">
         <div className="container mx-auto">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
               {"Try StudyAI Features Now"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto px-2 leading-relaxed">
               {"Experience our AI-powered tools instantly. Click any feature below to explore how StudyAI can transform your CBSE board exam preparation."}
             </p>
           </div>
@@ -229,13 +229,13 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-12 sm:py-16 lg:py-20 px-4 bg-white">
+      <section id="features" className="py-12 sm:py-16 lg:py-20 px-4 bg-section-light">
         <div className="container mx-auto">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
               {"AI-Powered Features for Academic Excellence"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto px-2 leading-relaxed">
               {"Advanced AI analyzes your performance against 10 years of CBSE data to provide personalized insights."}
             </p>
           </div>
@@ -309,13 +309,13 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-12 sm:py-16 lg:py-20 px-4 bg-gray-50">
+      <section id="how-it-works" className="py-12 sm:py-16 lg:py-20 px-4 bg-section-gray">
         <div className="container mx-auto">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
               {"How StudyAI Works"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto px-2 leading-relaxed">
               {"Simple 3-step process to unlock your academic potential with AI-powered insights."}
             </p>
           </div>
@@ -395,13 +395,13 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-12 sm:py-16 lg:py-20 px-4 bg-white">
+      <section id="testimonials" className="py-12 sm:py-16 lg:py-20 px-4 bg-section-light">
         <div className="container mx-auto">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
               {"Success Stories from CBSE Students"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto px-2 leading-relaxed">
               {"Real results from students across India who improved their board exam performance."}
             </p>
           </div>
@@ -492,13 +492,13 @@ export default function HomePage() {
       </section>
 
       {/* App Screenshots Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-gray-50">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-section-gray">
         <div className="container mx-auto">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
               {"Experience StudyAI Interface"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto px-2 leading-relaxed">
               {"Take a closer look at our intuitive dashboard and powerful features designed specifically for CBSE students."}
             </p>
           </div>
@@ -563,12 +563,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-navy">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-navy dark:bg-slate-950">
         <div className="container mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-white">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-white dark:text-slate-100">
             {"Ready to Ace Your Board Exams?"}
           </h2>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-200 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-200 dark:text-slate-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 leading-relaxed">
             {
               "Join 50,000+ CBSE students who are already using AI to improve their board exam scores. Get started today."
             }

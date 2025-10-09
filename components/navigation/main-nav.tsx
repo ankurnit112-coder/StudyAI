@@ -27,6 +27,7 @@ import {
   TrendingUp,
   Lightbulb
 } from "lucide-react"
+import { SimpleThemeToggle } from "@/components/ui/theme-toggle"
 
 
 interface MainNavProps {
@@ -267,6 +268,9 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
 
         {/* User Actions */}
         <div className="flex items-center space-x-3">
+          {/* Theme Toggle */}
+          <SimpleThemeToggle />
+          
           {isAuthenticated ? (
             <>
               <Link href="/profile">
@@ -388,6 +392,14 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                   </div>
                 )}
                 
+                {/* Theme Toggle in Mobile Menu */}
+                <div className="pt-4 mt-4 border-t border-gray-200">
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
+                    <SimpleThemeToggle />
+                  </div>
+                </div>
+
                 {isAuthenticated && (
                   <div className="pt-6 mt-6 border-t border-gray-200 space-y-3">
                     <Link href="/profile">
@@ -404,7 +416,7 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                     </Link>
                     <Button 
                       variant="outline" 
-                      className="w-full justify-start h-12 text-red-600 hover:text-red-700 hover:bg-red-50" 
+                      className="w-full justify-start h-12 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950" 
                       onClick={() => {
                         setIsOpen(false)
                         // Add logout logic here
