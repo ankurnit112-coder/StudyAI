@@ -309,7 +309,7 @@ export default function EnhancedPerformanceAnalytics() {
                     <div className="text-right">
                       <div className="text-xl font-bold text-sage">{subject.predictedBoard}%</div>
                       <div className="flex items-center space-x-1 text-sm">
-                        {getTrendIcon(subject.trend, subject.improvement)}
+                        {getTrendIcon(subject.trend)}
                         <span className={getTrendColor(subject.trend)}>
                           {subject.improvement > 0 ? "+" : ""}{subject.improvement}%
                         </span>
@@ -389,7 +389,7 @@ export default function EnhancedPerformanceAnalytics() {
                     <div className="text-right">
                       <div className="text-3xl font-bold text-navy">{subject.currentScore}%</div>
                       <div className="flex items-center space-x-1">
-                        {getTrendIcon(subject.trend, subject.improvement)}
+                        {getTrendIcon(subject.trend)}
                         <span className={`text-sm font-medium ${getTrendColor(subject.trend)}`}>
                           {subject.improvement > 0 ? "+" : ""}{subject.improvement}%
                         </span>
