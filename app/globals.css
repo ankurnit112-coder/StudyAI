@@ -281,7 +281,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white dark:bg-slate-900 text-foreground;
   }
 }
 
@@ -406,7 +406,7 @@
 /* Navigation specific styles */
 @layer components {
   .nav-dropdown {
-    @apply absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300;
+    @apply absolute top-full left-0 mt-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300;
     z-index: 100;
     min-height: 300px;
     width: 520px;
@@ -422,7 +422,7 @@
   }
   
   .nav-featured {
-    @apply flex h-full w-full select-none flex-col justify-between rounded-lg bg-gradient-to-br from-sky/10 via-sky/5 to-sage/10 p-6 no-underline outline-none hover:shadow-lg transition-all duration-200 border border-sky/20;
+    @apply flex h-full w-full select-none flex-col justify-between rounded-lg bg-gradient-to-br from-sky/10 via-sky/5 to-sage/10 dark:from-sky-900/30 dark:via-sky-900/20 dark:to-emerald-900/30 p-6 no-underline outline-none hover:shadow-lg transition-all duration-200 border border-sky/20 dark:border-sky-700/50;
     min-height: 200px;
   }
 }

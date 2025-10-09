@@ -89,7 +89,7 @@ export default function PWAInstall() {
   }
 
   return (
-    <Card className="fixed bottom-20 md:bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50 border-sky/20 bg-sky/5 backdrop-blur-sm">
+    <Card className="fixed bottom-20 md:bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50 border-sky/20 bg-white dark:bg-slate-800 shadow-lg">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">

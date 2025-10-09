@@ -24,7 +24,7 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white dark:bg-slate-900"
       <MainNav isAuthenticated={false} />
 
       {/* Hero Section */}

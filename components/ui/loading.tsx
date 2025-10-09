@@ -32,7 +32,7 @@ export function Loading({ className, size = "md", text, fullScreen = false }: Lo
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-white dark:bg-slate-900 z-50 flex items-center justify-center">
         {content}
       </div>
     )

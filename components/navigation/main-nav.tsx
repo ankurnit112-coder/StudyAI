@@ -116,7 +116,7 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
   )
 
   return (
-    <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 shadow-sm">
+    <header className="border-b border-border bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-all duration-200 group">
@@ -393,8 +393,8 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                 )}
                 
                 {/* Theme Toggle in Mobile Menu */}
-                <div className="pt-4 mt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                <div className="pt-4 mt-4 border-t border-gray-200 dark:border-slate-700">
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-slate-800">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
                     <SimpleThemeToggle />
                   </div>
