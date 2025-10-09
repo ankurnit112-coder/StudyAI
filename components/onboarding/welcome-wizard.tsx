@@ -17,6 +17,7 @@ interface WelcomeData {
   subjects: string[]
   goals: string[]
   examDate: string
+  studyHours: string
 }
 
 interface WelcomeWizardProps {

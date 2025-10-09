@@ -141,6 +141,19 @@ export default function StudyRecommendations() {
         <p className="text-muted-foreground">Personalized study plan based on your performance analysis</p>
       </div>
 
+      {/* Demo Notice */}
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+        <div className="flex items-center space-x-2">
+          <Lightbulb className="h-5 w-5 text-amber-600" />
+          <div>
+            <h3 className="font-semibold text-amber-800">Sample Recommendations</h3>
+            <p className="text-sm text-amber-700">
+              These are example AI-generated study recommendations. Once you add your academic records and take assessments, you&apos;ll receive personalized recommendations based on your actual performance data.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <Tabs defaultValue="recommendations" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="recommendations">Recommendations</TabsTrigger>

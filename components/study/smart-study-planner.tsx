@@ -57,9 +57,10 @@ export default function SmartStudyPlanner() {
   const [currentSession, setCurrentSession] = useState<StudySession | null>(null)
   const [timer, setTimer] = useState(0)
   const [isTimerRunning, setIsTimerRunning] = useState(false)
-  const [studyPlans, setStudyPlans] = useState<Record<string, StudyPlan>>({})
+  // const [studyPlans, setStudyPlans] = useState<Record<string, StudyPlan>>({})
 
-  // Sample data
+  // DEMO DATA - This is sample data for demonstration purposes
+  // In a real application, this would be fetched from your backend API
   const todaysPlan: StudyPlan = {
     date: "2025-01-19",
     sessions: [
@@ -221,6 +222,18 @@ export default function SmartStudyPlanner() {
 
   return (
     <div className="space-y-6">
+      {/* Demo Notice */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div className="flex items-center space-x-2">
+          <Brain className="h-5 w-5 text-blue-600" />
+          <div>
+            <h3 className="font-semibold text-blue-800">Demo Mode</h3>
+            <p className="text-sm text-blue-700">
+              This is sample data for demonstration. In the full version, your actual study sessions and AI recommendations will appear here based on your academic records and performance.
+            </p>
+          </div>
+        </div>
+      </div>
       {/* Active Session Timer */}
       {currentSession && (
         <Card className="bg-gradient-to-r from-sky/10 to-sage/10 border-sky/20">

@@ -151,6 +151,19 @@ export default function EnhancedPerformanceAnalytics() {
 
   return (
     <div className="space-y-6">
+      {/* Demo Notice */}
+      <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+        <div className="flex items-center space-x-2">
+          <BarChart3 className="h-5 w-5 text-purple-600" />
+          <div>
+            <h3 className="font-semibold text-purple-800">Sample Analytics</h3>
+            <p className="text-sm text-purple-700">
+              This shows example performance data. Connect your academic records to see real analytics and AI-powered insights about your progress.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

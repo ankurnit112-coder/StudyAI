@@ -15,9 +15,15 @@ export default function StudyPlanPage() {
       <div className="container mx-auto py-8 px-4 pb-20 md:pb-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-navy mb-4">AI-Powered Study Planning</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
             Get personalized CBSE board exam predictions, smart study schedules, and AI-powered recommendations
           </p>
+          <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 max-w-3xl mx-auto">
+            <p className="text-sm text-sky-800">
+              <strong>Demo Version:</strong> The content below shows sample AI study plans and recommendations. 
+              Sign up and add your academic records to get personalized, real-time study guidance.
+            </p>
+          </div>
         </div>
         
         <Tabs defaultValue="planner" className="w-full">
