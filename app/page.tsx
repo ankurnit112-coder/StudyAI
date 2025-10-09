@@ -141,8 +141,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="pb-3 sm:pb-4">
                 <Trophy className="h-8 w-8 sm:h-10 sm:w-10 text-yellow mb-2 sm:mb-3" />
-                <CardTitle className="text-navy text-base sm:text-lg">Board Exam Prep</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-gray-600">
+                <CardTitle className="text-card-title text-base sm:text-lg">Board Exam Prep</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-card-description">
                   {"Specialized preparation for Class 10 and 12 board exams with previous year analysis."}
                 </CardDescription>
               </CardHeader>
@@ -151,8 +151,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="pb-3 sm:pb-4">
                 <Smartphone className="h-8 w-8 sm:h-10 sm:w-10 text-sage mb-2 sm:mb-3" />
-                <CardTitle className="text-navy text-base sm:text-lg">Mobile-First Design</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-gray-600">
+                <CardTitle className="text-card-title text-base sm:text-lg">Mobile-First Design</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-card-description">
                   {"Optimized for Indian students who primarily study on mobile devices."}
                 </CardDescription>
               </CardHeader>
@@ -161,8 +161,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="pb-3 sm:pb-4">
                 <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 text-teal mb-2 sm:mb-3" />
-                <CardTitle className="text-navy text-base sm:text-lg">Hindi & English</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-gray-600">
+                <CardTitle className="text-card-title text-base sm:text-lg">Hindi & English</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-card-description">
                   {"Support for both Hindi and English medium students with bilingual interface."}
                 </CardDescription>
               </CardHeader>
@@ -244,8 +244,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
                 <TrendingUp className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-sky mb-3 sm:mb-4" />
-                <CardTitle className="text-navy text-base sm:text-lg">Board Exam Prediction</CardTitle>
-                <CardDescription className="text-gray-600 text-sm sm:text-base">
+                <CardTitle className="text-card-title text-base sm:text-lg">Board Exam Prediction</CardTitle>
+                <CardDescription className="text-card-description text-sm sm:text-base">
                   {
                     "Get accurate predictions for your Class 10/12 board exam scores based on current performance and CBSE trends."
                   }
@@ -256,8 +256,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
                 <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-sage mb-3 sm:mb-4" />
-                <CardTitle className="text-navy text-base sm:text-lg">Subject-Wise Study Plans</CardTitle>
-                <CardDescription className="text-gray-600 text-sm sm:text-base">
+                <CardTitle className="text-card-title text-base sm:text-lg">Subject-Wise Study Plans</CardTitle>
+                <CardDescription className="text-card-description text-sm sm:text-base">
                   {
                     "Customized study schedules for Physics, Chemistry, Math, Biology, and other CBSE subjects with chapter-wise breakdown."
                   }
@@ -268,8 +268,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
                 <BarChart3 className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-yellow mb-3 sm:mb-4" />
-                <CardTitle className="text-navy text-base sm:text-lg">Performance Analytics</CardTitle>
-                <CardDescription className="text-gray-600 text-sm sm:text-base">
+                <CardTitle className="text-card-title text-base sm:text-lg">Performance Analytics</CardTitle>
+                <CardDescription className="text-card-description text-sm sm:text-base">
                   {"Real-time tracking of your progress with detailed insights into strengths and improvement areas."}
                 </CardDescription>
               </CardHeader>
@@ -278,8 +278,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
                 <Target className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-teal mb-3 sm:mb-4" />
-                <CardTitle className="text-navy text-base sm:text-lg">Competitive Exam Prep</CardTitle>
-                <CardDescription className="text-gray-600 text-sm sm:text-base">
+                <CardTitle className="text-card-title text-base sm:text-lg">Competitive Exam Prep</CardTitle>
+                <CardDescription className="text-card-description text-sm sm:text-base">
                   {"Integrated preparation for JEE, NEET, and other competitive exams alongside board exam prep."}
                 </CardDescription>
               </CardHeader>
@@ -288,8 +288,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
                 <Users className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-sky mb-3 sm:mb-4" />
-                <CardTitle className="text-navy text-base sm:text-lg">Parent Dashboard</CardTitle>
-                <CardDescription className="text-gray-600 text-sm sm:text-base">
+                <CardTitle className="text-card-title text-base sm:text-lg">Parent Dashboard</CardTitle>
+                <CardDescription className="text-card-description text-sm sm:text-base">
                   {"Parents receive weekly progress reports and can monitor study habits and performance trends."}
                 </CardDescription>
               </CardHeader>
@@ -298,8 +298,8 @@ export default function HomePage() {
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
                 <Brain className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-sage mb-3 sm:mb-4" />
-                <CardTitle className="text-navy text-base sm:text-lg">Smart Revision</CardTitle>
-                <CardDescription className="text-gray-600 text-sm sm:text-base">
+                <CardTitle className="text-card-title text-base sm:text-lg">Smart Revision</CardTitle>
+                <CardDescription className="text-card-description text-sm sm:text-base">
                   {"AI-powered revision schedules that adapt based on your retention patterns and exam dates."}
                 </CardDescription>
               </CardHeader>
@@ -328,8 +328,8 @@ export default function HomePage() {
               <div className="bg-sky text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex items-center justify-center text-lg sm:text-xl lg:text-2xl font-bold mx-auto mb-4 sm:mb-6">
                 1
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-navy">{"Quick Assessment"}</h3>
-              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 px-2">
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-heading">{"Quick Assessment"}</h3>
+              <p className="text-sm sm:text-base text-content mb-4 sm:mb-6 px-2">
                 {
                   "Take a 15-minute assessment covering your current class subjects. Input your recent test scores and study preferences."
                 }
@@ -351,8 +351,8 @@ export default function HomePage() {
               <div className="bg-sage text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex items-center justify-center text-lg sm:text-xl lg:text-2xl font-bold mx-auto mb-4 sm:mb-6">
                 2
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-navy">{"AI Analysis"}</h3>
-              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 px-2">
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-heading">{"AI Analysis"}</h3>
+              <p className="text-sm sm:text-base text-content mb-4 sm:mb-6 px-2">
                 {
                   "Our AI compares your data with CBSE board patterns and 50,000+ student records to predict your performance."
                 }
@@ -374,8 +374,8 @@ export default function HomePage() {
               <div className="bg-teal text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex items-center justify-center text-lg sm:text-xl lg:text-2xl font-bold mx-auto mb-4 sm:mb-6">
                 3
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-navy">{"Personalized Plan"}</h3>
-              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 px-2">
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-heading">{"Personalized Plan"}</h3>
+              <p className="text-sm sm:text-base text-content mb-4 sm:mb-6 px-2">
                 {"Receive your customized study plan with daily tasks, revision schedules, and progress tracking."}
               </p>
               <div className="bg-white p-2 sm:p-4 rounded-lg shadow-sm border">
@@ -417,7 +417,7 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
+                <p className="text-strong mb-3 sm:mb-4 text-sm sm:text-base">
                   {
                     "StudyAI predicted my Physics board exam score within 2 marks! The chapter-wise study plan helped me go from 65% to 89% in Class 12."
                   }
@@ -427,8 +427,8 @@ export default function HomePage() {
                     A
                   </div>
                   <div>
-                    <p className="font-semibold text-navy text-sm sm:text-base">Arjun Sharma</p>
-                    <p className="text-xs sm:text-sm text-gray-600">Class 12, Delhi - 89% in Boards</p>
+                    <p className="font-semibold text-heading text-sm sm:text-base">Arjun Sharma</p>
+                    <p className="text-xs sm:text-sm text-muted">Class 12, Delhi - 89% in Boards</p>
                   </div>
                 </div>
               </CardContent>
@@ -444,7 +444,7 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
+                <p className="text-strong mb-3 sm:mb-4 text-sm sm:text-base">
                   {
                     "The parent dashboard helped me track my daughter's progress. She scored 95% in Class 10 boards - exactly as StudyAI predicted!"
                   }
@@ -454,8 +454,8 @@ export default function HomePage() {
                     P
                   </div>
                   <div>
-                    <p className="font-semibold text-navy text-sm sm:text-base">Priya Patel</p>
-                    <p className="text-xs sm:text-sm text-gray-600">Parent, Mumbai - Daughter scored 95%</p>
+                    <p className="font-semibold text-heading text-sm sm:text-base">Priya Patel</p>
+                    <p className="text-xs sm:text-sm text-muted">Parent, Mumbai - Daughter scored 95%</p>
                   </div>
                 </div>
               </CardContent>
@@ -471,7 +471,7 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
+                <p className="text-strong mb-3 sm:mb-4 text-sm sm:text-base">
                   {
                     "The CBSE-specific guidance helped me understand marking schemes. My English writing improved from 12/20 to 18/20 in boards!"
                   }
@@ -481,8 +481,8 @@ export default function HomePage() {
                     S
                   </div>
                   <div>
-                    <p className="font-semibold text-navy text-sm sm:text-base">Sneha Gupta</p>
-                    <p className="text-xs sm:text-sm text-gray-600">Class 10, Bangalore - 92% in Boards</p>
+                    <p className="font-semibold text-heading text-sm sm:text-base">Sneha Gupta</p>
+                    <p className="text-xs sm:text-sm text-muted">Class 10, Bangalore - 92% in Boards</p>
                   </div>
                 </div>
               </CardContent>
@@ -513,8 +513,8 @@ export default function HomePage() {
                   loading="lazy"
                 />
                 <div className="p-4 sm:p-6">
-                  <h3 className="font-semibold text-navy mb-1 sm:mb-2 text-sm sm:text-base">Main Dashboard</h3>
-                  <p className="text-xs sm:text-sm text-gray-600">Your academic command center with AI insights</p>
+                  <h3 className="font-semibold text-heading mb-1 sm:mb-2 text-sm sm:text-base">Main Dashboard</h3>
+                  <p className="text-xs sm:text-sm text-muted">Your academic command center with AI insights</p>
                 </div>
               </div>
             </div>
@@ -528,8 +528,8 @@ export default function HomePage() {
                   loading="lazy"
                 />
                 <div className="p-4 sm:p-6">
-                  <h3 className="font-semibold text-navy mb-1 sm:mb-2 text-sm sm:text-base">Performance Analytics</h3>
-                  <p className="text-xs sm:text-sm text-gray-600">Detailed insights into your academic progress</p>
+                  <h3 className="font-semibold text-heading mb-1 sm:mb-2 text-sm sm:text-base">Performance Analytics</h3>
+                  <p className="text-xs sm:text-sm text-muted">Detailed insights into your academic progress</p>
                 </div>
               </div>
             </div>
@@ -543,8 +543,8 @@ export default function HomePage() {
                   loading="lazy"
                 />
                 <div className="p-4 sm:p-6">
-                  <h3 className="font-semibold text-navy mb-1 sm:mb-2 text-sm sm:text-base">Study Planner</h3>
-                  <p className="text-xs sm:text-sm text-gray-600">AI-generated personalized study schedules</p>
+                  <h3 className="font-semibold text-heading mb-1 sm:mb-2 text-sm sm:text-base">Study Planner</h3>
+                  <p className="text-xs sm:text-sm text-muted">AI-generated personalized study schedules</p>
                 </div>
               </div>
             </div>

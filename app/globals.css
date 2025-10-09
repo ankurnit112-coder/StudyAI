@@ -35,7 +35,7 @@
 @layer utilities {
   /* Text Colors - Dark mode compatible */
   .text-navy {
-    @apply text-slate-800 dark:text-slate-200;
+    @apply text-slate-900 dark:text-slate-200;
   }
   
   .text-sky {
@@ -94,11 +94,11 @@
 
   /* Dark mode text utilities */
   .text-content {
-    @apply text-gray-600 dark:text-slate-400;
+    @apply text-gray-700 dark:text-slate-400;
   }
   
   .text-heading {
-    @apply text-navy dark:text-slate-200;
+    @apply text-slate-900 dark:text-slate-200;
   }
   
   .bg-section-light {
@@ -112,17 +112,34 @@
   .border-light {
     @apply border-gray-200 dark:border-slate-700;
   }
+
+  /* Additional contrast improvements */
+  .text-card-title {
+    @apply text-slate-900 dark:text-slate-200;
+  }
+  
+  .text-card-description {
+    @apply text-gray-600 dark:text-slate-400;
+  }
+  
+  .text-muted {
+    @apply text-gray-600 dark:text-slate-400;
+  }
+  
+  .text-strong {
+    @apply text-slate-800 dark:text-slate-300;
+  }
 }
 
 @layer components {
   /* Professional Card Styles */
   .professional-card {
-    @apply bg-white border border-gray-200 shadow-sm transition-all duration-200;
+    @apply bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm transition-all duration-200;
   }
   
   .professional-card:hover,
   .professional-hover:hover {
-    @apply shadow-md border-gray-300 transform translate-y-[-2px];
+    @apply shadow-md border-gray-300 dark:border-slate-600 transform translate-y-[-2px];
   }
   
   /* Custom Button Variants */
