@@ -117,12 +117,12 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
 
   return (
     <header className="border-b border-border bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between min-h-[60px]">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-all duration-200 group">
-          <Brain className="h-8 w-8 text-sky group-hover:scale-105 transition-transform duration-200" />
-          <span className="text-xl font-bold text-navy">StudyAI</span>
-          <Badge variant="secondary" className="text-xs bg-sky text-white shadow-sm">
+        <Link href="/" className="flex items-center space-x-1 sm:space-x-2 hover:opacity-80 transition-all duration-200 group">
+          <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-sky group-hover:scale-105 transition-transform duration-200" />
+          <span className="text-lg sm:text-xl font-bold text-navy">StudyAI</span>
+          <Badge variant="secondary" className="text-xs bg-sky text-white shadow-sm px-1 sm:px-2">
             CBSE
           </Badge>
         </Link>
@@ -267,13 +267,15 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
         </nav>
 
         {/* User Actions */}
-        <div className="flex items-center space-x-3">
-          {/* Theme Toggle */}
-          <SimpleThemeToggle />
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Theme Toggle - Hidden on mobile */}
+          <div className="hidden sm:block">
+            <SimpleThemeToggle />
+          </div>
           
           {isAuthenticated ? (
             <>
-              <Link href="/profile">
+              <Link href="/profile" className="hidden sm:block">
                 <Button variant="ghost" size="sm">
                   <User className="h-4 w-4 mr-2" />
                   Profile
@@ -282,6 +284,7 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               <Button 
                 variant="outline" 
                 size="sm"
+                className="hidden sm:flex"
                 onClick={() => {
                   // Add logout logic here
                   console.log("Logging out...")
@@ -295,12 +298,12 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
             </>
           ) : (
             <>
-              <Link href="/auth/signin">
+              <Link href="/auth/signin" className="hidden sm:block">
                 <Button variant="ghost" className="text-foreground hover:text-sky transition-all duration-200 font-medium">
                   Sign In
                 </Button>
               </Link>
-              <Link href="/auth/signup">
+              <Link href="/auth/signup" className="hidden sm:block">
                 <Button className="bg-sky hover:bg-sky/90 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
                   <GraduationCap className="h-4 w-4 mr-2" />
                   Get Started
@@ -312,18 +315,18 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="sm" className="lg:hidden p-2 min-h-[44px] min-w-[44px]">
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[320px] sm:w-[400px] overflow-y-auto">
-              <SheetHeader className="pb-6">
+            <SheetContent side="right" className="w-[300px] sm:w-[350px] overflow-y-auto">
+              <SheetHeader className="pb-4 sm:pb-6">
                 <SheetTitle className="flex items-center space-x-2 text-left">
-                  <Brain className="h-6 w-6 text-sky" />
-                  <span className="text-navy">StudyAI</span>
-                  <Badge className="text-xs bg-sky text-white">CBSE</Badge>
+                  <Brain className="h-5 w-5 sm:h-6 sm:w-6 text-sky" />
+                  <span className="text-navy text-base sm:text-lg">StudyAI</span>
+                  <Badge className="text-xs bg-sky text-white px-1">CBSE</Badge>
                 </SheetTitle>
-                <SheetDescription className="text-left">
+                <SheetDescription className="text-left text-sm">
                   {isAuthenticated 
                     ? `Welcome back! Access your academic tools below.`
                     : "AI-powered CBSE board exam preparation platform"
@@ -348,7 +351,7 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                             }
                           }
                         }}
-                        className="flex items-center space-x-3 p-4 rounded-lg hover:bg-sky/10 transition-all duration-200 w-full text-left border border-transparent hover:border-sky/20"
+                        className="flex items-center space-x-3 p-4 rounded-lg hover:bg-sky/10 transition-all duration-200 w-full text-left border border-transparent hover:border-sky/20 min-h-[60px]"
                       >
                         <div className="p-2 rounded-md bg-sky/10">
                           <item.icon className="h-5 w-5 text-sky" />
@@ -361,7 +364,7 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                     ) : (
                       <Link
                         href={item.href}
-                        className="flex items-center space-x-3 p-4 rounded-lg hover:bg-sky/10 transition-all duration-200 border border-transparent hover:border-sky/20"
+                        className="flex items-center space-x-3 p-4 rounded-lg hover:bg-sky/10 transition-all duration-200 border border-transparent hover:border-sky/20 min-h-[60px]"
                         onClick={() => setIsOpen(false)}
                       >
                         <div className="p-2 rounded-md bg-sky/10">
@@ -379,13 +382,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                 {!isAuthenticated && (
                   <div className="pt-6 mt-6 border-t border-gray-200 space-y-3">
                     <Link href="/auth/signup">
-                      <Button className="w-full bg-sky hover:bg-sky/90 text-white h-12" onClick={() => setIsOpen(false)}>
-                        <GraduationCap className="h-4 w-4 mr-2" />
+                      <Button className="w-full bg-sky hover:bg-sky/90 text-white h-14 text-base font-semibold rounded-lg" onClick={() => setIsOpen(false)}>
+                        <GraduationCap className="h-5 w-5 mr-2" />
                         Get Started Free
                       </Button>
                     </Link>
                     <Link href="/auth/signin">
-                      <Button variant="outline" className="w-full h-12" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" className="w-full h-14 text-base font-medium rounded-lg" onClick={() => setIsOpen(false)}>
                         Sign In
                       </Button>
                     </Link>

@@ -24,32 +24,32 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900"
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       <MainNav isAuthenticated={false} />
 
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-section-light">
+      <section className="py-8 sm:py-12 lg:py-16 px-3 sm:px-4 bg-section-light">
         <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-4 sm:mb-6 bg-sky text-white text-xs sm:text-sm">
+          <Badge className="mb-3 sm:mb-4 lg:mb-6 bg-sky text-white text-xs sm:text-sm px-3 py-1">
             <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             {"Designed for CBSE Classes 9-12 Students"}
           </Badge>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-heading leading-tight">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 lg:mb-6 text-heading leading-tight px-2">
             Predict Your Board Exam Success with{" "}
             <span className="text-sky">
               AI-Powered Insights
             </span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-content mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
+          <p className="text-sm xs:text-base sm:text-lg lg:text-xl text-content mb-4 sm:mb-6 lg:mb-8 max-w-2xl mx-auto leading-relaxed px-3">
             {
               "Get personalized study strategies, accurate performance predictions, and CBSE board exam guidance that adapts to your learning style. Perfect for Classes 9, 10, 11, and 12."
             }
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0">
+          <div className="flex flex-col gap-3 justify-center mb-6 sm:mb-8 lg:mb-12 px-3 sm:px-4">
             <NavigationButton
               href="/auth/signup"
               size="lg"
-              className="bg-sky hover:bg-sky/90 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
+              className="bg-sky hover:bg-sky/90 text-white font-semibold px-6 py-4 text-base w-full sm:w-auto min-h-[48px] rounded-lg"
             >
               Get Started Now
             </NavigationButton>
@@ -57,37 +57,37 @@ export default function HomePage() {
               href="/demo"
               size="lg"
               variant="outline"
-              className="border-sky text-sky hover:bg-sky hover:text-white w-full sm:w-auto"
+              className="border-sky text-sky hover:bg-sky hover:text-white w-full sm:w-auto min-h-[48px] rounded-lg"
             >
               Watch Demo (2 min)
             </NavigationButton>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 text-xs sm:text-sm text-content mb-8 sm:mb-12 px-2 sm:px-0">
-            <div className="flex flex-col items-center professional-card p-3 sm:p-4 lg:p-6 rounded-lg">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-sky mb-1 sm:mb-2">50K+</div>
-              <div className="font-medium text-center">CBSE Students</div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 text-xs sm:text-sm text-content mb-6 sm:mb-8 lg:mb-12 px-1 sm:px-2">
+            <div className="flex flex-col items-center professional-card p-2 sm:p-3 lg:p-4 rounded-lg min-h-[80px] sm:min-h-[100px]">
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-sky mb-1">50K+</div>
+              <div className="font-medium text-center text-xs sm:text-sm">CBSE Students</div>
             </div>
-            <div className="flex flex-col items-center professional-card p-3 sm:p-4 lg:p-6 rounded-lg">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-sage mb-1 sm:mb-2">95%</div>
-              <div className="font-medium text-center">Accuracy Rate</div>
+            <div className="flex flex-col items-center professional-card p-2 sm:p-3 lg:p-4 rounded-lg min-h-[80px] sm:min-h-[100px]">
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-sage mb-1">95%</div>
+              <div className="font-medium text-center text-xs sm:text-sm">Accuracy Rate</div>
             </div>
-            <div className="flex flex-col items-center professional-card p-3 sm:p-4 lg:p-6 rounded-lg">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow mb-1 sm:mb-2">15%</div>
-              <div className="font-medium text-center">Avg Score Boost</div>
+            <div className="flex flex-col items-center professional-card p-2 sm:p-3 lg:p-4 rounded-lg min-h-[80px] sm:min-h-[100px]">
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow mb-1">15%</div>
+              <div className="font-medium text-center text-xs sm:text-sm">Avg Score Boost</div>
             </div>
-            <div className="flex flex-col items-center professional-card p-3 sm:p-4 lg:p-6 rounded-lg">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-teal mb-1 sm:mb-2">4.8★</div>
-              <div className="font-medium text-center">Student Rating</div>
+            <div className="flex flex-col items-center professional-card p-2 sm:p-3 lg:p-4 rounded-lg min-h-[80px] sm:min-h-[100px]">
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-teal mb-1">4.8★</div>
+              <div className="font-medium text-center text-xs sm:text-sm">Student Rating</div>
             </div>
           </div>
 
-          <div className="mt-8 sm:mt-12 px-2 sm:px-0">
-            <div className="relative">
+          <div className="mt-6 sm:mt-8 lg:mt-12 px-1 sm:px-2">
+            <div className="relative max-w-full">
               <SafeImage
                 src={studyAIImages.heroDashboard}
                 alt="Modern dashboard interface showing student performance analytics, grade predictions, and study recommendations for CBSE board exam preparation"
-                className="rounded-lg shadow-lg mx-auto w-full h-auto bg-white dark:bg-slate-800 p-2 sm:p-4 border border-gray-200 dark:border-slate-700"
+                className="rounded-lg shadow-lg mx-auto w-full h-auto bg-white dark:bg-slate-800 p-1 sm:p-2 lg:p-4 border border-gray-200 dark:border-slate-700"
                 loading="lazy"
                 fallbackSrc="/images/hero-dashboard.svg"
                 width={1200}
@@ -100,13 +100,13 @@ export default function HomePage() {
       </section>
 
       {/* CBSE-Specific Features Section */}
-      <section id="cbse-support" className="py-12 sm:py-16 lg:py-20 px-4 bg-section-gray">
+      <section id="cbse-support" className="py-8 sm:py-12 lg:py-16 px-3 sm:px-4 bg-section-gray">
         <div className="container mx-auto">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-heading px-2">
               {"Built Specifically for CBSE Board Exams"}
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto mb-6 sm:mb-8 px-2 leading-relaxed">
+            <p className="text-sm xs:text-base sm:text-lg lg:text-xl text-content max-w-2xl mx-auto mb-4 sm:mb-6 lg:mb-8 px-3 leading-relaxed">
               {
                 "Our AI understands CBSE marking schemes, question patterns, and syllabus changes to give you the most accurate guidance."
               }
@@ -127,7 +127,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             <Card className="professional-card professional-hover">
               <CardHeader className="pb-3 sm:pb-4">
                 <Calendar className="h-8 w-8 sm:h-10 sm:w-10 text-sky mb-2 sm:mb-3" />
