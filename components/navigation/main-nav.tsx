@@ -40,15 +40,19 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
 
   // Handle scroll lock when mobile menu is open
   React.useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
+    if (typeof document !== 'undefined') {
+      if (isOpen) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'unset'
+      }
     }
     
     // Cleanup on unmount
     return () => {
-      document.body.style.overflow = 'unset'
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'unset'
+      }
     }
   }, [isOpen])
 
