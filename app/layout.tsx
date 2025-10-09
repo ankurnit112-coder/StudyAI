@@ -7,19 +7,20 @@ import { Toaster } from '@/components/ui/sonner'
 import PWAInstall from '@/components/pwa/pwa-install'
 import './globals.css'
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+}
+
 export const metadata: Metadata = {
   title: 'StudyAI - AI-Powered CBSE Board Exam Preparation',
   description: 'Get personalized study plans, accurate performance predictions, and AI-powered insights for CBSE board exam success. Built specifically for Classes 9-12.',
   generator: 'StudyAI',
   keywords: 'CBSE, board exams, AI tutoring, study plan, academic performance, Class 10, Class 12, India education',
   manifest: '/manifest.json',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: 'cover',
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

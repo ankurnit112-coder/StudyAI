@@ -92,7 +92,7 @@ export default function NewUserSetup({ onComplete, onSkip }: NewUserSetupProps) 
     toast.info("You can complete your profile setup anytime from Settings.")
   }
 
-  const updateSetupData = (field: keyof SetupData, value: string | string[]) => {
+  const updateSetupData = (field: keyof SetupData, value: string | string[] | boolean) => {
     setSetupData(prev => ({ ...prev, [field]: value }))
   }
 

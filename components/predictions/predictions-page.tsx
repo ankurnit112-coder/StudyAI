@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PredictionForm from "@/components/ui/prediction-form"
@@ -13,13 +13,11 @@ import {
   TrendingUp,
   Target,
   BarChart3,
-  BookOpen,
   Calendar,
   Award,
   CheckCircle,
   AlertTriangle,
   Star,
-  ArrowRight,
   Zap,
   Users,
   Clock,
@@ -37,7 +35,7 @@ interface PredictionResult {
 export default function PredictionsPage() {
   const [activeTab, setActiveTab] = useState("generate")
   const [predictions, setPredictions] = useState<PredictionResult[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
 
   // Sample prediction results
   const samplePredictions: PredictionResult[] = [
@@ -79,7 +77,7 @@ export default function PredictionsPage() {
     }
   ]
 
-  const handlePredictionComplete = (results: any) => {
+  const handlePredictionComplete = () => {
     setPredictions(samplePredictions)
     setActiveTab("results")
   }
@@ -452,7 +450,7 @@ export default function PredictionsPage() {
 
                 <div className="pt-4 border-t">
                   <p className="text-sm text-gray-600">
-                    You're predicted to perform better than 85% of students in your class.
+                    You&apos;re predicted to perform better than 85% of students in your class.
                   </p>
                 </div>
               </CardContent>
