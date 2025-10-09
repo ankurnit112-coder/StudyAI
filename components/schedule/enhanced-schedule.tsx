@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -67,8 +67,101 @@ export default function EnhancedSchedule() {
   const [viewMode, setViewMode] = useState("week") // week, month, day
   const [filterType, setFilterType] = useState("all")
 
-  // Sample events data
-  const events: ScheduleEvent[] = [
+  // Load user's schedule data
+  const [events, setEvents] = useState<ScheduleEvent[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [formData, setFormData] = useState({
+    title: "",
+    subject: "",
+    type: "study",
+    date: selectedDate,
+    startTime: "",
+    endTime: "",
+    duration: 60,
+    description: "",
+    location: "",
+    isRecurring: false,
+    priority: "medium",
+    reminder: true
+  })
+
+  useEffect(() => {
+    loadScheduleData()
+  }, [])
+
+  const loadScheduleData = async () => {
+    try {
+      setIsLoading(true)
+      // Try to load user's saved schedule from localStorage
+      const savedSchedule = localStorage.getItem('userSchedule')
+      if (savedSchedule) {
+        setEvents(JSON.parse(savedSchedule))
+      }
+    } catch (error) {
+      console.error('Failed to load schedule data:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="w-8 h-8 border-2 border-sky border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading your schedule...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (events.length === 0) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Study Schedule</h1>
+              <p className="text-muted-foreground">Plan and track your study sessions</p>
+            </div>
+          </div>
+          
+          <Card className="border-2 border-dashed border-gray-300">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
+                  <Calendar className="h-8 w-8 text-sky" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">No Schedule Created Yet</h3>
+                  <p className="text-gray-600 mt-2 max-w-md">
+                    Create your first study session or exam schedule to get started with organized learning.
+                  </p>
+                </div>
+                <div className="flex space-x-3">
+                  <Button className="bg-sky hover:bg-sky/90 text-white">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Study Session
+                  </Button>
+                  <Button variant="outline">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Import from Calendar
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
+  // Sample events for fallback (will be removed)
+  const sampleEvents: ScheduleEvent[] = [
     {
       id: "1",
       title: "Mathematics Practice",
@@ -153,19 +246,7 @@ export default function EnhancedSchedule() {
     }
   ]
 
-  const [formData, setFormData] = useState({
-    title: "",
-    subject: "",
-    type: "study",
-    date: selectedDate,
-    startTime: "",
-    endTime: "",
-    description: "",
-    location: "",
-    isRecurring: false,
-    priority: "medium",
-    reminder: true
-  })
+
 
   const subjects = [
     "Mathematics", "Physics", "Chemistry", "Biology", "English", "Hindi",
@@ -214,6 +295,7 @@ export default function EnhancedSchedule() {
       date: selectedDate,
       startTime: "",
       endTime: "",
+      duration: 60,
       description: "",
       location: "",
       isRecurring: false,

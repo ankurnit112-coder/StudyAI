@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import EmptyStateDashboard from "./empty-state-dashboard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -23,6 +23,7 @@ import {
   Star,
   Timer,
   BookMarked,
+  Plus
 } from "lucide-react"
 
 interface SubjectPerformance {
@@ -47,51 +48,101 @@ export default function EnhancedDashboard() {
   const [studyStreak] = useState(0) // Default to 0 for new users
   const [todayProgress] = useState(0) // Default to 0 for new users
   const [isNewUser, setIsNewUser] = useState(true) // Check if user is new
-  const [hasAcademicData] = useState(false) // Check if user has academic records
+  const [hasAcademicData, setHasAcademicData] = useState(false)
+  const [subjectPerformance, setSubjectPerformance] = useState<SubjectPerformance[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Sample data - only show if user has academic records
-  const subjectPerformance: SubjectPerformance[] = hasAcademicData ? [
-    {
-      subject: "Mathematics",
-      current: 85,
-      predicted: 92,
-      trend: "up",
-      confidence: 94,
-      lastUpdated: "2 hours ago"
-    },
-    {
-      subject: "Physics",
-      current: 78,
-      predicted: 82,
-      trend: "up",
-      confidence: 89,
-      lastUpdated: "1 day ago"
-    },
-    {
-      subject: "Chemistry",
-      current: 82,
-      predicted: 85,
-      trend: "stable",
-      confidence: 91,
-      lastUpdated: "3 hours ago"
-    },
-    {
-      subject: "English",
-      current: 88,
-      predicted: 90,
-      trend: "up",
-      confidence: 95,
-      lastUpdated: "5 hours ago"
-    },
-    {
-      subject: "Biology",
-      current: 75,
-      predicted: 79,
-      trend: "down",
-      confidence: 87,
-      lastUpdated: "2 days ago"
+  useEffect(() => {
+    loadUserData()
+  }, [])
+
+  const loadUserData = async () => {
+    try {
+      setIsLoading(true)
+      // Try to load user's saved data from localStorage
+      const keys = Object.keys(localStorage).filter(key => key.startsWith('studentData_'))
+      
+      if (keys.length > 0) {
+        const savedData = localStorage.getItem(keys[0])
+        if (savedData) {
+          const data = JSON.parse(savedData)
+          if (data.subjects && data.subjects.length > 0) {
+            setHasAcademicData(true)
+            setSubjectPerformance(data.subjects.map((subject: any) => ({
+              subject: subject.name,
+              current: subject.current,
+              predicted: subject.predicted,
+              trend: subject.trend,
+              confidence: 85 + Math.random() * 10, // Random confidence
+              lastUpdated: "Recently"
+            })))
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load user data:', error)
+    } finally {
+      setIsLoading(false)
     }
-  ] : []
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="w-8 h-8 border-2 border-sky border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading your dashboard...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Empty state for users without academic data
+  if (!hasAcademicData) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Enhanced Dashboard</h1>
+              <p className="text-muted-foreground">Your comprehensive academic overview</p>
+            </div>
+          </div>
+          
+          <Card className="border-2 border-dashed border-gray-300">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
+                  <BarChart3 className="h-8 w-8 text-sky" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">Complete Your Academic Profile</h3>
+                  <p className="text-gray-600 mt-2 max-w-md">
+                    Add your academic data to unlock advanced analytics, AI predictions, and personalized insights.
+                  </p>
+                </div>
+                <div className="flex space-x-3">
+                  <Button className="bg-sky hover:bg-sky/90 text-white" onClick={() => window.location.href = '/predictions'}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Academic Data
+                  </Button>
+                  <Button variant="outline" onClick={() => window.location.href = '/dashboard'}>
+                    Go to Basic Dashboard
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
+
 
   const recentSessions: StudySession[] = hasAcademicData ? [
     {

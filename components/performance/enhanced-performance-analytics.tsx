@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -23,6 +23,7 @@ import {
   Clock,
   CheckCircle,
   AlertTriangle,
+  Plus
 } from "lucide-react"
 
 interface SubjectPerformance {
@@ -53,61 +54,106 @@ export default function EnhancedPerformanceAnalytics() {
   const [timeRange, setTimeRange] = useState("6months")
   const [selectedSubject, setSelectedSubject] = useState("all")
 
-  // Sample data
-  const subjectPerformance: SubjectPerformance[] = [
-    {
-      subject: "Mathematics",
-      currentScore: 88,
-      previousScore: 82,
-      trend: "up",
-      improvement: 6,
-      predictedBoard: 92,
-      confidence: 94,
-      rank: 15,
-      totalStudents: 120,
-      strengths: ["Calculus", "Algebra", "Coordinate Geometry"],
-      weaknesses: ["Statistics", "Probability"]
-    },
-    {
-      subject: "Physics",
-      currentScore: 78,
-      previousScore: 85,
-      trend: "down",
-      improvement: -7,
-      predictedBoard: 82,
-      confidence: 89,
-      rank: 45,
-      totalStudents: 120,
-      strengths: ["Mechanics", "Thermodynamics"],
-      weaknesses: ["Optics", "Modern Physics", "Waves"]
-    },
-    {
-      subject: "Chemistry",
-      currentScore: 85,
-      previousScore: 80,
-      trend: "up",
-      improvement: 5,
-      predictedBoard: 87,
-      confidence: 91,
-      rank: 25,
-      totalStudents: 120,
-      strengths: ["Organic Chemistry", "Physical Chemistry"],
-      weaknesses: ["Inorganic Chemistry"]
-    },
-    {
-      subject: "English",
-      currentScore: 82,
-      previousScore: 82,
-      trend: "stable",
-      improvement: 0,
-      predictedBoard: 85,
-      confidence: 95,
-      rank: 30,
-      totalStudents: 120,
-      strengths: ["Literature", "Grammar"],
-      weaknesses: ["Creative Writing"]
+  // Load user's performance data
+  const [subjectPerformance, setSubjectPerformance] = useState<SubjectPerformance[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    loadPerformanceData()
+  }, [])
+
+  const loadPerformanceData = async () => {
+    try {
+      setIsLoading(true)
+      // Try to load user's saved data from localStorage
+      const keys = Object.keys(localStorage).filter(key => key.startsWith('studentData_'))
+      
+      if (keys.length > 0) {
+        const savedData = localStorage.getItem(keys[0])
+        if (savedData) {
+          const data = JSON.parse(savedData)
+          if (data.subjects) {
+            // Convert dashboard data to performance format
+            const performanceData: SubjectPerformance[] = data.subjects.map((subject: any) => ({
+              subject: subject.name,
+              currentScore: subject.current,
+              previousScore: Math.max(0, subject.current - Math.random() * 10), // Simulate previous score
+              trend: subject.trend,
+              improvement: subject.predicted - subject.current,
+              predictedBoard: subject.predicted,
+              confidence: 85 + Math.random() * 10, // Random confidence between 85-95%
+              rank: Math.floor(Math.random() * 50) + 1,
+              totalStudents: 120,
+              strengths: ["Topic 1", "Topic 2"],
+              weaknesses: ["Area for improvement"]
+            }))
+            setSubjectPerformance(performanceData)
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load performance data:', error)
+    } finally {
+      setIsLoading(false)
     }
-  ]
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="w-8 h-8 border-2 border-sky border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading performance analytics...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (subjectPerformance.length === 0) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Performance Analytics</h1>
+              <p className="text-muted-foreground">Track your academic progress and get insights</p>
+            </div>
+          </div>
+          
+          <Card className="border-2 border-dashed border-gray-300">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
+                  <BarChart3 className="h-8 w-8 text-sky" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">No Performance Data Available</h3>
+                  <p className="text-gray-600 mt-2 max-w-md">
+                    Complete your academic profile first to see detailed performance analytics and AI-powered insights.
+                  </p>
+                </div>
+                <div className="flex space-x-3">
+                  <Button className="bg-sky hover:bg-sky/90 text-white" onClick={() => window.location.href = '/predictions'}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Your Academic Data
+                  </Button>
+                  <Button variant="outline" onClick={() => window.location.href = '/dashboard'}>
+                    Go to Dashboard
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
+
 
   // Commented out unused timeSeriesData
   // const timeSeriesData: TimeSeriesData[] = [

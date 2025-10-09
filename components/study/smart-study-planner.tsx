@@ -57,110 +57,10 @@ export default function SmartStudyPlanner() {
   const [currentSession, setCurrentSession] = useState<StudySession | null>(null)
   const [timer, setTimer] = useState(0)
   const [isTimerRunning, setIsTimerRunning] = useState(false)
-  // const [studyPlans, setStudyPlans] = useState<Record<string, StudyPlan>>({})
-
-  // DEMO DATA - This is sample data for demonstration purposes
-  // In a real application, this would be fetched from your backend API
-  const todaysPlan: StudyPlan = {
-    date: "2025-01-19",
-    sessions: [
-      {
-        id: "1",
-        subject: "Mathematics",
-        topic: "Integration by Parts",
-        duration: 45,
-        difficulty: "hard",
-        priority: "high",
-        status: "completed",
-        aiRecommended: true,
-        estimatedScore: 85,
-        actualScore: 88
-      },
-      {
-        id: "2",
-        subject: "Physics",
-        topic: "Newton's Laws Review",
-        duration: 30,
-        difficulty: "medium",
-        priority: "high",
-        status: "in-progress",
-        aiRecommended: true,
-        estimatedScore: 78
-      },
-      {
-        id: "3",
-        subject: "Chemistry",
-        topic: "Organic Reactions",
-        duration: 60,
-        difficulty: "hard",
-        priority: "medium",
-        status: "pending",
-        aiRecommended: true,
-        estimatedScore: 82
-      },
-      {
-        id: "4",
-        subject: "English",
-        topic: "Essay Writing Practice",
-        duration: 40,
-        difficulty: "medium",
-        priority: "low",
-        status: "pending",
-        aiRecommended: false
-      }
-    ],
-    totalDuration: 175,
-    completed: 1,
-    aiOptimized: true
-  }
-
-  const weeklyGoals = [
-    {
-      subject: "Mathematics",
-      target: "Complete Calculus Chapter",
-      progress: 75,
-      deadline: "Jan 25",
-      priority: "high"
-    },
-    {
-      subject: "Physics",
-      target: "Master Mechanics Problems",
-      progress: 60,
-      deadline: "Jan 27",
-      priority: "high"
-    },
-    {
-      subject: "Chemistry",
-      target: "Organic Chemistry Revision",
-      progress: 40,
-      deadline: "Jan 30",
-      priority: "medium"
-    }
-  ]
-
-  const aiRecommendations = [
-    {
-      type: "focus",
-      title: "Focus on Physics Today",
-      description: "Your recent test scores suggest spending extra time on mechanics problems.",
-      action: "Add 30min Physics session",
-      impact: "+5% predicted score"
-    },
-    {
-      type: "timing",
-      title: "Optimal Study Time",
-      description: "Your performance is 23% better when studying Math between 9-11 AM.",
-      action: "Reschedule Math session",
-      impact: "Better retention"
-    },
-    {
-      type: "break",
-      title: "Take a Break",
-      description: "You've been studying for 2 hours. A 15-minute break will improve focus.",
-      action: "Start break timer",
-      impact: "Maintain productivity"
-    }
-  ]
+  const [studyPlans, setStudyPlans] = useState<Record<string, StudyPlan>>({})
+  const [isLoading, setIsLoading] = useState(true)
+  const [weeklyGoals, setWeeklyGoals] = useState<any[]>([])
+  const [aiRecommendations, setAiRecommendations] = useState<any[]>([])
 
   // Timer functionality
   useEffect(() => {
@@ -181,6 +81,66 @@ export default function SmartStudyPlanner() {
       if (interval) clearInterval(interval)
     }
   }, [isTimerRunning, timer])
+
+  useEffect(() => {
+    loadStudyPlans()
+    loadAdditionalData()
+  }, [])
+
+  const loadAdditionalData = async () => {
+    try {
+      // Load weekly goals and AI recommendations from user data
+      const savedGoals = localStorage.getItem('userWeeklyGoals')
+      const savedRecommendations = localStorage.getItem('userAiRecommendations')
+      
+      if (savedGoals) {
+        setWeeklyGoals(JSON.parse(savedGoals))
+      }
+      
+      if (savedRecommendations) {
+        setAiRecommendations(JSON.parse(savedRecommendations))
+      }
+    } catch (error) {
+      console.error('Failed to load additional data:', error)
+    }
+  }
+
+  const loadStudyPlans = async () => {
+    try {
+      setIsLoading(true)
+      // Try to load user's saved study plans from localStorage
+      const savedPlans = localStorage.getItem('userStudyPlans')
+      if (savedPlans) {
+        setStudyPlans(JSON.parse(savedPlans))
+      }
+    } catch (error) {
+      console.error('Failed to load study plans:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-sky border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading your study plans...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const todaysPlan: StudyPlan = studyPlans[new Date().toISOString().split('T')[0]] || {
+    date: new Date().toISOString().split('T')[0],
+    sessions: [],
+    totalDuration: 0,
+    completed: 0,
+    aiOptimized: false
+  }
+
 
   const startSession = (session: StudySession) => {
     setCurrentSession(session)
@@ -220,20 +180,41 @@ export default function SmartStudyPlanner() {
     }
   }
 
+  // Show empty state if no study plans exist
+  if (todaysPlan.sessions.length === 0 && weeklyGoals.length === 0) {
+    return (
+      <div className="space-y-6">
+        <Card className="border-2 border-dashed border-gray-300">
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
+                <Brain className="h-8 w-8 text-sky" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900">No Study Plan Created Yet</h3>
+                <p className="text-gray-600 mt-2 max-w-md">
+                  Create your first AI-powered study plan to get personalized recommendations and track your progress.
+                </p>
+              </div>
+              <div className="flex space-x-3">
+                <Button className="bg-sky hover:bg-sky/90 text-white" onClick={() => setActiveTab('create')}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Study Plan
+                </Button>
+                <Button variant="outline" onClick={() => window.location.href = '/predictions'}>
+                  <Brain className="h-4 w-4 mr-2" />
+                  Get AI Recommendations
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
-      {/* Demo Notice */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <div className="flex items-center space-x-2">
-          <Brain className="h-5 w-5 text-blue-600" />
-          <div>
-            <h3 className="font-semibold text-blue-800">Demo Mode</h3>
-            <p className="text-sm text-blue-700">
-              This is sample data for demonstration. In the full version, your actual study sessions and AI recommendations will appear here based on your academic records and performance.
-            </p>
-          </div>
-        </div>
-      </div>
       {/* Active Session Timer */}
       {currentSession && (
         <Card className="bg-gradient-to-r from-sky/10 to-sage/10 border-sky/20">
