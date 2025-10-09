@@ -35,7 +35,11 @@
 @layer utilities {
   /* Text Colors - Dark mode compatible */
   .text-navy {
-    @apply text-slate-900 dark:text-slate-200;
+    color: rgb(15 23 42);
+  }
+  
+  .dark .text-navy {
+    color: rgb(226 232 240);
   }
   
   .text-sky {
@@ -94,57 +98,108 @@
 
   /* Dark mode text utilities */
   .text-content {
-    @apply text-gray-700 dark:text-slate-400;
+    color: rgb(55 65 81);
+  }
+  
+  .dark .text-content {
+    color: rgb(148 163 184);
   }
   
   .text-heading {
-    @apply text-slate-900 dark:text-slate-200;
+    color: rgb(15 23 42);
+  }
+  
+  .dark .text-heading {
+    color: rgb(226 232 240);
   }
   
   .bg-section-light {
-    @apply bg-white dark:bg-slate-900;
+    background-color: white;
+  }
+  
+  .dark .bg-section-light {
+    background-color: rgb(15 23 42);
   }
   
   .bg-section-gray {
-    @apply bg-gray-50 dark:bg-slate-800;
+    background-color: rgb(249 250 251);
+  }
+  
+  .dark .bg-section-gray {
+    background-color: rgb(30 41 59);
   }
   
   .border-light {
-    @apply border-gray-200 dark:border-slate-700;
+    border-color: rgb(229 231 235);
+  }
+  
+  .dark .border-light {
+    border-color: rgb(51 65 85);
   }
 
   /* Additional contrast improvements */
   .text-card-title {
-    @apply text-slate-900 dark:text-slate-200;
+    color: rgb(15 23 42);
+  }
+  
+  .dark .text-card-title {
+    color: rgb(226 232 240);
   }
   
   .text-card-description {
-    @apply text-gray-600 dark:text-slate-400;
+    color: rgb(75 85 99);
+  }
+  
+  .dark .text-card-description {
+    color: rgb(148 163 184);
   }
   
   .text-muted {
-    @apply text-gray-600 dark:text-slate-400;
+    color: rgb(75 85 99);
+  }
+  
+  .dark .text-muted {
+    color: rgb(148 163 184);
   }
   
   .text-strong {
-    @apply text-slate-800 dark:text-slate-300;
+    color: rgb(30 41 59);
+  }
+  
+  .dark .text-strong {
+    color: rgb(203 213 225);
   }
 }
 
 @layer components {
   /* Professional Card Styles */
   .professional-card {
-    @apply bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm transition-all duration-200;
+    background-color: white;
+    border: 1px solid rgb(229 231 235);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    transition: all 0.2s;
+  }
+  
+  .dark .professional-card {
+    background-color: rgb(30 41 59);
+    border-color: rgb(51 65 85);
   }
   
   .professional-card:hover,
   .professional-hover:hover {
-    @apply shadow-md border-gray-300 dark:border-slate-600 transform translate-y-[-2px];
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-color: rgb(209 213 219);
+    transform: translateY(-2px);
+  }
+  
+  .dark .professional-card:hover,
+  .dark .professional-hover:hover {
+    border-color: rgb(71 85 105);
   }
   
   /* Custom Button Variants */
   .btn-sky {
-    @apply text-white;
+    color: white;
     background-color: #0284c7;
   }
   
@@ -153,7 +208,7 @@
   }
   
   .btn-sage {
-    @apply text-white;
+    color: white;
     background-color: #059669;
   }
   
@@ -162,7 +217,7 @@
   }
   
   .btn-yellow {
-    @apply text-white;
+    color: white;
     background-color: #f59e0b;
   }
   
@@ -171,7 +226,7 @@
   }
   
   .btn-teal {
-    @apply text-white;
+    color: white;
     background-color: #0d9488;
   }
   
@@ -181,27 +236,24 @@
 
   /* Loading Animation */
   .loading-pulse {
-    @apply animate-pulse bg-gray-200;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    background-color: rgb(229 231 235);
   }
   
   /* Gradient Backgrounds */
   .gradient-sky {
-    @apply bg-gradient-to-r;
     background-image: linear-gradient(to right, #0ea5e9, #0284c7);
   }
   
   .gradient-sage {
-    @apply bg-gradient-to-r;
     background-image: linear-gradient(to right, #10b981, #059669);
   }
   
   .gradient-yellow {
-    @apply bg-gradient-to-r;
     background-image: linear-gradient(to right, #fbbf24, #f59e0b);
   }
   
   .gradient-teal {
-    @apply bg-gradient-to-r;
     background-image: linear-gradient(to right, #14b8a6, #0d9488);
   }
 
@@ -216,15 +268,16 @@
   }
   
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    background-color: rgb(243 244 246);
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 rounded-full;
+    background-color: rgb(156 163 175);
+    border-radius: 9999px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-500;
+    background-color: rgb(107 114 128);
   }
 }
 
@@ -278,93 +331,15 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }
 
-/* Dark mode specific styles */
-.dark {
-  /* Professional cards in dark mode */
-  .professional-card {
-    @apply bg-slate-800 border-slate-700;
-  }
-  
-  .professional-card:hover,
-  .professional-hover:hover {
-    @apply border-slate-600 bg-slate-750;
-  }
-  
-  /* Text colors in dark mode */
-  .text-navy {
-    @apply text-slate-200;
-  }
-  
-  .text-gray-600 {
-    @apply text-slate-400;
-  }
-  
-  .text-gray-700 {
-    @apply text-slate-300;
-  }
-  
-  /* Background adjustments */
-  .bg-white {
-    @apply bg-slate-900;
-  }
-  
-  .bg-gray-50 {
-    @apply bg-slate-800;
-  }
-  
-  .bg-gray-100 {
-    @apply bg-slate-700;
-  }
-  
-  /* Border adjustments */
-  .border-gray-200 {
-    @apply border-slate-700;
-  }
-  
-  .border-gray-300 {
-    @apply border-slate-600;
-  }
-  
-  /* Custom color adjustments for dark mode */
-  .bg-sky\/5 {
-    @apply bg-sky-900/20;
-  }
-  
-  .bg-sage\/5 {
-    @apply bg-emerald-900/20;
-  }
-  
-  .bg-teal\/5 {
-    @apply bg-teal-900/20;
-  }
-  
-  .bg-sky\/10 {
-    @apply bg-sky-900/30;
-  }
-  
-  .hover\:bg-sky\/10:hover {
-    @apply bg-sky-900/40;
-  }
-  
-  .hover\:bg-sage\/10:hover {
-    @apply bg-emerald-900/40;
-  }
-  
-  .hover\:bg-teal\/10:hover {
-    @apply bg-teal-900/40;
-  }
-  
-  .hover\:bg-yellow\/10:hover {
-    @apply bg-amber-900/40;
-  }
-}
+
 
 /* Animation keyframes */
 @keyframes fadeInUp {
@@ -399,31 +374,84 @@
 
 /* Focus styles for accessibility */
 .focus-visible\:ring-sky:focus-visible {
-  @apply ring-2 ring-offset-2;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-offset-width: 2px;
   --tw-ring-color: #0284c7;
 }
 
 /* Navigation specific styles */
 @layer components {
   .nav-dropdown {
-    @apply absolute top-full left-0 mt-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.5rem;
+    background-color: white;
+    border: 1px solid rgb(229 231 235);
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
     z-index: 100;
     min-height: 300px;
     width: 520px;
   }
   
+  .dark .nav-dropdown {
+    background-color: rgb(30 41 59);
+    border-color: rgb(51 65 85);
+  }
+  
   .nav-dropdown.show,
   .group:hover .nav-dropdown {
-    @apply opacity-100 visible;
+    opacity: 1;
+    visibility: visible;
   }
   
   .nav-item {
-    @apply block select-none rounded-lg p-4 no-underline outline-none transition-all duration-200 hover:bg-sky/10 hover:shadow-md border border-transparent hover:border-sky/20;
+    display: block;
+    user-select: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-decoration: none;
+    outline: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  
+  .nav-item:hover {
+    background-color: rgba(14, 165, 233, 0.1);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-color: rgba(14, 165, 233, 0.2);
   }
   
   .nav-featured {
-    @apply flex h-full w-full select-none flex-col justify-between rounded-lg bg-gradient-to-br from-sky/10 via-sky/5 to-sage/10 dark:from-sky-900/30 dark:via-sky-900/20 dark:to-emerald-900/30 p-6 no-underline outline-none hover:shadow-lg transition-all duration-200 border border-sky/20 dark:border-sky-700/50;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    user-select: none;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 0.5rem;
+    background: linear-gradient(to bottom right, rgb(14 165 233 / 0.1), rgb(14 165 233 / 0.05), rgb(5 150 105 / 0.1));
+    padding: 1.5rem;
+    text-decoration: none;
+    outline: none;
+    transition: all 0.2s;
+    border: 1px solid rgb(14 165 233 / 0.2);
     min-height: 200px;
+  }
+  
+  .dark .nav-featured {
+    background: linear-gradient(to bottom right, rgb(12 74 110 / 0.3), rgb(12 74 110 / 0.2), rgb(6 78 59 / 0.3));
+    border-color: rgb(30 58 138 / 0.5);
+  }
+  
+  .nav-featured:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 }
 
@@ -492,7 +520,9 @@
   
   /* Better spacing for mobile cards */
   .professional-card {
-    @apply mx-1 mb-4;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    margin-bottom: 1rem;
     min-height: 120px;
   }
   
@@ -505,7 +535,12 @@
   
   /* Better mobile navigation */
   .mobile-nav-item {
-    @apply py-4 px-6 text-base;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
     min-height: 56px;
   }
   
@@ -598,14 +633,15 @@
 /* Tablet improvements */
 @media (min-width: 641px) and (max-width: 1024px) {
   .professional-card {
-    @apply mx-1;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
   }
 }
 
 /* High DPI displays */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .professional-card {
-    @apply border-gray-300;
+    border-color: rgb(209 213 219);
   }
 }
 
@@ -616,6 +652,7 @@
   }
   
   .professional-card {
-    @apply shadow-none border border-gray-400;
+    box-shadow: none;
+    border: 1px solid rgb(156 163 175);
   }
 }
