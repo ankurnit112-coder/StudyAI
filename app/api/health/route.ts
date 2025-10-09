@@ -47,7 +47,7 @@ async function checkDatabase(): Promise<string> {
     // In a real implementation, you would check your database connection
     // For now, we'll simulate a database check
     return 'healthy'
-  } catch (error) {
+  } catch {
     return 'unhealthy'
   }
 }
@@ -72,7 +72,7 @@ async function checkMLBackend(): Promise<string> {
     } else {
       return 'unhealthy'
     }
-  } catch (error) {
+  } catch {
     return 'unhealthy'
   }
 }

@@ -32,7 +32,7 @@ export default function SignInPage() {
       
       // For now, just redirect to dashboard
       router.push("/dashboard")
-    } catch (err) {
+    } catch {
       setError("Invalid email or password")
     } finally {
       setIsLoading(false)

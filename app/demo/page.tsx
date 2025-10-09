@@ -7,6 +7,7 @@ import MainNav from "@/components/navigation/main-nav"
 import MobileNav from "@/components/mobile/mobile-nav"
 import Footer from "@/components/layout/footer"
 import Link from "next/link"
+import Image from "next/image"
 import { 
   Play, 
   ArrowLeft, 
@@ -26,8 +27,7 @@ import {
   Tablet,
   Zap,
   Shield,
-  Globe,
-  Headphones
+
 } from "lucide-react"
 
 export default function DemoPage() {
@@ -89,10 +89,12 @@ export default function DemoPage() {
               <Card className="overflow-hidden">
                 <CardContent className="p-0">
                   <div className="aspect-video bg-gradient-to-br from-sky/20 to-sage/20 relative overflow-hidden">
-                    <img
+                    <Image
                       src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop&crop=center&auto=format&q=80"
                       alt="StudyAI dashboard demo showing student performance analytics, AI predictions, and personalized study recommendations for CBSE board exams"
                       className="w-full h-full object-cover"
+                      width={800}
+                      height={450}
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -342,7 +344,7 @@ export default function DemoPage() {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-4">
-                    "StudyAI predicted my Physics board exam score within 2 marks! The personalized study plan helped me improve from 65% to 89%."
+                    "                    &quot;StudyAI predicted my Physics board exam score within 2 marks! The personalized study plan helped me improve from 65% to 89%.&quot;"
                   </p>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-sky rounded-full flex items-center justify-center text-white font-semibold mr-3">
@@ -364,7 +366,7 @@ export default function DemoPage() {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-4">
-                    "The parent dashboard helped me track my daughter's progress. She scored 95% in Class 10 boards - exactly as StudyAI predicted!"
+                    "                    &quot;The parent dashboard helped me track my daughter&apos;s progress. She scored 95% in Class 10 boards - exactly as StudyAI predicted!&quot;"
                   </p>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-sage rounded-full flex items-center justify-center text-white font-semibold mr-3">
@@ -386,7 +388,7 @@ export default function DemoPage() {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-4">
-                    "The mobile app is perfect for studying on the go. AI recommendations helped me focus on weak areas and improve my Chemistry score by 20%."
+                    "                    &quot;The mobile app is perfect for studying on the go. AI recommendations helped me focus on weak areas and improve my Chemistry score by 20%.&quot;"
                   </p>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-teal rounded-full flex items-center justify-center text-white font-semibold mr-3">

@@ -506,7 +506,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
             <div className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
-                <img
+                <SafeImage
                   src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center&auto=format&q=80"
                   alt="StudyAI main dashboard showing performance overview, upcoming exams, and AI recommendations for CBSE students"
                   className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -521,7 +521,7 @@ export default function HomePage() {
 
             <div className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
-                <img
+                <SafeImage
                   src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&crop=center&auto=format&q=80"
                   alt="Performance analytics page showing detailed charts, grade trends, and subject-wise analysis for CBSE board exam preparation"
                   className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -536,7 +536,7 @@ export default function HomePage() {
 
             <div className="group cursor-pointer sm:col-span-2 lg:col-span-1">
               <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
-                <img
+                <SafeImage
                   src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop&crop=center&auto=format&q=80"
                   alt="Personalized study planner interface showing daily schedules, revision timetables, and task management for CBSE exam preparation"
                   className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-300"

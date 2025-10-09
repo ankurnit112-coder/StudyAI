@@ -3,7 +3,7 @@ import MainNav from "@/components/navigation/main-nav"
 import MobileNav from "@/components/mobile/mobile-nav"
 import Footer from "@/components/layout/footer"
 import DemoNotice from "@/components/ui/demo-notice"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Brain, TrendingUp, Target, BarChart3, CheckCircle } from "lucide-react"
 

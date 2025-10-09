@@ -12,9 +12,7 @@ import {
   Target, 
   BarChart3, 
   CheckCircle,
-  Users,
   Trophy,
-  Calendar,
   Brain
 } from "lucide-react"
 
@@ -87,7 +85,7 @@ export default function CBSEClassesPage() {
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             Comprehensive AI-powered support for all CBSE classes. From foundation building in Class 9 
-            to board exam mastery in Classes 10 & 12, we've got you covered.
+            to board exam mastery in Classes 10 & 12, we&apos;ve got you covered.
           </p>
           
           {/* Overall Stats */}

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Progress } from "@/components/ui/progress"
+
 import { Brain, Mail, Lock, User, ArrowLeft, GraduationCap, Users, Eye, EyeOff, CheckCircle, Shield, Smartphone, Star } from "lucide-react"
 
 export default function SignUpPage() {
@@ -46,7 +46,7 @@ export default function SignUpPage() {
       
       // Redirect to dashboard after successful signup
       router.push("/dashboard")
-    } catch (err) {
+    } catch {
       setError("Failed to create account. Please try again.")
     } finally {
       setIsLoading(false)
@@ -269,7 +269,7 @@ export default function SignUpPage() {
                       </div>
                       <div>
                         <div className="font-medium">Parent/Guardian</div>
-                        <div className="text-xs text-gray-600">Monitor child's progress</div>
+                        <div className="text-xs text-gray-600">Monitor child&apos;s progress</div>
                       </div>
                     </Label>
                   </div>

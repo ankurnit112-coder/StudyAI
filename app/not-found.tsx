@@ -16,7 +16,7 @@ export default function NotFound() {
             <div className="text-8xl font-bold text-sky/20 mb-4">404</div>
             <h1 className="text-3xl font-bold text-navy mb-2">Page Not Found</h1>
             <p className="text-gray-600 mb-8">
-              Sorry, we couldn't find the page you're looking for. It might have been moved, deleted, or you entered the wrong URL.
+              Sorry, we couldn&apos;t find the page you&apos;re looking for. It might have been moved, deleted, or you entered the wrong URL.
             </p>
           </div>
 
@@ -81,7 +81,7 @@ export default function NotFound() {
 
           {/* Contact Info */}
           <div className="mt-12 text-sm text-gray-500">
-            <p>Still can't find what you're looking for?</p>
+            <p>Still can&apos;t find what you&apos;re looking for?</p>
             <p>
               <Link href="/auth/signup" className="text-sky hover:text-sky/80 transition-colors">
                 Get started with StudyAI
