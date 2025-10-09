@@ -41,6 +41,64 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [lastError, setLastError] = useState<string>("")
 
+  const saveStudentDataToStorage = (data: StudentData, predictions: PredictionResult[]) => {
+    try {
+      // Create subjects array with predictions
+      const subjects = data.subjects.map(subject => {
+        const prediction = predictions.find(p => p.subject === subject)
+        const currentScore = data.recentScores[subject] || 0
+        return {
+          id: subject.toLowerCase().replace(/\s+/g, '-'),
+          name: subject,
+          current: currentScore,
+          predicted: prediction?.predicted_score || currentScore + 5,
+          trend: (prediction?.predicted_score || 0) > currentScore ? 'up' : 'stable',
+          color: getSubjectColor(subject)
+        }
+      })
+
+      // Calculate overall metrics
+      const avgCurrent = subjects.reduce((sum, s) => sum + s.current, 0) / subjects.length
+      const avgPredicted = subjects.reduce((sum, s) => sum + s.predicted, 0) / subjects.length
+      const avgConfidence = predictions.reduce((sum, p) => sum + (p.confidence * 100), 0) / predictions.length
+
+      const dashboardData = {
+        currentGPA: Number((avgCurrent / 10).toFixed(1)),
+        predictedBoardScore: Math.round(avgPredicted),
+        confidence: Math.round(avgConfidence),
+        subjects,
+        recentTests: subjects.map(subject => ({
+          subject: subject.name,
+          score: subject.current,
+          maxScore: 100,
+          date: new Date().toISOString().split('T')[0],
+          type: "Recent Assessment"
+        })).slice(0, 3)
+      }
+
+      // Save to localStorage (in a real app, this would be saved to your backend)
+      // Use a more unique identifier - in a real app this would be user ID from auth
+      const userKey = `studentData_${data.name}_${data.currentClass}`
+      localStorage.setItem(userKey, JSON.stringify(dashboardData))
+    } catch (error) {
+      console.error('Failed to save student data:', error)
+    }
+  }
+
+  const getSubjectColor = (subject: string): string => {
+    const colors: Record<string, string> = {
+      'mathematics': 'bg-blue-500',
+      'physics': 'bg-green-500', 
+      'chemistry': 'bg-purple-500',
+      'english': 'bg-orange-500',
+      'computer science': 'bg-cyan-500',
+      'biology': 'bg-red-500',
+      'history': 'bg-yellow-500',
+      'geography': 'bg-indigo-500'
+    }
+    return colors[subject.toLowerCase()] || 'bg-gray-500'
+  }
+
   const cbseSubjects = [
     "Mathematics", "Physics", "Chemistry", "Biology", 
     "English", "Hindi", "Computer Science", "Physical Education",
@@ -141,6 +199,8 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
       }
       
       if (result.success) {
+        // Save student data to localStorage for dashboard
+        saveStudentDataToStorage(studentData, result.predictions)
         setPredictions(result.predictions)
         setStep(3)
         setFormState('success')
@@ -168,6 +228,8 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
         }
       })
       
+      // Save data even with mock predictions
+      saveStudentDataToStorage(studentData, mockPredictions)
       setPredictions(mockPredictions)
       setStep(3)
       onComplete?.(mockPredictions)

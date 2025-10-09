@@ -228,9 +228,13 @@ class AuthService {
     const url = `${API_BASE_URL}${endpoint}`
     
     // Add authorization header if token exists
-    const headers = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
+    }
+
+    // Add any additional headers from options
+    if (options.headers) {
+      Object.assign(headers, options.headers)
     }
 
     if (this.accessToken) {
