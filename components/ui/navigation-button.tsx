@@ -47,19 +47,23 @@ export default function NavigationButton({
       
       // Handle anchor links (scroll to section)
       if (href.startsWith('#')) {
-        const element = document.querySelector(href)
-        if (element) {
-          element.scrollIntoView({ 
-            behavior: scroll ? 'smooth' : 'auto',
-            block: 'start'
-          })
+        if (typeof document !== 'undefined') {
+          const element = document.querySelector(href)
+          if (element) {
+            element.scrollIntoView({ 
+              behavior: scroll ? 'smooth' : 'auto',
+              block: 'start'
+            })
+          }
         }
         return
       }
       
       // Handle external links
       if (external || href.startsWith('http')) {
-        window.open(href, '_blank', 'noopener,noreferrer')
+        if (typeof window !== 'undefined') {
+          window.open(href, '_blank', 'noopener,noreferrer')
+        }
         return
       }
       

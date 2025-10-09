@@ -205,11 +205,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               <button 
                 onClick={() => {
                   // Check if we're on the home page, if not navigate there first
-                  if (window.location.pathname !== '/') {
-                    window.location.href = '/#features'
-                  } else {
-                    const element = document.querySelector('#features')
-                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  if (typeof window !== 'undefined') {
+                    if (window.location.pathname !== '/') {
+                      window.location.href = '/#features'
+                    } else {
+                      const element = document.querySelector('#features')
+                      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
                   }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
@@ -220,11 +222,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               <button 
                 onClick={() => {
                   // Check if we're on the home page, if not navigate there first
-                  if (window.location.pathname !== '/') {
-                    window.location.href = '/#how-it-works'
-                  } else {
-                    const element = document.querySelector('#how-it-works')
-                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  if (typeof window !== 'undefined') {
+                    if (window.location.pathname !== '/') {
+                      window.location.href = '/#how-it-works'
+                    } else {
+                      const element = document.querySelector('#how-it-works')
+                      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
                   }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
@@ -235,11 +239,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               <button 
                 onClick={() => {
                   // Check if we're on the home page, if not navigate there first
-                  if (window.location.pathname !== '/') {
-                    window.location.href = '/#testimonials'
-                  } else {
-                    const element = document.querySelector('#testimonials')
-                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  if (typeof window !== 'undefined') {
+                    if (window.location.pathname !== '/') {
+                      window.location.href = '/#testimonials'
+                    } else {
+                      const element = document.querySelector('#testimonials')
+                      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
                   }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
@@ -250,11 +256,13 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
               <button 
                 onClick={() => {
                   // Check if we're on the home page, if not navigate there first
-                  if (window.location.pathname !== '/') {
-                    window.location.href = '/#cbse-support'
-                  } else {
-                    const element = document.querySelector('#cbse-support')
-                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  if (typeof window !== 'undefined') {
+                    if (window.location.pathname !== '/') {
+                      window.location.href = '/#cbse-support'
+                    } else {
+                      const element = document.querySelector('#cbse-support')
+                      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
                   }
                 }}
                 className="text-foreground hover:text-sky transition-colors duration-200 font-medium relative group"
@@ -289,7 +297,9 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                   // Add logout logic here
                   console.log("Logging out...")
                   // For now, just redirect to home
-                  window.location.href = "/"
+                  if (typeof window !== 'undefined') {
+                    window.location.href = "/"
+                  }
                 }}
               >
                 <LogOut className="h-4 w-4 mr-2" />
@@ -342,12 +352,14 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                         onClick={() => {
                           setIsOpen(false)
                           // Check if we're on the home page, if not navigate there first
-                          if (window.location.pathname !== '/') {
-                            window.location.href = '/' + item.href
-                          } else {
-                            const element = document.querySelector(item.href)
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                          if (typeof window !== 'undefined') {
+                            if (window.location.pathname !== '/') {
+                              window.location.href = '/' + item.href
+                            } else {
+                              const element = document.querySelector(item.href)
+                              if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                              }
                             }
                           }
                         }}
@@ -424,7 +436,9 @@ export default function MainNav({ isAuthenticated = false, userRole = "student" 
                         setIsOpen(false)
                         // Add logout logic here
                         console.log("Logging out...")
-                        window.location.href = "/"
+                        if (typeof window !== 'undefined') {
+                          window.location.href = "/"
+                        }
                       }}
                     >
                       <LogOut className="h-4 w-4 mr-3" />

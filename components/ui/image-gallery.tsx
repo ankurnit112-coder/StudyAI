@@ -22,12 +22,16 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 
   const openModal = (index: number) => {
     setSelectedIndex(index)
-    document.body.style.overflow = 'hidden'
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden'
+    }
   }
 
   const closeModal = () => {
     setSelectedIndex(null)
-    document.body.style.overflow = 'unset'
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'unset'
+    }
   }
 
   const goToPrevious = () => {

@@ -18,8 +18,22 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['vercel.app', 'vercel.com'],
+    domains: ['vercel.app', 'vercel.com', 'images.unsplash.com', 'unsplash.com'],
     formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   
   // Environment variables

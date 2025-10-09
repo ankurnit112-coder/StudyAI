@@ -32,7 +32,9 @@
     "postbuild": "next-sitemap",
     "deploy": "node deploy-vercel.js",
     "deploy:vercel": "vercel --prod",
-    "verify": "node verify-deployment.js"
+    "verify": "node verify-deployment.js",
+    "verify:deployment": "node scripts/verify-deployment.js",
+    "deploy:full": "npm run build && npm run deploy:vercel && npm run verify:deployment"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
