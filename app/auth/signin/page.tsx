@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SignInPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,13 +29,15 @@ export default function SignInPage() {
     setError("")
 
     try {
-      // Simulate authentication - replace with actual auth logic
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await login({
+        email: formData.email,
+        password: formData.password
+      })
       
-      // For now, just redirect to dashboard
+      // Redirect to dashboard after successful login
       router.push("/dashboard")
-    } catch {
-      setError("Invalid email or password")
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Invalid email or password")
     } finally {
       setIsLoading(false)
     }
