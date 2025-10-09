@@ -423,7 +423,7 @@ export default function ContactPage() {
                   <Clock className="h-6 w-6 text-sky" />
                   <div>
                     <h3 className="font-semibold text-navy mb-1">Support Hours</h3>
-                    <p className="text-gray-600">We're here when you need us most</p>
+                    <p className="text-gray-600">We&apos;re here when you need us most</p>
                   </div>
                 </div>
                 <div className="text-right text-sm text-gray-600">

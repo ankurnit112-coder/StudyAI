@@ -11,8 +11,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { GraduationCap, Target, BookOpen, TrendingUp } from "lucide-react"
 
+interface WelcomeData {
+  name: string
+  class: string
+  subjects: string[]
+  goals: string[]
+}
+
 interface WelcomeWizardProps {
-  onComplete: (data: any) => void
+  onComplete: (data: WelcomeData) => void
 }
 
 export default function WelcomeWizard({ onComplete }: WelcomeWizardProps) {
@@ -59,7 +66,7 @@ export default function WelcomeWizard({ onComplete }: WelcomeWizardProps) {
     }
   }
 
-  const updateFormData = (field: string, value: any) => {
+  const updateFormData = (field: keyof WelcomeData, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
@@ -103,7 +110,7 @@ export default function WelcomeWizard({ onComplete }: WelcomeWizardProps) {
           </div>
           <CardDescription>
             {step === 1 && "Tell us about yourself to personalize your experience"}
-            {step === 2 && "Select the subjects you're currently studying"}
+            {step === 2 && "Select the subjects you&apos;re currently studying"}
             {step === 3 && "What do you want to achieve this academic year?"}
             {step === 4 && "Help us create the perfect study plan for you"}
           </CardDescription>
@@ -149,7 +156,7 @@ export default function WelcomeWizard({ onComplete }: WelcomeWizardProps) {
 
           {step === 2 && (
             <div className="space-y-4">
-              <p className="text-sm text-gray-600">Select all subjects you're currently studying:</p>
+              <p className="text-sm text-gray-600">Select all subjects you&apos;re currently studying:</p>
               <div className="grid grid-cols-2 gap-3">
                 {cbseSubjects.map((subject) => (
                   <div key={subject} className="flex items-center space-x-2">

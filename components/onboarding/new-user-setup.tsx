@@ -20,7 +20,7 @@ import {
   Upload,
   FileText,
   Calendar,
-  Award,
+
 } from "lucide-react"
 
 interface SetupData {
@@ -92,7 +92,7 @@ export default function NewUserSetup({ onComplete, onSkip }: NewUserSetupProps) 
     toast.info("You can complete your profile setup anytime from Settings.")
   }
 
-  const updateSetupData = (field: keyof SetupData, value: any) => {
+  const updateSetupData = (field: keyof SetupData, value: string | string[]) => {
     setSetupData(prev => ({ ...prev, [field]: value }))
   }
 
@@ -128,7 +128,7 @@ export default function NewUserSetup({ onComplete, onSkip }: NewUserSetupProps) 
             <h1 className="text-3xl font-bold text-navy">Welcome to StudyAI!</h1>
           </div>
           <p className="text-gray-600 mb-6">
-            Let's set up your profile to provide personalized AI-powered study recommendations
+            Let&apos;s set up your profile to provide personalized AI-powered study recommendations
           </p>
           <div className="flex items-center justify-between mb-4">
             <Badge variant="outline">Step {step} of {totalSteps}</Badge>
@@ -155,7 +155,7 @@ export default function NewUserSetup({ onComplete, onSkip }: NewUserSetupProps) 
             </CardTitle>
             <CardDescription>
               {step === 1 && "Tell us about yourself and your academic background"}
-              {step === 2 && "Select the subjects you're currently studying"}
+              {step === 2 && "Select the subjects you&apos;re currently studying"}
               {step === 3 && "Set your academic goals and study preferences"}
               {step === 4 && "Add your existing academic records (optional)"}
             </CardDescription>
@@ -219,7 +219,7 @@ export default function NewUserSetup({ onComplete, onSkip }: NewUserSetupProps) 
 
             {step === 2 && (
               <div className="space-y-4">
-                <p className="text-sm text-gray-600">Select all subjects you're currently studying:</p>
+                <p className="text-sm text-gray-600">Select all subjects you&apos;re currently studying:</p>
                 <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto">
                   {cbseSubjects.map((subject) => (
                     <div key={subject} className="flex items-center space-x-2">
@@ -356,7 +356,7 @@ export default function NewUserSetup({ onComplete, onSkip }: NewUserSetupProps) 
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="h-5 w-5 text-sky mt-0.5" />
                     <div>
-                      <h4 className="font-medium text-navy">Don't worry!</h4>
+                      <h4 className="font-medium text-navy">Don&apos;t worry!</h4>
                       <p className="text-sm text-gray-600">
                         You can always add your academic records later from the Academic Records page. 
                         StudyAI will work with whatever data you provide and improve over time.

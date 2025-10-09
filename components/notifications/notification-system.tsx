@@ -14,14 +14,12 @@ import {
   BellRing,
   Clock,
   BookOpen,
-  Target,
   Trophy,
   AlertCircle,
   CheckCircle,
   X,
   Settings,
   Smartphone,
-  Calendar,
   Brain,
 } from "lucide-react"
 
@@ -97,7 +95,7 @@ export default function NotificationSystem() {
         id: "3",
         type: "achievement",
         title: "Study Streak Achievement!",
-        message: "Congratulations! You've maintained a 14-day study streak. Keep it up!",
+        message: "Congratulations! You&apos;ve maintained a 14-day study streak. Keep it up!",
         timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
         read: true,
         priority: "low",
@@ -108,7 +106,7 @@ export default function NotificationSystem() {
         id: "4",
         type: "exam_alert",
         title: "Physics Unit Test Tomorrow",
-        message: "Don't forget your Physics unit test tomorrow at 10:00 AM. Review mechanics problems.",
+        message: "Don&apos;t forget your Physics unit test tomorrow at 10:00 AM. Review mechanics problems.",
         timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
         read: false,
         priority: "high",
@@ -119,7 +117,7 @@ export default function NotificationSystem() {
         id: "5",
         type: "break_reminder",
         title: "Take a Break",
-        message: "You've been studying for 45 minutes. Take a 10-minute break to maintain focus.",
+        message: "You&apos;ve been studying for 45 minutes. Take a 10-minute break to maintain focus.",
         timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000),
         read: true,
         priority: "medium"
@@ -247,7 +245,7 @@ export default function NotificationSystem() {
               <CardContent className="p-8 text-center">
                 <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-gray-600 mb-2">No notifications</h3>
-                <p className="text-gray-500">You're all caught up! New notifications will appear here.</p>
+                <p className="text-gray-500">You&apos;re all caught up! New notifications will appear here.</p>
               </CardContent>
             </Card>
           ) : (

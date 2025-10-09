@@ -10,15 +10,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
   BarChart3,
   TrendingUp,
-  TrendingDown,
   Target,
   Award,
   Calendar,
-  BookOpen,
   Brain,
   Users,
   Download,
-  Filter,
   ArrowUp,
   ArrowDown,
   Minus,
@@ -112,14 +109,15 @@ export default function EnhancedPerformanceAnalytics() {
     }
   ]
 
-  const timeSeriesData: TimeSeriesData[] = [
-    { month: "Aug", mathematics: 75, physics: 72, chemistry: 78, english: 80, average: 76.25 },
-    { month: "Sep", mathematics: 78, physics: 75, chemistry: 80, english: 81, average: 78.5 },
-    { month: "Oct", mathematics: 82, physics: 78, chemistry: 82, english: 82, average: 81 },
-    { month: "Nov", mathematics: 85, physics: 80, chemistry: 83, english: 82, average: 82.5 },
-    { month: "Dec", mathematics: 87, physics: 82, chemistry: 84, english: 82, average: 83.75 },
-    { month: "Jan", mathematics: 88, physics: 78, chemistry: 85, english: 82, average: 83.25 }
-  ]
+  // Commented out unused timeSeriesData
+  // const timeSeriesData: TimeSeriesData[] = [
+  //   { month: "Aug", mathematics: 75, physics: 72, chemistry: 78, english: 80, average: 76.25 },
+  //   { month: "Sep", mathematics: 78, physics: 75, chemistry: 80, english: 81, average: 78.5 },
+  //   { month: "Oct", mathematics: 82, physics: 78, chemistry: 82, english: 82, average: 81 },
+  //   { month: "Nov", mathematics: 85, physics: 80, chemistry: 83, english: 82, average: 82.5 },
+  //   { month: "Dec", mathematics: 87, physics: 82, chemistry: 84, english: 82, average: 83.75 },
+  //   { month: "Jan", mathematics: 88, physics: 78, chemistry: 85, english: 82, average: 83.25 }
+  // ]
 
   const overallStats = {
     averageScore: 83.25,
@@ -132,7 +130,7 @@ export default function EnhancedPerformanceAnalytics() {
     totalGoals: 12
   }
 
-  const getTrendIcon = (trend: string, improvement: number) => {
+  const getTrendIcon = (trend: string) => {
     if (trend === "up") return <ArrowUp className="h-4 w-4 text-green-600" />
     if (trend === "down") return <ArrowDown className="h-4 w-4 text-red-600" />
     return <Minus className="h-4 w-4 text-gray-600" />
@@ -564,7 +562,7 @@ export default function EnhancedPerformanceAnalytics() {
                 <CardContent className="space-y-4">
                   <div className="text-center p-4 bg-teal/10 rounded-lg">
                     <div className="text-2xl font-bold text-teal">Top 25%</div>
-                    <div className="text-sm text-gray-600">You're performing better than 75% of your peers</div>
+                    <div className="text-sm text-gray-600">You&apos;re performing better than 75% of your peers</div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
@@ -592,7 +590,7 @@ export default function EnhancedPerformanceAnalytics() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="p-3 bg-yellow/10 rounded-lg">
-                    <p className="font-medium text-navy">This Week's Focus</p>
+                    <p className="font-medium text-navy">This Week&apos;s Focus</p>
                     <p className="text-sm text-gray-600">Physics - Optics and Wave Theory</p>
                   </div>
                   <div className="p-3 bg-sage/10 rounded-lg">
