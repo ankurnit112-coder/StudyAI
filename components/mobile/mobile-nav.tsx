@@ -26,8 +26,7 @@ import {
   Brain,
   Menu,
   X,
-  HelpCircle,
-  GraduationCap,
+
 } from "lucide-react"
 
 interface MobileNavProps {

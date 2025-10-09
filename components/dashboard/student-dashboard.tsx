@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -9,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Brain,
   TrendingUp,
-  BookOpen,
   Target,
   Calendar,
   Trophy,
@@ -17,8 +16,6 @@ import {
   CheckCircle,
   Clock,
   BarChart3,
-  Users,
-  Star,
   GraduationCap,
   Lightbulb,
   BookMarked,
@@ -26,7 +23,7 @@ import {
 } from "lucide-react"
 
 export default function StudentDashboard() {
-  const [selectedSubject, setSelectedSubject] = useState("mathematics")
+  const selectedSubject = "mathematics"
 
   // Mock data for demonstration
   const studentData = {
@@ -354,7 +351,7 @@ export default function StudentDashboard() {
               <div className="lg:col-span-2 space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Today's Study Plan</CardTitle>
+                    <CardTitle>Today&apos;s Study Plan</CardTitle>
                     <CardDescription>AI-optimized schedule for maximum learning efficiency</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">

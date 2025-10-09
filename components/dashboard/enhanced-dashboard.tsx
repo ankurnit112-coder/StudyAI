@@ -1,15 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import EmptyStateDashboard from "./empty-state-dashboard"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   TrendingUp,
-  BookOpen,
   Target,
   Calendar,
   Trophy,
@@ -17,11 +16,8 @@ import {
   CheckCircle,
   Clock,
   BarChart3,
-  Brain,
   Zap,
-  Users,
   Award,
-  TrendingDown,
   ArrowUp,
   ArrowDown,
   Star,
@@ -48,10 +44,10 @@ interface StudySession {
 
 export default function EnhancedDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
-  const [studyStreak, setStudyStreak] = useState(0) // Default to 0 for new users
-  const [todayProgress, setTodayProgress] = useState(0) // Default to 0 for new users
-  const [isNewUser, setIsNewUser] = useState(true) // Check if user is new
-  const [hasAcademicData, setHasAcademicData] = useState(false) // Check if user has academic records
+  const [studyStreak] = useState(0) // Default to 0 for new users
+  const [todayProgress] = useState(0) // Default to 0 for new users
+  const [isNewUser] = useState(true) // Check if user is new
+  const [hasAcademicData] = useState(false) // Check if user has academic records
 
   // Sample data - only show if user has academic records
   const subjectPerformance: SubjectPerformance[] = hasAcademicData ? [
@@ -124,21 +120,21 @@ export default function EnhancedDashboard() {
     {
       type: "urgent",
       title: "Physics Mechanics Needs Attention",
-      description: "Your recent test scores show a 15% drop in mechanics problems. Focus on Newton's laws.",
+      description: "Your recent test scores show a 15% drop in mechanics problems. Focus on Newton&apos;s laws.",
       action: "Start Practice",
       priority: "high"
     },
     {
       type: "opportunity",
       title: "Mathematics Streak Building",
-      description: "You've improved 12% in calculus over the past week. Keep the momentum!",
+      description: "You&apos;ve improved 12% in calculus over the past week. Keep the momentum!",
       action: "Continue Practice",
       priority: "medium"
     },
     {
       type: "reminder",
       title: "Chemistry Revision Due",
-      description: "It's been 3 days since your last organic chemistry session.",
+      description: "It&apos;s been 3 days since your last organic chemistry session.",
       action: "Schedule Review",
       priority: "low"
     }
@@ -180,7 +176,7 @@ export default function EnhancedDashboard() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-navy mb-2">Today's Progress</h3>
+              <h3 className="text-lg font-semibold text-navy mb-2">Today&apos;s Progress</h3>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <Timer className="h-4 w-4 text-sky" />
@@ -413,7 +409,7 @@ export default function EnhancedDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Calendar className="h-5 w-5 text-sky" />
-                  <span>Today's Schedule</span>
+                  <span>Today&apos;s Schedule</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">

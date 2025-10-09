@@ -25,11 +25,7 @@ import {
   FileText,
   Upload,
   Download,
-  Filter,
   Search,
-  Eye,
-  CheckCircle,
-  AlertCircle,
 } from "lucide-react"
 
 interface ExamRecord {

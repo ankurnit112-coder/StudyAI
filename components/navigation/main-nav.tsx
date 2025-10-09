@@ -19,7 +19,7 @@ import {
   BookOpen,
   BarChart3,
   Target,
-  Calendar,
+
   User,
   Settings,
   LogOut,
@@ -35,7 +35,7 @@ interface MainNavProps {
   userRole?: "student" | "parent" | "admin"
 }
 
-export default function MainNav({ isAuthenticated = false, userRole = "student" }: MainNavProps) {
+export default function MainNav({ isAuthenticated = false }: MainNavProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   // Handle scroll lock when mobile menu is open

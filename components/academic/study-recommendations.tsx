@@ -8,7 +8,6 @@ import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Lightbulb, 
-  Clock, 
   Target, 
   BookOpen, 
   CheckCircle, 
@@ -157,7 +156,7 @@ export default function StudyRecommendations() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{rec.subject}</CardTitle>
-                    <Badge variant={getPriorityColor(rec.priority) as any}>
+                    <Badge variant={getPriorityColor(rec.priority) as "default" | "secondary" | "destructive" | "outline"}>
                       {rec.priority} Priority
                     </Badge>
                   </div>

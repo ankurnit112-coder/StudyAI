@@ -300,7 +300,7 @@ export default function ExamInputForm() {
               <div>
                 <h4 className="font-semibold text-foreground mb-1">AI Insight</h4>
                 <p className="text-sm text-muted-foreground">
-                  Based on your recent performance, you're on track to score <strong>89%</strong> in your board exams. 
+                  Based on your recent performance, you&apos;re on track to score <strong>89%</strong> in your board exams. 
                   Focus on Physics concepts to potentially improve by 5-7 points.
                 </p>
               </div>

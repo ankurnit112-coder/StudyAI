@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
@@ -96,11 +96,11 @@ export default function EmptyStateDashboard({ userName = "Student", onStartSetup
           <h1 className="text-3xl font-bold text-navy">Welcome to StudyAI, {userName}!</h1>
         </div>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
-          Let's get you started with AI-powered CBSE board exam preparation. 
+          Let&apos;s get you started with AI-powered CBSE board exam preparation. 
           Add your academic information to unlock personalized insights.
         </p>
         <Badge className="bg-sky text-white mb-8">
-          New Account - Let's Set You Up!
+          New Account - Let&apos;s Set You Up!
         </Badge>
       </div>
 
@@ -176,7 +176,7 @@ export default function EmptyStateDashboard({ userName = "Student", onStartSetup
 
       {/* Features Preview */}
       <div>
-        <h2 className="text-2xl font-bold text-navy mb-6">What You'll Unlock</h2>
+        <h2 className="text-2xl font-bold text-navy mb-6">What You&apos;ll Unlock</h2>
         <div className="grid md:grid-cols-2 gap-6">
           {features.map((feature, index) => (
             <Card key={index} className="opacity-60">

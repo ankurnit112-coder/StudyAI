@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -19,19 +19,17 @@ import {
   Send,
   CheckCircle,
   AlertCircle,
-  Info,
-  Users,
-  Headphones,
-  Globe,
-  Building,
-  Calendar,
   ExternalLink,
-  Star,
   Heart,
   Award,
   Target,
   Zap,
   Shield,
+  Headphones,
+  Globe,
+  Building,
+  Users,
+  Calendar,
   Upload,
   X,
   FileText,
@@ -772,7 +770,7 @@ export default function ContactPage() {
                         <div>
                           <h4 className="font-medium text-green-800">Message Sent Successfully!</h4>
                           <p className="text-sm text-green-700">
-                            Thank you for contacting us. We'll get back to you within 24 hours.
+                            Thank you for contacting us. We&apos;ll get back to you within 24 hours.
                           </p>
                         </div>
                       </div>
@@ -964,7 +962,7 @@ export default function ContactPage() {
           <h2 className="text-2xl font-bold mb-2">Still Have Questions?</h2>
           <p className="mb-6 opacity-90">
             Our team is standing by to help you succeed with StudyAI. 
-            Don't hesitate to reach out - we're here for you!
+            Don&apos;t hesitate to reach out - we&apos;re here for you!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
