@@ -66,7 +66,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     setIsLoading(true)
     try {
+      // Check remember me status before logout (since logout clears it)
+      const wasRememberMeEnabled = authService.isRememberMeEnabled()
       await authService.logout()
+      
+      // Only clear remembered email if remember me was not enabled
+      if (!wasRememberMeEnabled) {
+        authService.clearRememberedEmail()
+      }
       setUser(null)
     } catch (error) {
       console.error('Logout error:', error)

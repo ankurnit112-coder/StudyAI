@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
+import { authService } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -23,6 +24,20 @@ export default function SignInPage() {
   const [error, setError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
+  // Load remembered email and remember me preference on component mount
+  useEffect(() => {
+    const rememberedEmail = authService.getRememberedEmail()
+    const isRememberMeEnabled = authService.isRememberMeEnabled()
+    
+    if (rememberedEmail) {
+      setFormData(prev => ({
+        ...prev,
+        email: rememberedEmail,
+        rememberMe: isRememberMeEnabled
+      }))
+    }
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -31,7 +46,8 @@ export default function SignInPage() {
     try {
       await login({
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        rememberMe: formData.rememberMe
       })
       
       // Redirect to dashboard after successful login
@@ -96,6 +112,7 @@ export default function SignInPage() {
                     id="email"
                     name="email"
                     type="email"
+                    autoComplete="email"
                     required
                     className="pl-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
                     placeholder="Enter your email"
@@ -113,6 +130,7 @@ export default function SignInPage() {
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
                     required
                     className="pl-10 pr-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
                     placeholder="Enter your password"

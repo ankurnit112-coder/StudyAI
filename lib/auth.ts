@@ -1,11 +1,31 @@
 // Authentication utilities and API calls
 import { jwtDecode } from 'jwt-decode'
+import { ApiErrorHandler } from './api-error-handler'
+
+// Enhanced error types
+export class AuthError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public statusCode?: number
+  ) {
+    super(message)
+    this.name = 'AuthError'
+  }
+}
+
+export class NetworkError extends Error {
+  constructor(message: string = 'Network connection failed') {
+    super(message)
+    this.name = 'NetworkError'
+  }
+}
 
 export interface User {
   id: number
   email: string
   name: string
-  role: 'student' | 'parent' | 'admin'
+  role: 'student' | 'admin'
   currentClass?: number
   schoolName?: string
 }
@@ -19,13 +39,14 @@ export interface AuthTokens {
 export interface LoginCredentials {
   email: string
   password: string
+  rememberMe?: boolean
 }
 
 export interface SignupData {
   name: string
   email: string
   password: string
-  role: 'student' | 'parent'
+  role: 'student'
   currentClass?: number
   schoolName?: string
 }
@@ -37,12 +58,16 @@ class AuthService {
   private static instance: AuthService
   private accessToken: string | null = null
   private refreshToken: string | null = null
+  private refreshPromise: Promise<string | null> | null = null
+  private retryCount = 0
+  private maxRetries = 3
 
   private constructor() {
-    // Initialize tokens from localStorage if available
+    // Initialize tokens from storage if available
     if (typeof window !== 'undefined') {
-      this.accessToken = localStorage.getItem('access_token')
-      this.refreshToken = localStorage.getItem('refresh_token')
+      // Check localStorage first (remember me), then sessionStorage
+      this.accessToken = localStorage.getItem('access_token') || sessionStorage.getItem('access_token')
+      this.refreshToken = localStorage.getItem('refresh_token') || sessionStorage.getItem('refresh_token')
     }
   }
 
@@ -55,7 +80,7 @@ class AuthService {
 
   async login(credentials: LoginCredentials): Promise<User> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
+      const response = await this.fetchWithRetry(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,27 +89,38 @@ class AuthService {
       })
 
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.detail || 'Login failed')
+        const errorData = await ApiErrorHandler.handleApiResponse(response)
+        // This will throw an error with the proper message
       }
 
       const tokens: AuthTokens = await response.json()
       
-      // Store tokens
-      this.setTokens(tokens.access_token, tokens.refresh_token)
+      // Store tokens with remember me preference
+      this.setTokens(tokens.access_token, tokens.refresh_token, credentials.rememberMe)
+      
+      // Save email for convenience if remember me is checked
+      if (credentials.rememberMe) {
+        this.saveRememberedEmail(credentials.email)
+      }
+      
+      // Reset retry count on successful login
+      this.retryCount = 0
       
       // Decode user info from token
       const user = this.getUserFromToken(tokens.access_token)
       return user
     } catch (error) {
       console.error('Login error:', error)
-      throw error
+      
+      // Use the error handler to provide user-friendly messages
+      const friendlyMessage = ApiErrorHandler.handleAuthError(error)
+      throw new Error(friendlyMessage)
     }
   }
 
   async signup(signupData: SignupData): Promise<User> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/signup`, {
+      const response = await this.fetchWithRetry(`${API_BASE_URL}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,28 +129,34 @@ class AuthService {
       })
 
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.detail || 'Signup failed')
+        const errorData = await ApiErrorHandler.handleApiResponse(response)
+        // This will throw an error with the proper message
       }
 
       const tokens: AuthTokens = await response.json()
       
-      // Store tokens
-      this.setTokens(tokens.access_token, tokens.refresh_token)
+      // Store tokens (signup should default to remember me for convenience)
+      this.setTokens(tokens.access_token, tokens.refresh_token, true)
+      
+      // Reset retry count on successful signup
+      this.retryCount = 0
       
       // Decode user info from token
       const user = this.getUserFromToken(tokens.access_token)
       return user
     } catch (error) {
       console.error('Signup error:', error)
-      throw error
+      
+      // Use the error handler to provide user-friendly messages
+      const friendlyMessage = ApiErrorHandler.handleAuthError(error)
+      throw new Error(friendlyMessage)
     }
   }
 
   async logout(): Promise<void> {
     try {
       if (this.accessToken) {
-        await fetch(`${API_BASE_URL}/api/v1/auth/logout`, {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${this.accessToken}`,
@@ -133,8 +175,20 @@ class AuthService {
       return null
     }
 
+    // Prevent multiple simultaneous refresh requests
+    if (this.refreshPromise) {
+      return this.refreshPromise
+    }
+
+    this.refreshPromise = this.performTokenRefresh()
+    const result = await this.refreshPromise
+    this.refreshPromise = null
+    return result
+  }
+
+  private async performTokenRefresh(): Promise<string | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/refresh`, {
+      const response = await this.fetchWithRetry(`${API_BASE_URL}/api/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +202,10 @@ class AuthService {
       }
 
       const tokens: AuthTokens = await response.json()
-      this.setTokens(tokens.access_token, tokens.refresh_token)
+      // Preserve the remember me setting when refreshing tokens
+      const currentRememberMe = this.isRememberMeEnabled() || 
+        (typeof window !== 'undefined' && localStorage.getItem('access_token') !== null)
+      this.setTokens(tokens.access_token, tokens.refresh_token, currentRememberMe)
       return tokens.access_token
     } catch (error) {
       console.error('Token refresh error:', error)
@@ -177,7 +234,7 @@ class AuthService {
     }
 
     try {
-      const decoded: any = jwtDecode(this.accessToken)
+      const decoded: { exp: number } = jwtDecode(this.accessToken)
       const currentTime = Date.now() / 1000
       return decoded.exp > currentTime
     } catch (error) {
@@ -191,13 +248,25 @@ class AuthService {
     return this.accessToken
   }
 
-  private setTokens(accessToken: string, refreshToken: string): void {
+  private setTokens(accessToken: string, refreshToken: string, rememberMe?: boolean): void {
     this.accessToken = accessToken
     this.refreshToken = refreshToken
     
     if (typeof window !== 'undefined') {
-      localStorage.setItem('access_token', accessToken)
-      localStorage.setItem('refresh_token', refreshToken)
+      if (rememberMe) {
+        // Use localStorage for persistent storage (survives browser restart)
+        localStorage.setItem('access_token', accessToken)
+        localStorage.setItem('refresh_token', refreshToken)
+        localStorage.setItem('remember_me', 'true')
+      } else {
+        // Use sessionStorage for session-only storage (cleared on browser close)
+        sessionStorage.setItem('access_token', accessToken)
+        sessionStorage.setItem('refresh_token', refreshToken)
+        // Clear any existing localStorage tokens
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
+        localStorage.removeItem('remember_me')
+      }
     }
   }
 
@@ -206,13 +275,24 @@ class AuthService {
     this.refreshToken = null
     
     if (typeof window !== 'undefined') {
+      // Clear from both localStorage and sessionStorage
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
+      localStorage.removeItem('remember_me')
+      sessionStorage.removeItem('access_token')
+      sessionStorage.removeItem('refresh_token')
     }
   }
 
   private getUserFromToken(token: string): User {
-    const decoded: any = jwtDecode(token)
+    const decoded: {
+      sub: number
+      email: string
+      name: string
+      role: 'student' | 'admin'
+      current_class?: number
+      school_name?: string
+    } = jwtDecode(token)
     return {
       id: decoded.sub,
       email: decoded.email,
@@ -259,6 +339,137 @@ class AuthService {
     }
 
     return response
+  }
+
+  // Email memory methods
+  saveRememberedEmail(email: string): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('remembered_email', email)
+    }
+  }
+
+  getRememberedEmail(): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('remembered_email')
+    }
+    return null
+  }
+
+  clearRememberedEmail(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('remembered_email')
+    }
+  }
+
+  isRememberMeEnabled(): boolean {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('remember_me') === 'true'
+    }
+    return false
+  }
+
+  // Enhanced fetch with retry logic and better error handling
+  private async fetchWithRetry(url: string, options: RequestInit): Promise<Response> {
+    let lastError: Error
+
+    for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
+      try {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
+        const response = await fetch(url, {
+          ...options,
+          signal: controller.signal
+        })
+
+        clearTimeout(timeoutId)
+        return response
+      } catch (error) {
+        lastError = error as Error
+        
+        // Don't retry on abort or certain errors
+        if (error instanceof Error && error.name === 'AbortError') {
+          throw new NetworkError('Request timeout')
+        }
+
+        // Don't retry on the last attempt
+        if (attempt === this.maxRetries) {
+          break
+        }
+
+        // Exponential backoff: wait 1s, 2s, 4s
+        const delay = Math.pow(2, attempt) * 1000
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
+    }
+
+    throw new NetworkError(`Network request failed after ${this.maxRetries + 1} attempts`)
+  }
+
+  // Check if user is online
+  isOnline(): boolean {
+    return typeof navigator !== 'undefined' ? navigator.onLine : true
+  }
+
+  // Get user preferences
+  getUserPreferences(): {
+    rememberMe: boolean
+    rememberedEmail: string | null
+    theme?: string
+    language?: string
+  } {
+    if (typeof window === 'undefined') {
+      return { rememberMe: false, rememberedEmail: null }
+    }
+
+    return {
+      rememberMe: this.isRememberMeEnabled(),
+      rememberedEmail: this.getRememberedEmail(),
+      theme: localStorage.getItem('theme') || 'light',
+      language: localStorage.getItem('language') || 'en'
+    }
+  }
+
+  // Clear all user data (for complete logout)
+  clearAllUserData(): void {
+    if (typeof window === 'undefined') return
+
+    // Clear auth tokens
+    this.clearTokens()
+    
+    // Clear remembered data
+    this.clearRememberedEmail()
+    
+    // Clear other user preferences if needed
+    const keysToKeep = ['theme', 'language'] // Keep UI preferences
+    const allKeys = Object.keys(localStorage)
+    
+    allKeys.forEach(key => {
+      if (!keysToKeep.includes(key)) {
+        localStorage.removeItem(key)
+      }
+    })
+  }
+
+  // Validate token expiry
+  getTokenExpiry(): Date | null {
+    if (!this.accessToken) return null
+
+    try {
+      const decoded: { exp: number } = jwtDecode(this.accessToken)
+      return new Date(decoded.exp * 1000)
+    } catch {
+      return null
+    }
+  }
+
+  // Check if token expires soon (within 5 minutes)
+  isTokenExpiringSoon(): boolean {
+    const expiry = this.getTokenExpiry()
+    if (!expiry) return true
+
+    const fiveMinutesFromNow = new Date(Date.now() + 5 * 60 * 1000)
+    return expiry <= fiveMinutesFromNow
   }
 }
 

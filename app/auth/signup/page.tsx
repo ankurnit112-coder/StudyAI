@@ -1,9 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import { authService } from "@/lib/auth"
+import { useAuth } from "@/contexts/auth-context"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth-context"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,10 +13,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { Brain, Mail, Lock, User, ArrowLeft, GraduationCap, Users, Eye, EyeOff, CheckCircle, Shield, Smartphone, Star } from "lucide-react"
+import { Brain, Mail, Lock, User, ArrowLeft, GraduationCap, Eye, EyeOff, CheckCircle, Shield, Smartphone, Star } from "lucide-react"
 
 export default function SignUpPage() {
   const router = useRouter()
+  const { signup } = useAuth()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,13 +45,21 @@ export default function SignUpPage() {
     }
 
     try {
-      // Simulate account creation - replace with actual auth logic
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Save email for future convenience
+      authService.saveRememberedEmail(formData.email)
+      
+      // Create account using auth service
+      await signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role as 'student'
+      })
       
       // Redirect to dashboard after successful signup
       router.push("/dashboard")
-    } catch {
-      setError("Failed to create account. Please try again.")
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to create account. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -150,6 +161,7 @@ export default function SignUpPage() {
                     id="name"
                     name="name"
                     type="text"
+                    autoComplete="name"
                     required
                     className="pl-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
                     placeholder="Enter your full name"
@@ -167,6 +179,7 @@ export default function SignUpPage() {
                     id="email"
                     name="email"
                     type="email"
+                    autoComplete="email"
                     required
                     className="pl-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
                     placeholder="Enter your email"
@@ -184,6 +197,7 @@ export default function SignUpPage() {
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
                     required
                     className="pl-10 pr-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
                     placeholder="Create a strong password"
@@ -228,6 +242,7 @@ export default function SignUpPage() {
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
                     required
                     className="pl-10 pr-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
                     placeholder="Confirm your password"
@@ -259,18 +274,6 @@ export default function SignUpPage() {
                       <div>
                         <div className="font-medium">Student</div>
                         <div className="text-xs text-gray-600">Classes 9-12 CBSE</div>
-                      </div>
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:border-sky transition-colors">
-                    <RadioGroupItem value="parent" id="parent" />
-                    <Label htmlFor="parent" className="flex items-center space-x-3 cursor-pointer flex-1">
-                      <div className="w-8 h-8 bg-sage/20 rounded-full flex items-center justify-center">
-                        <Users className="h-4 w-4 text-sage" />
-                      </div>
-                      <div>
-                        <div className="font-medium">Parent/Guardian</div>
-                        <div className="text-xs text-gray-600">Monitor child&apos;s progress</div>
                       </div>
                     </Label>
                   </div>
