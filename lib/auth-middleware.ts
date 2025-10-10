@@ -17,7 +17,14 @@ export interface AuthenticatedRequest extends NextRequest {
 }
 
 export async function authenticateRequest(request: NextRequest): Promise<{
-  user: any | null
+  user: {
+    id: number
+    email: string
+    name: string
+    role: 'student' | 'admin'
+    currentClass?: number
+    schoolName?: string
+  } | null
   error: string | null
 }> {
   try {
@@ -40,7 +47,7 @@ export async function authenticateRequest(request: NextRequest): Promise<{
     }
 
     return { user, error: null }
-  } catch (error) {
+  } catch {
     return { user: null, error: 'Invalid or expired token' }
   }
 }

@@ -112,7 +112,7 @@ describe('Edge Cases Tests (100 tests)', () => {
         
         // Test object property access
         const testObj: null = null
-        expect(() => (testObj as any).property).toThrow()
+        expect(() => (testObj as unknown as { property: unknown }).property).toThrow()
         
         // Test safe property access
         const safeProperty = testObj?.property
@@ -120,7 +120,7 @@ describe('Edge Cases Tests (100 tests)', () => {
         
         // Test function call errors
         const notAFunction: string = "not a function"
-        expect(() => (notAFunction as any)()).toThrow()
+        expect(() => (notAFunction as unknown as () => void)()).toThrow()
         expect(typeof notAFunction).toBe('string')
       })
     }).forEach((testFn, _) => testFn)

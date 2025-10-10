@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
             await database.invalidateAllUserSessions(userId)
           }
         }
-      } catch (error) {
+      } catch {
         // Token is already invalid, no need to blacklist
         console.log('Token already invalid during logout')
       }
@@ -101,6 +101,8 @@ export async function POST(request: NextRequest) {
 }
 
 // Utility function to check if token is blacklisted (internal use only)
+// Currently unused but kept for future implementation
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function isTokenBlacklisted(token: string): boolean {
   return tokenBlacklist.has(token)
 }

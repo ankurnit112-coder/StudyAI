@@ -4,11 +4,11 @@ export interface ApiError {
   message: string
   code: string
   statusCode: number
-  details?: Record<string, any>
+  details?: Record<string, unknown>
 }
 
 export class ApiErrorHandler {
-  static handleAuthError(error: any): string {
+  static handleAuthError(error: unknown): string {
     if (error instanceof Error) {
       // Network errors
       if (error.name === 'NetworkError' || error.message.includes('fetch')) {
@@ -45,7 +45,7 @@ export class ApiErrorHandler {
   static handleApiResponse(response: Response): Promise<any> {
     if (!response.ok) {
       return response.json().then(
-        (errorData) => {
+        (errorData: { detail?: string }) => {
           throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`)
         },
         () => {
@@ -57,7 +57,7 @@ export class ApiErrorHandler {
     return response.json()
   }
 
-  static isRetryableError(error: any): boolean {
+  static isRetryableError(error: unknown): boolean {
     if (error instanceof Error) {
       // Network errors are retryable
       if (error.name === 'NetworkError' || error.message.includes('fetch')) {
@@ -73,7 +73,7 @@ export class ApiErrorHandler {
     return false
   }
 
-  static getErrorSeverity(error: any): 'low' | 'medium' | 'high' | 'critical' {
+  static getErrorSeverity(error: unknown): 'low' | 'medium' | 'high' | 'critical' {
     if (error instanceof Error) {
       // Critical errors
       if (error.message.includes('Internal server error')) {
@@ -96,7 +96,7 @@ export class ApiErrorHandler {
     return 'low'
   }
 
-  static shouldShowToUser(error: any): boolean {
+  static shouldShowToUser(error: unknown): boolean {
     if (error instanceof Error) {
       // Don't show internal server errors to users
       if (error.message.includes('Internal server error')) {
@@ -114,10 +114,10 @@ export class ApiErrorHandler {
     return true
   }
 
-  static formatErrorForLogging(error: any, context?: Record<string, any>): {
+  static formatErrorForLogging(error: unknown, context?: Record<string, unknown>): {
     message: string
     stack?: string
-    context?: Record<string, any>
+    context?: Record<string, unknown>
     timestamp: string
     severity: string
   } {
@@ -130,7 +130,7 @@ export class ApiErrorHandler {
     }
   }
 
-  static createUserFriendlyMessage(error: any): string {
+  static createUserFriendlyMessage(error: unknown): string {
     const baseMessage = this.handleAuthError(error)
     
     // Add helpful suggestions based on error type

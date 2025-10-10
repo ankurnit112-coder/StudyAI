@@ -89,7 +89,7 @@ class AuthService {
       })
 
       if (!response.ok) {
-        const errorData = await ApiErrorHandler.handleApiResponse(response)
+        await ApiErrorHandler.handleApiResponse(response)
         // This will throw an error with the proper message
       }
 
@@ -129,7 +129,7 @@ class AuthService {
       })
 
       if (!response.ok) {
-        const errorData = await ApiErrorHandler.handleApiResponse(response)
+        await ApiErrorHandler.handleApiResponse(response)
         // This will throw an error with the proper message
       }
 
@@ -370,8 +370,6 @@ class AuthService {
 
   // Enhanced fetch with retry logic and better error handling
   private async fetchWithRetry(url: string, options: RequestInit): Promise<Response> {
-    let lastError: Error
-
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       try {
         const controller = new AbortController()
@@ -385,8 +383,6 @@ class AuthService {
         clearTimeout(timeoutId)
         return response
       } catch (error) {
-        lastError = error as Error
-        
         // Don't retry on abort or certain errors
         if (error instanceof Error && error.name === 'AbortError') {
           throw new NetworkError('Request timeout')
@@ -394,7 +390,7 @@ class AuthService {
 
         // Don't retry on the last attempt
         if (attempt === this.maxRetries) {
-          break
+          throw new NetworkError(`Network request failed after ${this.maxRetries + 1} attempts`)
         }
 
         // Exponential backoff: wait 1s, 2s, 4s
@@ -403,6 +399,7 @@ class AuthService {
       }
     }
 
+    // This should never be reached, but TypeScript requires it
     throw new NetworkError(`Network request failed after ${this.maxRetries + 1} attempts`)
   }
 

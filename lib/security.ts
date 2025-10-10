@@ -183,7 +183,7 @@ export class SecurityUtils {
     type: 'login_attempt' | 'signup_attempt' | 'suspicious_activity' | 'rate_limit_exceeded'
     ip: string
     userAgent: string
-    details: Record<string, any>
+    details: Record<string, unknown>
     timestamp?: Date
   }): void {
     const logEntry = {
