@@ -43,6 +43,13 @@ interface StudySession {
   score?: number
 }
 
+interface SavedSubjectData {
+  name: string
+  current: number
+  predicted: number
+  trend: "up" | "down" | "stable"
+}
+
 export default function EnhancedDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
   const [studyStreak] = useState(0) // Default to 0 for new users
@@ -68,7 +75,7 @@ export default function EnhancedDashboard() {
           const data = JSON.parse(savedData)
           if (data.subjects && data.subjects.length > 0) {
             setHasAcademicData(true)
-            setSubjectPerformance(data.subjects.map((subject: any) => ({
+            setSubjectPerformance(data.subjects.map((subject: SavedSubjectData) => ({
               subject: subject.name,
               current: subject.current,
               predicted: subject.predicted,

@@ -11,23 +11,18 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import {
-  Calendar,
   Clock,
   Target,
   Brain,
   BookOpen,
   CheckCircle,
-  AlertCircle,
-  TrendingUp,
   Zap,
   Timer,
   Star,
-  Award,
   PlayCircle,
   PauseCircle,
   RotateCcw,
   Plus,
-  Trash2,
 } from "lucide-react"
 
 interface StudySession {
@@ -59,8 +54,25 @@ export default function SmartStudyPlanner() {
   const [isTimerRunning, setIsTimerRunning] = useState(false)
   const [studyPlans, setStudyPlans] = useState<Record<string, StudyPlan>>({})
   const [isLoading, setIsLoading] = useState(true)
-  const [weeklyGoals, setWeeklyGoals] = useState<any[]>([])
-  const [aiRecommendations, setAiRecommendations] = useState<any[]>([])
+  const [weeklyGoals, setWeeklyGoals] = useState<{ 
+    id: string; 
+    title: string; 
+    progress: number; 
+    target: number; 
+    subject?: string; 
+    priority?: string; 
+    deadline?: string; 
+  }[]>([])
+  const [aiRecommendations, setAiRecommendations] = useState<{ 
+    id: string; 
+    type: string; 
+    message: string; 
+    priority: 'high' | 'medium' | 'low';
+    title?: string;
+    description?: string;
+    action?: string;
+    impact?: string;
+  }[]>([])
 
   // Timer functionality
   useEffect(() => {
@@ -393,8 +405,8 @@ export default function SmartStudyPlanner() {
                       <p className="text-gray-600">{goal.target}</p>
                     </div>
                     <div className="text-right">
-                      <Badge variant="outline" className={getPriorityColor(goal.priority)}>
-                        Due {goal.deadline}
+                      <Badge variant="outline" className={getPriorityColor(goal.priority || 'medium')}>
+                        Due {goal.deadline || 'TBD'}
                       </Badge>
                     </div>
                   </div>

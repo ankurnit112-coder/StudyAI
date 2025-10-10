@@ -17,7 +17,6 @@ import {
   TrendingUp,
   Brain,
   GraduationCap,
-  Users,
   Award,
   Clock,
   CheckCircle,
@@ -27,7 +26,6 @@ import {
   Tablet,
   Zap,
   Shield,
-
 } from "lucide-react"
 
 export default function DemoPage() {
@@ -165,16 +163,7 @@ export default function DemoPage() {
                       </div>
                     </div>
                     
-                    <div className="flex items-start space-x-3">
-                      <div className="w-8 h-8 bg-teal/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Users className="h-4 w-4 text-teal" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-navy">Parent Dashboard</h4>
-                        <p className="text-sm text-gray-600">Keep parents informed with progress reports</p>
-                      </div>
-                    </div>
-                    
+
                     <div className="flex items-start space-x-3">
                       <div className="w-8 h-8 bg-yellow/20 rounded-full flex items-center justify-center flex-shrink-0">
                         <Smartphone className="h-4 w-4 text-yellow" />
@@ -300,21 +289,6 @@ export default function DemoPage() {
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                    <Users className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <h3 className="font-semibold text-navy mb-2">Parent Dashboard</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Keep parents informed with weekly progress reports and performance insights.
-                  </p>
-                  <div className="flex items-center space-x-2 text-xs text-gray-600">
-                    <CheckCircle className="h-3 w-3 text-green-600" />
-                    <span>Weekly Reports</span>
-                  </div>
-                </CardContent>
-              </Card>
 
               <Card className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
@@ -344,7 +318,7 @@ export default function DemoPage() {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-4">
-                    "                    &quot;StudyAI predicted my Physics board exam score within 2 marks! The personalized study plan helped me improve from 65% to 89%.&quot;"
+                    &quot;StudyAI predicted my Physics board exam score within 2 marks! The personalized study plan helped me improve from 65% to 89%.&quot;
                   </p>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-sky rounded-full flex items-center justify-center text-white font-semibold mr-3">
@@ -358,27 +332,7 @@ export default function DemoPage() {
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 mb-4">
-                    "                    &quot;The parent dashboard helped me track my daughter&apos;s progress. She scored 95% in Class 10 boards - exactly as StudyAI predicted!&quot;"
-                  </p>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-sage rounded-full flex items-center justify-center text-white font-semibold mr-3">
-                      P
-                    </div>
-                    <div>
-                      <p className="font-semibold text-navy">Priya Patel</p>
-                      <p className="text-sm text-gray-600">Parent, Mumbai - Daughter scored 95%</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+
 
               <Card className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
@@ -388,7 +342,7 @@ export default function DemoPage() {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-4">
-                    "                    &quot;The mobile app is perfect for studying on the go. AI recommendations helped me focus on weak areas and improve my Chemistry score by 20%.&quot;"
+                    &quot;The mobile app is perfect for studying on the go. AI recommendations helped me focus on weak areas and improve my Chemistry score by 20%.&quot;
                   </p>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-teal rounded-full flex items-center justify-center text-white font-semibold mr-3">
@@ -492,10 +446,7 @@ export default function DemoPage() {
                     <CheckCircle className="h-4 w-4 text-green-600" />
                     <span className="text-sm">Everything in Student plan</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span className="text-sm">Parent dashboard</span>
-                  </div>
+
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="h-4 w-4 text-green-600" />
                     <span className="text-sm">Up to 3 students</span>

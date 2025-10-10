@@ -11,7 +11,6 @@ import {
   Brain,
   TrendingUp,
   BookOpen,
-  Users,
   Star,
   CheckCircle,
   BarChart3,
@@ -285,15 +284,7 @@ export default function HomePage() {
               </CardHeader>
             </Card>
 
-            <Card className="professional-card professional-hover">
-              <CardHeader className="p-4 sm:p-6">
-                <Users className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-sky mb-3 sm:mb-4" />
-                <CardTitle className="text-card-title text-base sm:text-lg">Parent Dashboard</CardTitle>
-                <CardDescription className="text-card-description text-sm sm:text-base">
-                  {"Parents receive weekly progress reports and can monitor study habits and performance trends."}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+
 
             <Card className="professional-card professional-hover">
               <CardHeader className="p-4 sm:p-6">
@@ -434,32 +425,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="professional-card professional-hover">
-              <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
-                <div className="flex items-center mb-3 sm:mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-4 w-4 sm:h-5 sm:w-5 text-yellow fill-current"
-                    />
-                  ))}
-                </div>
-                <p className="text-strong mb-3 sm:mb-4 text-sm sm:text-base">
-                  {
-                    "The parent dashboard helped me track my daughter's progress. She scored 95% in Class 10 boards - exactly as StudyAI predicted!"
-                  }
-                </p>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-sage rounded-full flex items-center justify-center text-white font-semibold mr-2 sm:mr-3 text-sm sm:text-base">
-                    P
-                  </div>
-                  <div>
-                    <p className="font-semibold text-heading text-sm sm:text-base">Priya Patel</p>
-                    <p className="text-xs sm:text-sm text-muted">Parent, Mumbai - Daughter scored 95%</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+
 
             <Card className="professional-card professional-hover sm:col-span-2 lg:col-span-1">
               <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">

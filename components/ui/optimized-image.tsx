@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 interface OptimizedImageProps {
@@ -50,11 +51,11 @@ export function OptimizedImage({
         </div>
       )}
       
-      <img
+      <Image
         src={currentSrc}
         alt={alt}
-        width={width}
-        height={height}
+        width={width || 400}
+        height={height || 300}
         loading={loading}
         onLoad={handleLoad}
         onError={handleError}

@@ -77,12 +77,12 @@ async def health_check(db: Session = Depends(get_db)):
         
         # Training scheduler health check
         try:
-            from app.ml.training_scheduler import get_training_scheduler
-            scheduler = get_training_scheduler()
+            from app.ml.training_scheduler import get_scheduler_status
+            scheduler_status = get_scheduler_status()
             health_data["checks"]["training_scheduler"] = {
-                "status": "healthy" if scheduler.is_running else "stopped",
-                "training_in_progress": scheduler.training_in_progress,
-                "last_training": scheduler.last_training_time.isoformat() if scheduler.last_training_time else None
+                "status": "healthy" if scheduler_status["is_running"] else "stopped",
+                "last_training_result": scheduler_status["last_training_result"],
+                "next_scheduled_jobs": scheduler_status["next_scheduled_jobs"]
             }
         except Exception as e:
             health_data["checks"]["training_scheduler"] = "unhealthy"

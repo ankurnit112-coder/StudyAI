@@ -11,9 +11,9 @@ export interface ErrorInfo {
 
 export class StudyAIError extends Error {
   public readonly code: string
-  public readonly context?: Record<string, any>
+  public readonly context?: Record<string, unknown>
 
-  constructor(message: string, code: string = 'UNKNOWN_ERROR', context?: Record<string, any>) {
+  constructor(message: string, code: string = 'UNKNOWN_ERROR', context?: Record<string, unknown>) {
     super(message)
     this.name = 'StudyAIError'
     this.code = code
@@ -33,7 +33,7 @@ export const ERROR_CODES = {
 } as const
 
 // Global error handler
-export function handleError(error: Error | StudyAIError, context?: Record<string, any>) {
+export function handleError(error: Error | StudyAIError, context?: Record<string, unknown>) {
   const errorInfo: ErrorInfo = {
     message: error.message,
     stack: error.stack,
@@ -88,7 +88,7 @@ export const errorHandlers = {
     )
   },
 
-  validation: (field: string, value: any, rule: string) => {
+  validation: (field: string, value: unknown, rule: string) => {
     return handleError(
       new StudyAIError(
         `Validation failed for ${field}: ${rule}`,

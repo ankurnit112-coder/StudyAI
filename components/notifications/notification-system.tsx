@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -49,8 +49,65 @@ interface NotificationSettings {
   breakInterval: number
 }
 
+// Sample notifications data
+const getSampleNotifications = (): Notification[] => [
+  {
+    id: "1",
+    type: "study_reminder",
+    title: "Time to Study Mathematics!",
+    message: "Your scheduled Math session starts in 15 minutes. Topic: Integration by Parts",
+    timestamp: new Date(Date.now() - 15 * 60 * 1000),
+    read: false,
+    priority: "high",
+    actionUrl: "/study-plan",
+    actionText: "Start Session"
+  },
+  {
+    id: "2",
+    type: "ai_insight",
+    title: "AI Recommendation",
+    message: "Focus on Physics mechanics today. Your recent scores suggest 30 minutes of practice could improve your board exam prediction by 5%.",
+    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+    read: false,
+    priority: "medium",
+    actionUrl: "/insights",
+    actionText: "View Details"
+  },
+  {
+    id: "3",
+    type: "achievement",
+    title: "Study Streak Achievement!",
+    message: "Congratulations! You&apos;ve maintained a 14-day study streak. Keep it up!",
+    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
+    read: true,
+    priority: "low",
+    actionUrl: "/achievements",
+    actionText: "View Achievements"
+  },
+  {
+    id: "4",
+    type: "exam_alert",
+    title: "Physics Unit Test Tomorrow",
+    message: "Don&apos;t forget your Physics unit test tomorrow at 10:00 AM. Review mechanics problems.",
+    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
+    read: false,
+    priority: "high",
+    actionUrl: "/schedule",
+    actionText: "View Schedule"
+  },
+  {
+    id: "5",
+    type: "break_reminder",
+    title: "Take a Break",
+    message: "You&apos;ve been studying for 45 minutes. Take a 10-minute break to maintain focus.",
+    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000),
+    read: true,
+    priority: "medium"
+  }
+]
+
 export default function NotificationSystem() {
-  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [notifications, setNotifications] = useState<Notification[]>(getSampleNotifications)
   const [settings, setSettings] = useState<NotificationSettings>({
     studyReminders: true,
     breakReminders: true,
@@ -65,66 +122,6 @@ export default function NotificationSystem() {
     breakInterval: 45
   })
   const [activeTab, setActiveTab] = useState("notifications")
-
-  // Sample notifications
-  useEffect(() => {
-    const sampleNotifications: Notification[] = [
-      {
-        id: "1",
-        type: "study_reminder",
-        title: "Time to Study Mathematics!",
-        message: "Your scheduled Math session starts in 15 minutes. Topic: Integration by Parts",
-        timestamp: new Date(Date.now() - 15 * 60 * 1000),
-        read: false,
-        priority: "high",
-        actionUrl: "/study-plan",
-        actionText: "Start Session"
-      },
-      {
-        id: "2",
-        type: "ai_insight",
-        title: "AI Recommendation",
-        message: "Focus on Physics mechanics today. Your recent scores suggest 30 minutes of practice could improve your board exam prediction by 5%.",
-        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-        read: false,
-        priority: "medium",
-        actionUrl: "/insights",
-        actionText: "View Details"
-      },
-      {
-        id: "3",
-        type: "achievement",
-        title: "Study Streak Achievement!",
-        message: "Congratulations! You&apos;ve maintained a 14-day study streak. Keep it up!",
-        timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
-        read: true,
-        priority: "low",
-        actionUrl: "/achievements",
-        actionText: "View Achievements"
-      },
-      {
-        id: "4",
-        type: "exam_alert",
-        title: "Physics Unit Test Tomorrow",
-        message: "Don&apos;t forget your Physics unit test tomorrow at 10:00 AM. Review mechanics problems.",
-        timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
-        read: false,
-        priority: "high",
-        actionUrl: "/schedule",
-        actionText: "View Schedule"
-      },
-      {
-        id: "5",
-        type: "break_reminder",
-        title: "Take a Break",
-        message: "You&apos;ve been studying for 45 minutes. Take a 10-minute break to maintain focus.",
-        timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000),
-        read: true,
-        priority: "medium"
-      }
-    ]
-    setNotifications(sampleNotifications)
-  }, [])
 
   // Request notification permission
   const requestNotificationPermission = async () => {

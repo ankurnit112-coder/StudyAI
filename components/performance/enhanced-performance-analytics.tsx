@@ -40,14 +40,15 @@ interface SubjectPerformance {
   weaknesses: string[]
 }
 
-interface TimeSeriesData {
-  month: string
-  mathematics: number
-  physics: number
-  chemistry: number
-  english: number
-  average: number
-}
+// TODO: Implement time series data visualization
+// interface TimeSeriesData {
+//   month: string
+//   mathematics: number
+//   physics: number
+//   chemistry: number
+//   english: number
+//   average: number
+// }
 
 export default function EnhancedPerformanceAnalytics() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -74,13 +75,13 @@ export default function EnhancedPerformanceAnalytics() {
           const data = JSON.parse(savedData)
           if (data.subjects) {
             // Convert dashboard data to performance format
-            const performanceData: SubjectPerformance[] = data.subjects.map((subject: any) => ({
+            const performanceData: SubjectPerformance[] = data.subjects.map((subject: { name: string; current: number; target: number; trend: string; predicted?: number }) => ({
               subject: subject.name,
               currentScore: subject.current,
               previousScore: Math.max(0, subject.current - Math.random() * 10), // Simulate previous score
               trend: subject.trend,
-              improvement: subject.predicted - subject.current,
-              predictedBoard: subject.predicted,
+              improvement: (subject.predicted || subject.target) - subject.current,
+              predictedBoard: subject.predicted || subject.target,
               confidence: 85 + Math.random() * 10, // Random confidence between 85-95%
               rank: Math.floor(Math.random() * 50) + 1,
               totalStudents: 120,

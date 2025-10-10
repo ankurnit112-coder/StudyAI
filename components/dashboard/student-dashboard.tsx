@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -51,12 +51,7 @@ export default function StudentDashboard() {
   const [studentData, setStudentData] = useState<StudentData>({})
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    // Load user's academic data
-    loadStudentData()
-  }, [user])
-
-  const loadStudentData = async () => {
+  const loadStudentData = useCallback(async () => {
     try {
       setIsLoading(true)
       // In a real app, this would fetch from your backend API
@@ -84,7 +79,12 @@ export default function StudentDashboard() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    // Load user's academic data
+    loadStudentData()
+  }, [loadStudentData])
 
   const hasData = studentData.subjects && studentData.subjects.length > 0
 
@@ -594,7 +594,7 @@ export default function StudentDashboard() {
                     </div>
                     <h3 className="font-semibold mb-2">1. Add Your Subjects</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Select the subjects you're currently studying in your class.
+                      Select the subjects you&apos;re currently studying in your class.
                     </p>
                     <Button size="sm" className="bg-sky hover:bg-sky/90 text-white">
                       Add Subjects
@@ -634,7 +634,7 @@ export default function StudentDashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle>Sample Features</CardTitle>
-                  <CardDescription>Here's what you'll see once you add your data</CardDescription>
+                  <CardDescription>Here&apos;s what you&apos;ll see once you add your data</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">

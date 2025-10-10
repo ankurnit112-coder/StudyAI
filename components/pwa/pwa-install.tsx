@@ -51,9 +51,13 @@ export default function PWAInstall() {
     window.addEventListener('appinstalled', handleAppInstalled)
 
     // Check if app is already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true)
+    const checkInstallStatus = () => {
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        setIsInstalled(true)
+      }
     }
+    
+    checkInstallStatus()
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)

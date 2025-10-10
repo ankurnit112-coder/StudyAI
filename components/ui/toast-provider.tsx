@@ -21,16 +21,21 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
 
   const addToast = (message: string, type: Toast["type"], duration = 5000) => {
-    const id = Math.random().toString(36).substr(2, 9)
-    const toast: Toast = { id, message, type, duration }
-    
-    setToasts(prev => [...prev, toast])
-    
-    if (duration > 0) {
-      setTimeout(() => {
-        removeToast(id)
-      }, duration)
-    }
+    setToasts(prev => {
+      // Generate ID inside the state updater to avoid impure function calls during render
+      const id = typeof crypto !== 'undefined' && crypto.randomUUID 
+        ? crypto.randomUUID() 
+        : `toast-${Date.now()}-${Math.floor(Math.random() * 1000)}`
+      const toast: Toast = { id, message, type, duration }
+      
+      if (duration > 0) {
+        setTimeout(() => {
+          removeToast(id)
+        }, duration)
+      }
+      
+      return [...prev, toast]
+    })
   }
 
   const removeToast = (id: string) => {

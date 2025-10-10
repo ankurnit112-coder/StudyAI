@@ -93,14 +93,17 @@ async def health_check():
     try:
         # Test database connection
         from app.core.database import get_db
+        from sqlalchemy import text
+        from datetime import datetime
+        
         db = next(get_db())
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db.close()
         
         return {
             "status": "healthy",
             "database": "connected",
-            "timestamp": "2024-01-01T00:00:00Z"
+            "timestamp": datetime.now().isoformat()
         }
     except Exception as e:
         logger.error(f"Health check failed: {str(e)}")

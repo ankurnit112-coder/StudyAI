@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
+import logging
+
+logger = logging.getLogger(__name__)
 from app.ml.training_scheduler import (
     get_scheduler_status, 
     trigger_manual_training,

@@ -14,10 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
 import {
   User,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
   GraduationCap,
   Settings,
   Bell,
@@ -26,12 +22,10 @@ import {
   Edit,
   Save,
   X,
-  CheckCircle,
   Award,
   BookOpen,
   Target,
   TrendingUp,
-  Clock,
   Users,
   Star,
 } from "lucide-react"

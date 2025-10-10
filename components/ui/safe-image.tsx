@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 
 interface SafeImageProps {
   src: string
@@ -50,13 +51,13 @@ export function SafeImage({
   }
 
   return (
-    <img
+    <Image
       src={currentSrc}
       alt={alt}
       className={className}
       loading={loading}
-      width={width}
-      height={height}
+      width={width || 400}
+      height={height || 300}
       onError={handleError}
       {...props}
     />

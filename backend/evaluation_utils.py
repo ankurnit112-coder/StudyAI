@@ -1,3 +1,9 @@
+import numpy as np
+import logging
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+logger = logging.getLogger(__name__)
+
 def evaluate_models(trainer):
     """Evaluate trained models and generate performance metrics"""
     results = {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -37,10 +37,10 @@ export default function MobileNav({ isAuthenticated = false }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
-  // Close menu when route changes
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
+  // Close menu when route changes - using a callback approach
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open)
+  }
 
   const navigationItems = [
     {
@@ -151,7 +151,7 @@ export default function MobileNav({ isAuthenticated = false }: MobileNavProps) {
           })}
           
           {/* More Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <Sheet open={isOpen} onOpenChange={handleOpenChange}>
             <SheetTrigger asChild>
               <button className="flex flex-col items-center justify-center space-y-1 text-gray-600 hover:text-sky">
                 <Menu className="h-5 w-5" />

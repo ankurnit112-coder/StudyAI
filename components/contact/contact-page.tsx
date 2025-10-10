@@ -736,7 +736,7 @@ export default function ContactPage() {
                           <div key={`${file.name}-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                             <div className="flex items-center space-x-2">
                               {file.type.startsWith('image/') ? (
-                                <Image className="h-4 w-4 text-blue-500" />
+                                <Image className="h-4 w-4 text-blue-500" aria-label="Image file icon" />
                               ) : (
                                 <FileText className="h-4 w-4 text-gray-500" />
                               )}

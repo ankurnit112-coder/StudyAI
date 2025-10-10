@@ -21,16 +21,12 @@ import {
   AlertCircle,
   CheckCircle,
   Bell,
-  Repeat,
   MapPin,
-  Users,
-  Video,
   FileText,
   ChevronLeft,
   ChevronRight,
   TrendingUp,
   Filter,
-  Search,
 } from "lucide-react"
 
 interface ScheduleEvent {
@@ -51,20 +47,21 @@ interface ScheduleEvent {
   color: string
 }
 
-interface DayView {
-  date: string
-  events: ScheduleEvent[]
-  totalStudyTime: number
-  completedTasks: number
-  totalTasks: number
-}
+// TODO: Implement day view functionality
+// interface DayView {
+//   date: string
+//   events: ScheduleEvent[]
+//   totalStudyTime: number
+//   completedTasks: number
+//   totalTasks: number
+// }
 
 export default function EnhancedSchedule() {
   const [activeTab, setActiveTab] = useState("calendar")
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [showAddEvent, setShowAddEvent] = useState(false)
-  const [viewMode, setViewMode] = useState("week") // week, month, day
+  // const [viewMode, setViewMode] = useState("week") // week, month, day - TODO: Implement view mode switching
   const [filterType, setFilterType] = useState("all")
 
   // Load user's schedule data
@@ -160,91 +157,91 @@ export default function EnhancedSchedule() {
     )
   }
 
-  // Sample events for fallback (will be removed)
-  const sampleEvents: ScheduleEvent[] = [
-    {
-      id: "1",
-      title: "Mathematics Practice",
-      subject: "Mathematics",
-      type: "study",
-      date: "2025-01-19",
-      startTime: "09:00",
-      endTime: "10:30",
-      duration: 90,
-      description: "Integration by parts practice problems",
-      isRecurring: true,
-      priority: "high",
-      status: "completed",
-      reminder: true,
-      color: "bg-sky-500"
-    },
-    {
-      id: "2",
-      title: "Physics Unit Test",
-      subject: "Physics",
-      type: "exam",
-      date: "2025-01-20",
-      startTime: "10:00",
-      endTime: "12:00",
-      duration: 120,
-      description: "Mechanics and Thermodynamics",
-      location: "Room 201",
-      isRecurring: false,
-      priority: "high",
-      status: "upcoming",
-      reminder: true,
-      color: "bg-red-500"
-    },
-    {
-      id: "3",
-      title: "Chemistry Lab Report",
-      subject: "Chemistry",
-      type: "assignment",
-      date: "2025-01-21",
-      startTime: "14:00",
-      endTime: "16:00",
-      duration: 120,
-      description: "Organic chemistry synthesis report",
-      isRecurring: false,
-      priority: "medium",
-      status: "upcoming",
-      reminder: true,
-      color: "bg-green-500"
-    },
-    {
-      id: "4",
-      title: "English Literature Class",
-      subject: "English",
-      type: "class",
-      date: "2025-01-19",
-      startTime: "11:00",
-      endTime: "12:00",
-      duration: 60,
-      description: "Shakespeare's Hamlet analysis",
-      location: "Online",
-      isRecurring: true,
-      priority: "medium",
-      status: "completed",
-      reminder: false,
-      color: "bg-purple-500"
-    },
-    {
-      id: "5",
-      title: "Study Break",
-      subject: "",
-      type: "break",
-      date: "2025-01-19",
-      startTime: "15:00",
-      endTime: "15:30",
-      duration: 30,
-      description: "Relaxation and snack time",
-      isRecurring: true,
-      priority: "low",
-      status: "completed",
-      reminder: false,
-      color: "bg-gray-400"
-    }
-  ]
+  // Sample events for fallback (will be removed when backend is connected)
+  // const sampleEvents: ScheduleEvent[] = [
+  //   {
+  //     id: "1",
+  //     title: "Mathematics Practice",
+  //     subject: "Mathematics",
+  //     type: "study",
+  //     date: "2025-01-19",
+  //     startTime: "09:00",
+  //     endTime: "10:30",
+  //     duration: 90,
+  //     description: "Integration by parts practice problems",
+  //     isRecurring: true,
+  //     priority: "high",
+  //     status: "completed",
+  //     reminder: true,
+  //     color: "bg-sky-500"
+  //   },
+  //   {
+  //     id: "2",
+  //     title: "Physics Unit Test",
+  //     subject: "Physics",
+  //     type: "exam",
+  //     date: "2025-01-20",
+  //     startTime: "10:00",
+  //     endTime: "12:00",
+  //     duration: 120,
+  //     description: "Mechanics and Thermodynamics",
+  //     location: "Room 201",
+  //     isRecurring: false,
+  //     priority: "high",
+  //     status: "upcoming",
+  //     reminder: true,
+  //     color: "bg-red-500"
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "Chemistry Lab Report",
+  //     subject: "Chemistry",
+  //     type: "assignment",
+  //     date: "2025-01-21",
+  //     startTime: "14:00",
+  //     endTime: "16:00",
+  //     duration: 120,
+  //     description: "Organic chemistry synthesis report",
+  //     isRecurring: false,
+  //     priority: "medium",
+  //     status: "upcoming",
+  //     reminder: true,
+  //     color: "bg-green-500"
+  //   },
+  //   {
+  //     id: "4",
+  //     title: "English Literature Class",
+  //     subject: "English",
+  //     type: "class",
+  //     date: "2025-01-19",
+  //     startTime: "11:00",
+  //     endTime: "12:00",
+  //     duration: 60,
+  //     description: "Shakespeare's Hamlet analysis",
+  //     location: "Online",
+  //     isRecurring: true,
+  //     priority: "medium",
+  //     status: "completed",
+  //     reminder: false,
+  //     color: "bg-purple-500"
+  //   },
+  //   {
+  //     id: "5",
+  //     title: "Study Break",
+  //     subject: "",
+  //     type: "break",
+  //     date: "2025-01-19",
+  //     startTime: "15:00",
+  //     endTime: "15:30",
+  //     duration: 30,
+  //     description: "Relaxation and snack time",
+  //     isRecurring: true,
+  //     priority: "low",
+  //     status: "completed",
+  //     reminder: false,
+  //     color: "bg-gray-400"
+  //   }
+  // ]
 
 
 
@@ -333,7 +330,7 @@ export default function EnhancedSchedule() {
     const year = currentDate.getFullYear()
     const month = currentDate.getMonth()
     const firstDay = new Date(year, month, 1)
-    const lastDay = new Date(year, month + 1, 0)
+    // const lastDay = new Date(year, month + 1, 0) // TODO: Use for month navigation
     const startDate = new Date(firstDay)
     startDate.setDate(startDate.getDate() - firstDay.getDay())
     
@@ -381,7 +378,7 @@ export default function EnhancedSchedule() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Today's Events</p>
+                <p className="text-sm text-gray-600">Today&apos;s Events</p>
                 <p className="text-2xl font-bold text-navy">{getTodayEvents().length}</p>
               </div>
               <Calendar className="h-8 w-8 text-sky" />
@@ -536,7 +533,7 @@ export default function EnhancedSchedule() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Calendar className="h-5 w-5 text-sky" />
-                  <span>Today's Schedule</span>
+                  <span>Today&apos;s Schedule</span>
                 </CardTitle>
                 <CardDescription>
                   {new Date().toLocaleDateString('en-US', { 

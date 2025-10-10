@@ -32,7 +32,7 @@ import { SimpleThemeToggle } from "@/components/ui/theme-toggle"
 
 interface MainNavProps {
   isAuthenticated?: boolean
-  userRole?: "student" | "parent" | "admin"
+  userRole?: "student" | "admin"
 }
 
 export default function MainNav({ isAuthenticated = false }: MainNavProps) {

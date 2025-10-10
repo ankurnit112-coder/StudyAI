@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { OptimizedImage } from "./optimized-image"
 import { Button } from "./button"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
@@ -22,16 +22,23 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 
   const openModal = (index: number) => {
     setSelectedIndex(index)
-    if (typeof document !== 'undefined') {
-      document.body.style.overflow = 'hidden'
-    }
   }
+  
+  // Handle body overflow in useEffect to avoid direct DOM manipulation during render
+  React.useEffect(() => {
+    if (selectedIndex !== null) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedIndex])
 
   const closeModal = () => {
     setSelectedIndex(null)
-    if (typeof document !== 'undefined') {
-      document.body.style.overflow = 'unset'
-    }
   }
 
   const goToPrevious = () => {

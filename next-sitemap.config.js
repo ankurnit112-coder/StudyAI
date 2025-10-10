@@ -1,5 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
-module.exports = {
+const config = {
   siteUrl: process.env.SITE_URL || 'https://studyai.com',
   generateRobotsTxt: true,
   exclude: ['/api/*', '/auth/*'],
@@ -13,3 +13,5 @@ module.exports = {
     ],
   },
 }
+
+export default config

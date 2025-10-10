@@ -290,21 +290,7 @@ class EnhancedCBSETrainer:
                 'X': X_test_selected,
                 'y': y_test[subject]
             }
-        logger.info("Processing JSON data...")
-        
-        # Expected JSON format: list of student objects
-        training_data = []
-        
-        for student_data in data:
-            student_profile = student_data.get('profile', {})
-            academic_records = student_data.get('academic_records', [])
-            board_scores = student_data.get('board_scores', {})
-            
-            if academic_records and board_scores:
-                training_data.append((student_profile, academic_records, board_scores))
-        
-        logger.info(f"Processed {len(training_data)} students from JSON")
-        return training_data
+
     
     def extract_enhanced_features(self, student_profile, academic_records):
         """Extract enhanced features with more sophisticated engineering"""
