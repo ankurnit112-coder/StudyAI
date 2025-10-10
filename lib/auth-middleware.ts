@@ -31,7 +31,7 @@ export async function authenticateRequest(request: NextRequest): Promise<{
     const { payload } = await jwtVerify(token, JWT_SECRET)
     
     const user = {
-      id: payload.sub as number,
+      id: parseInt(payload.sub as string),
       email: payload.email as string,
       name: payload.name as string,
       role: payload.role as 'student' | 'admin',

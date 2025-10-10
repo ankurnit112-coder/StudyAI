@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
 
     // Create tokens (signup defaults to remember me for better UX)
     const accessToken = await new SignJWT({
-      sub: newUser.id,
+      sub: newUser.id.toString(),
       email: newUser.email,
       name: newUser.name,
       role: newUser.role,
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
       .sign(JWT_SECRET)
 
     const refreshToken = await new SignJWT({
-      sub: newUser.id,
+      sub: newUser.id.toString(),
       type: 'refresh',
       remember_me: true
     })
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       .sign(JWT_SECRET)
 
     // Set secure HTTP-only cookies
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

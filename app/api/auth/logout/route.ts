@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   
   try {
     const authHeader = request.headers.get('authorization')
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     
     // Get token from header or cookies
     let token = authHeader?.replace('Bearer ', '')
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       try {
         // Verify token before blacklisting
         const { payload } = await jwtVerify(token, JWT_SECRET)
-        userId = payload.sub as number
+        userId = parseInt(payload.sub as string)
         
         // Add token to blacklist (in production, use Redis or database)
         tokenBlacklist.add(token)
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
     console.error('Logout error:', error)
     
     // Still clear cookies even if there's an error
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Utility function to check if token is blacklisted
-export function isTokenBlacklisted(token: string): boolean {
+// Utility function to check if token is blacklisted (internal use only)
+function isTokenBlacklisted(token: string): boolean {
   return tokenBlacklist.has(token)
 }

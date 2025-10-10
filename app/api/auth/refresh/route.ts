@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const userId = payload.sub as number
+    const userId = parseInt(payload.sub as string)
     
     // Find user by ID
     const user = await database.getUserById(userId)
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     // Create new access token
     const accessTokenExpiry = rememberMe ? '7d' : '1h'
     const accessToken = await new SignJWT({
-      sub: user.id,
+      sub: user.id.toString(),
       email: user.email,
       name: user.name,
       role: user.role,
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     // Create new refresh token (rotate refresh tokens for security)
     const refreshTokenExpiry = rememberMe ? '30d' : '7d'
     const newRefreshToken = await new SignJWT({
-      sub: user.id,
+      sub: user.id.toString(),
       type: 'refresh',
       remember_me: rememberMe
     })
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       .sign(JWT_SECRET)
 
     // Update cookies
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
     console.error('Token refresh error:', error)
     
     // Clear invalid cookies
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     cookieStore.delete('access_token')
     cookieStore.delete('refresh_token')
     

@@ -143,7 +143,7 @@ export class SecurityUtils {
     
     // Check for SQL injection patterns
     const sqlPatterns = [
-      /('|(\\')|(;)|(\\;)|(\|)|(\*)|(%)|(<)|(>)|(\{)|(\})|(\[)|(\])/i,
+      /['";\\|*%<>{}[\]]/i,
       /(union|select|insert|delete|update|drop|create|alter|exec|execute)/i
     ]
     

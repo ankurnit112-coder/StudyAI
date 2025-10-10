@@ -10,7 +10,7 @@ const JWT_SECRET = new TextEncoder().encode(
 export async function GET(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization')
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     
     // Get token from header or cookies
     let token = authHeader?.replace('Bearer ', '')
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     // Verify token
     const { payload } = await jwtVerify(token, JWT_SECRET)
-    const userId = payload.sub as number
+    const userId = parseInt(payload.sub as string)
 
     // Find user
     const user = await database.getUserById(userId)

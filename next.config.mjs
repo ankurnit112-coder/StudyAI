@@ -81,6 +81,16 @@ const nextConfig = {
   
   // Webpack configuration
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Fix for "self is not defined" error
+    if (isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      }
+    }
+    
     // Production optimizations
     if (!dev) {
       config.optimization.splitChunks = {
@@ -99,7 +109,7 @@ const nextConfig = {
   },
   
   // Server external packages (moved from experimental.serverComponentsExternalPackages)
-  serverExternalPackages: ['@prisma/client'],
+  serverExternalPackages: ['@prisma/client', 'bcryptjs'],
   
   // Experimental features
   experimental: {

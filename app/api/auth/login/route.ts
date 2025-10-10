@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
     const refreshTokenExpiry = rememberMe ? '30d' : '7d'
 
     const accessToken = await new SignJWT({
-      sub: user.id,
+      sub: user.id.toString(),
       email: user.email,
       name: user.name,
       role: user.role,
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
       .sign(JWT_SECRET)
 
     const refreshToken = await new SignJWT({
-      sub: user.id,
+      sub: user.id.toString(),
       type: 'refresh',
       remember_me: rememberMe
     })
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
       .sign(JWT_SECRET)
 
     // Set secure HTTP-only cookies for additional security
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
