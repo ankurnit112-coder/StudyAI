@@ -42,7 +42,7 @@ export class ApiErrorHandler {
     return 'An unexpected error occurred. Please try again.'
   }
 
-  static handleApiResponse(response: Response): Promise<any> {
+  static handleApiResponse(response: Response): Promise<unknown> {
     if (!response.ok) {
       return response.json().then(
         (errorData: { detail?: string }) => {
