@@ -84,7 +84,7 @@ export default function EnhancedSchedule() {
 
   useEffect(() => {
     loadScheduleData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const generateSampleEvents = (): ScheduleEvent[] => {
     const today = new Date()

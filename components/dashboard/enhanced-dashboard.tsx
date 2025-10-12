@@ -50,6 +50,8 @@ export default function EnhancedDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
   const [studyStreak] = useState(0) // Default to 0 for new users
   
+  const [todayProgress, setTodayProgress] = useState(0)
+  
   // Calculate today's progress based on actual data
   const calculateTodayProgress = () => {
     if (!hasAcademicData || subjectPerformance.length === 0) return 0
@@ -58,8 +60,6 @@ export default function EnhancedDashboard() {
     const avgPerformance = subjectPerformance.reduce((sum, s) => sum + s.current, 0) / subjectPerformance.length
     return Math.min(Math.round(avgPerformance), 100)
   }
-  
-  const [todayProgress] = useState(calculateTodayProgress())
   const [isNewUser, setIsNewUser] = useState(true) // Check if user is new
   const [hasAcademicData, setHasAcademicData] = useState(false)
 
@@ -72,11 +72,12 @@ export default function EnhancedDashboard() {
       if (savedRecords || savedSchedule) {
         setHasAcademicData(true)
         setIsNewUser(false)
+        setTodayProgress(calculateTodayProgress())
       }
     }
     
     checkExistingData()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const [subjectPerformance, setSubjectPerformance] = useState<SubjectPerformance[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
