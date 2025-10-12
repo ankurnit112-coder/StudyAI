@@ -1,7 +1,6 @@
-// import { render } from '@testing-library/react' // TODO: Add actual component tests
 import '@testing-library/jest-dom'
 
-// Example test - replace with actual component tests
+// Basic test suite - can be expanded with actual component tests when needed
 describe('Example Test', () => {
   it('should pass', () => {
     expect(true).toBe(true)

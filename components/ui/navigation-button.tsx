@@ -71,7 +71,9 @@ export default function NavigationButton({
       router.push(href)
       
     } catch (error) {
-      console.error('Navigation error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Navigation error:', error)
+      }
       // Handle navigation errors gracefully
       if (href) {
         // Fallback to window.location for critical navigation

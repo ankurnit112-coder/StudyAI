@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import AcademicDataForm from "@/components/forms/academic-data-form"
 import { userDataService } from "@/lib/user-data-service"
+import { useRouter } from "next/navigation"
 import {
   BarChart3,
   TrendingUp,
@@ -25,7 +26,8 @@ import {
   Clock,
   CheckCircle,
   AlertTriangle,
-  Plus
+  Plus,
+  ArrowLeft
 } from "lucide-react"
 
 interface SubjectPerformance {
@@ -42,7 +44,7 @@ interface SubjectPerformance {
   weaknesses: string[]
 }
 
-// TODO: Implement time series data visualization
+// Time series data visualization - reserved for future implementation
 // interface TimeSeriesData {
 //   month: string
 //   mathematics: number
@@ -53,6 +55,7 @@ interface SubjectPerformance {
 // }
 
 export default function EnhancedPerformanceAnalytics() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("overview")
   const [timeRange, setTimeRange] = useState("6months")
   const [selectedSubject, setSelectedSubject] = useState("all")
@@ -95,7 +98,9 @@ export default function EnhancedPerformanceAnalytics() {
         setHasUserData(false)
       }
     } catch (error) {
-      console.error('Failed to load performance data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load performance data:', error)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -124,7 +129,9 @@ export default function EnhancedPerformanceAnalytics() {
       setHasUserData(true)
       loadPerformanceData() // Reload with new data
     } catch (error) {
-      console.error('Failed to save user data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to save user data:', error)
+      }
     }
   }
 
@@ -132,6 +139,18 @@ export default function EnhancedPerformanceAnalytics() {
     return (
       <div className="min-h-screen bg-background p-6">
         <div className="max-w-7xl mx-auto">
+          {/* Back Navigation */}
+          <div className="mb-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => router.back()}
+              className="text-sky hover:text-sky/80"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </div>
+          
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-8 h-8 border-2 border-sky border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -147,6 +166,18 @@ export default function EnhancedPerformanceAnalytics() {
     return (
       <div className="min-h-screen bg-background p-6">
         <div className="max-w-7xl mx-auto space-y-6">
+          {/* Back Navigation */}
+          <div className="mb-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => router.back()}
+              className="text-sky hover:text-sky/80"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </div>
+          
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground">Performance Analytics</h1>
@@ -235,18 +266,19 @@ export default function EnhancedPerformanceAnalytics() {
 
   return (
     <div className="space-y-6">
-      {/* Demo Notice */}
-      <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-        <div className="flex items-center space-x-2">
-          <BarChart3 className="h-5 w-5 text-purple-600" />
-          <div>
-            <h3 className="font-semibold text-purple-800">Sample Analytics</h3>
-            <p className="text-sm text-purple-700">
-              This shows example performance data. Connect your academic records to see real analytics and AI-powered insights about your progress.
-            </p>
-          </div>
-        </div>
+      {/* Back Navigation */}
+      <div className="mb-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => router.back()}
+          className="text-sky hover:text-sky/80"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
       </div>
+      
+
 
       {/* Header */}
       <div className="flex items-center justify-between">

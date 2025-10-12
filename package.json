@@ -17,7 +17,7 @@
     "build": "next build",
     "build:no-lint": "SKIP_ENV_VALIDATION=true next build",
     "dev": "next dev",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "next lint",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "start": "next start",
     "type-check": "tsc --noEmit",
@@ -36,7 +36,11 @@
     "deploy:legacy": "node deploy-vercel.js",
     "verify": "node verify-deployment.js",
     "verify:deployment": "node scripts/verify-deployment.js",
-    "deploy:full": "npm run build && npm run deploy:vercel && npm run verify:deployment"
+    "deploy:full": "npm run build && npm run deploy:vercel && npm run verify:deployment",
+    "test:env": "node scripts/check-env.js",
+    "test:db": "node scripts/setup-database.js",
+    "test:auth": "node scripts/test-supabase.js",
+    "setup:migration": "node scripts/run-migration.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -75,6 +79,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
+    "dotenv": "^17.2.3",
     "embla-carousel-react": "8.5.1",
     "geist": "^1.3.1",
     "input-otp": "1.4.1",

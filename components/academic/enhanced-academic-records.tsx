@@ -59,10 +59,10 @@ export default function EnhancedAcademicRecords() {
   const [editingRecord, setEditingRecord] = useState<ExamRecord | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [filterSubject, setFilterSubject] = useState("all")
+  const [records, setRecords] = useState<ExamRecord[]>([])
   const [filterTerm, setFilterTerm] = useState("all")
 
-  // Empty by default for new users - they need to add their own records
-  const examRecords: ExamRecord[] = []
+  // Use records state instead of empty array
 
   // Empty by default - will be calculated from actual exam records
   const subjectStats: SubjectStats[] = []
@@ -118,9 +118,28 @@ export default function EnhancedAcademicRecords() {
       }
 
       // Calculate percentage for future use
-      // TODO: Use percentage and grade calculation when implementing backend storage
-      // const percentage = Math.round(((obtainedMarks / maxMarks) * 100) * 100) / 100 // Round to 2 decimal places
-      // const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : percentage >= 50 ? "C" : "D"
+      // Grade calculation logic - will be used when backend storage is implemented
+      const percentage = Math.round(((obtainedMarks / maxMarks) * 100) * 100) / 100 // Round to 2 decimal places
+      const grade = percentage >= 90 ? "A+" : percentage >= 80 ? "A" : percentage >= 70 ? "B+" : percentage >= 60 ? "B" : percentage >= 50 ? "C" : "D"
+
+      // Create new record
+      const newRecord: ExamRecord = {
+        id: Date.now().toString(),
+        subject: formData.subject,
+        examType: formData.examType,
+        date: formData.date,
+        maxMarks: maxMarks,
+        obtainedMarks: obtainedMarks,
+        percentage: percentage,
+        grade: grade,
+        term: formData.term,
+        year: new Date().getFullYear().toString(),
+        notes: formData.notes,
+        trend: "stable" as const
+      }
+
+      // Add to records
+      setRecords(prev => [...prev, newRecord])
 
       toast.success("Exam record added successfully!")
       setShowAddForm(false)
@@ -154,12 +173,12 @@ export default function EnhancedAcademicRecords() {
   }
 
   const handleDelete = (id: string) => {
-    // TODO: Implement actual deletion logic with backend API
-    console.log("Deleting record with id:", id)
+    // Remove record from local state (will be replaced with API call)
+    setRecords(prev => prev.filter(record => record.id !== id))
     toast.success("Exam record deleted successfully!")
   }
 
-  const filteredRecords = examRecords.filter(record => {
+  const filteredRecords = records.filter(record => {
     const matchesSearch = record.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          record.examType.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesSubject = filterSubject === "all" || record.subject === filterSubject
@@ -210,7 +229,7 @@ export default function EnhancedAcademicRecords() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Total Exams</p>
-                <p className="text-2xl font-bold text-navy">{examRecords.length}</p>
+                <p className="text-2xl font-bold text-navy">{records.length}</p>
               </div>
               <FileText className="h-8 w-8 text-sky" />
             </div>
@@ -222,7 +241,7 @@ export default function EnhancedAcademicRecords() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Average Score</p>
-                <p className="text-2xl font-bold text-sage">{examRecords.length > 0 ? "82.1%" : "0%"}</p>
+                <p className="text-2xl font-bold text-sage">{records.length > 0 ? "82.1%" : "0%"}</p>
               </div>
               <BarChart3 className="h-8 w-8 text-sage" />
             </div>
@@ -234,7 +253,7 @@ export default function EnhancedAcademicRecords() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Best Score</p>
-                <p className="text-2xl font-bold text-green-600">{examRecords.length > 0 ? "95%" : "0%"}</p>
+                <p className="text-2xl font-bold text-green-600">{records.length > 0 ? "95%" : "0%"}</p>
               </div>
               <Award className="h-8 w-8 text-yellow" />
             </div>
@@ -246,7 +265,7 @@ export default function EnhancedAcademicRecords() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Improvement</p>
-                <p className="text-2xl font-bold text-teal">{examRecords.length > 0 ? "+8.5%" : "0%"}</p>
+                <p className="text-2xl font-bold text-teal">{records.length > 0 ? "+8.5%" : "0%"}</p>
               </div>
               <TrendingUp className="h-8 w-8 text-teal" />
             </div>

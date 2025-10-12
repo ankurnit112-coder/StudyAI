@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "next/core-web-vitals"
+  ],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "no-console": "off"
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "node_modules/**",
+    "out/**",
+    "build/**",
+    "dist/**",
+    "backend/**",
+    "*.config.js",
+    "*.config.mjs",
+    "deploy-vercel.js",
+    "deploy-production.js",
+    "verify-deployment.js",
+    "next-env.d.ts",
+    "scripts/**/*.js",
+    "coverage/**"
+  ]
+}

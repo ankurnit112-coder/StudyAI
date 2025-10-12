@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StudyAI Deployment Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .loading { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { padding: 10px 20px; margin: 10px 5px; cursor: pointer; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>StudyAI Deployment Test</h1>
+    <p>This page will test your authentication endpoints.</p>
+    
+    <div id="results"></div>
+    
+    <button onclick="testEndpoints()">Test All Endpoints</button>
+    <button onclick="testSignup()">Test Signup</button>
+    <button onclick="testLogin()">Test Login</button>
+    
+    <script>
+        const API_BASE = window.location.origin;
+        
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong>: ${message}`;
+            results.appendChild(div);
+        }
+        
+        async function testEndpoint(path, options = {}) {
+            try {
+                log(`Testing ${path}...`, 'loading');
+                const response = await fetch(`${API_BASE}${path}`, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+                
+                const data = await response.text();
+                
+                if (response.ok) {
+                    log(`✅ ${path} - Status: ${response.status}`, 'success');
+                    if (data) {
+                        log(`Response: <pre>${data.substring(0, 200)}...</pre>`, 'success');
+                    }
+                } else {
+                    log(`❌ ${path} - Status: ${response.status}`, 'error');
+                    log(`Error: <pre>${data}</pre>`, 'error');
+                }
+                
+                return { ok: response.ok, status: response.status, data };
+            } catch (error) {
+                log(`❌ ${path} - Network Error: ${error.message}`, 'error');
+                return { ok: false, error: error.message };
+            }
+        }
+        
+        async function testEndpoints() {
+            document.getElementById('results').innerHTML = '';
+            log('Starting endpoint tests...', 'loading');
+            
+            // Test basic endpoints
+            await testEndpoint('/api/health');
+            await testEndpoint('/');
+            
+            log('Basic tests completed!', 'success');
+        }
+        
+        async function testSignup() {
+            const testUser = {
+                name: 'Test User',
+                email: `test${Date.now()}@example.com`,
+                password: 'TestPassword123!',
+                role: 'student'
+            };
+            
+            await testEndpoint('/api/auth/signup', {
+                method: 'POST',
+                body: JSON.stringify(testUser)
+            });
+        }
+        
+        async function testLogin() {
+            const testCredentials = {
+                email: 'test@example.com',
+                password: 'TestPassword123!'
+            };
+            
+            await testEndpoint('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify(testCredentials)
+            });
+        }
+        
+        // Auto-run basic tests on page load
+        window.onload = () => {
+            log(`Testing deployment at: ${API_BASE}`, 'info');
+            testEndpoints();
+        };
+    </script>
+</body>
+</html>

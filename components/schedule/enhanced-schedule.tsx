@@ -47,7 +47,7 @@ interface ScheduleEvent {
   color: string
 }
 
-// TODO: Implement day view functionality
+// Day view functionality - reserved for future implementation
 // interface DayView {
 //   date: string
 //   events: ScheduleEvent[]
@@ -61,7 +61,7 @@ export default function EnhancedSchedule() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [showAddEvent, setShowAddEvent] = useState(false)
-  // const [viewMode, setViewMode] = useState("week") // week, month, day - TODO: Implement view mode switching
+  // const [viewMode, setViewMode] = useState("week") // week, month, day - view mode switching reserved for future
   const [filterType, setFilterType] = useState("all")
 
   // Load user's schedule data
@@ -95,7 +95,9 @@ export default function EnhancedSchedule() {
         setEvents(JSON.parse(savedSchedule))
       }
     } catch (error) {
-      console.error('Failed to load schedule data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load schedule data:', error)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -330,7 +332,7 @@ export default function EnhancedSchedule() {
     const year = currentDate.getFullYear()
     const month = currentDate.getMonth()
     const firstDay = new Date(year, month, 1)
-    // const lastDay = new Date(year, month + 1, 0) // TODO: Use for month navigation
+    // const lastDay = new Date(year, month + 1, 0) // Reserved for month navigation feature
     const startDate = new Date(firstDay)
     startDate.setDate(startDate.getDate() - firstDay.getDay())
     

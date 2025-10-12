@@ -106,76 +106,14 @@ CREATE INDEX idx_study_sessions_user_id ON study_sessions(user_id);
 CREATE INDEX idx_predictions_user_id ON predictions(user_id);
 CREATE INDEX idx_study_recommendations_user_id ON study_recommendations(user_id);
 
--- Create Row Level Security (RLS) policies
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE academic_records ENABLE ROW LEVEL SECURITY;
-ALTER TABLE study_sessions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE predictions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE study_recommendations ENABLE ROW LEVEL SECURITY;
-
--- Users can only see and modify their own data
-CREATE POLICY "Users can view own profile" ON users
-    FOR SELECT USING (id = auth.uid()::uuid);
-
-CREATE POLICY "Users can update own profile" ON users
-    FOR UPDATE USING (id = auth.uid()::uuid);
-
--- Sessions policies
-CREATE POLICY "Users can view own sessions" ON user_sessions
-    FOR SELECT USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can insert own sessions" ON user_sessions
-    FOR INSERT WITH CHECK (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can update own sessions" ON user_sessions
-    FOR UPDATE USING (user_id = auth.uid()::uuid);
-
--- Academic records policies
-CREATE POLICY "Users can view own academic records" ON academic_records
-    FOR SELECT USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can insert own academic records" ON academic_records
-    FOR INSERT WITH CHECK (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can update own academic records" ON academic_records
-    FOR UPDATE USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can delete own academic records" ON academic_records
-    FOR DELETE USING (user_id = auth.uid()::uuid);
-
--- Study sessions policies
-CREATE POLICY "Users can view own study sessions" ON study_sessions
-    FOR SELECT USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can insert own study sessions" ON study_sessions
-    FOR INSERT WITH CHECK (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can update own study sessions" ON study_sessions
-    FOR UPDATE USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can delete own study sessions" ON study_sessions
-    FOR DELETE USING (user_id = auth.uid()::uuid);
-
--- Predictions policies
-CREATE POLICY "Users can view own predictions" ON predictions
-    FOR SELECT USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can insert own predictions" ON predictions
-    FOR INSERT WITH CHECK (user_id = auth.uid()::uuid);
-
--- Study recommendations policies
-CREATE POLICY "Users can view own recommendations" ON study_recommendations
-    FOR SELECT USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can insert own recommendations" ON study_recommendations
-    FOR INSERT WITH CHECK (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can update own recommendations" ON study_recommendations
-    FOR UPDATE USING (user_id = auth.uid()::uuid);
-
-CREATE POLICY "Users can delete own recommendations" ON study_recommendations
-    FOR DELETE USING (user_id = auth.uid()::uuid);
+-- Disable Row Level Security for now since we're using service role key
+-- We'll handle authorization in the application layer
+-- ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE academic_records ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE study_sessions ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE predictions ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE study_recommendations ENABLE ROW LEVEL SECURITY;
 
 -- Create functions for common operations
 CREATE OR REPLACE FUNCTION increment_login_attempts(user_email TEXT)

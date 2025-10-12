@@ -79,7 +79,9 @@ export default function EnhancedDashboard() {
         }
       }
     } catch (error) {
-      console.error('Failed to load user data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load user data:', error)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -108,7 +110,9 @@ export default function EnhancedDashboard() {
       setHasAcademicData(true)
       loadUserData() // Reload the dashboard with new data
     } catch (error) {
-      console.error('Failed to save user data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to save user data:', error)
+      }
     }
   }
 

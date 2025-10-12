@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { useRouter } from "next/navigation"
 import {
   Clock,
   Target,
@@ -23,6 +24,7 @@ import {
   PauseCircle,
   RotateCcw,
   Plus,
+  ArrowLeft,
 } from "lucide-react"
 
 interface StudySession {
@@ -48,6 +50,7 @@ interface StudyPlan {
 }
 
 export default function SmartStudyPlanner() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("today")
   const [currentSession, setCurrentSession] = useState<StudySession | null>(null)
   const [timer, setTimer] = useState(0)
@@ -113,7 +116,9 @@ export default function SmartStudyPlanner() {
         setAiRecommendations(JSON.parse(savedRecommendations))
       }
     } catch (error) {
-      console.error('Failed to load additional data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load additional data:', error)
+      }
     }
   }
 
@@ -126,7 +131,9 @@ export default function SmartStudyPlanner() {
         setStudyPlans(JSON.parse(savedPlans))
       }
     } catch (error) {
-      console.error('Failed to load study plans:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load study plans:', error)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -196,6 +203,18 @@ export default function SmartStudyPlanner() {
   if (todaysPlan.sessions.length === 0 && weeklyGoals.length === 0) {
     return (
       <div className="space-y-6">
+        {/* Back Navigation */}
+        <div className="mb-6">
+          <Button 
+            variant="ghost" 
+            onClick={() => router.back()}
+            className="text-sky hover:text-sky/80"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+        </div>
+        
         <Card className="border-2 border-dashed border-gray-300">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <div className="text-center space-y-4">
@@ -227,6 +246,17 @@ export default function SmartStudyPlanner() {
 
   return (
     <div className="space-y-6">
+      {/* Back Navigation */}
+      <div className="mb-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => router.back()}
+          className="text-sky hover:text-sky/80"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+      </div>
       {/* Active Session Timer */}
       {currentSession && (
         <Card className="bg-gradient-to-r from-sky/10 to-sage/10 border-sky/20">

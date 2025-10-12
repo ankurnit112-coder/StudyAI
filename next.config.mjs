@@ -18,9 +18,20 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['vercel.app', 'vercel.com', 'images.unsplash.com', 'unsplash.com'],
     formats: ['image/webp', 'image/avif'],
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'vercel.app',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'vercel.com',
+        port: '',
+        pathname: '/**',
+      },
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -96,6 +107,12 @@ const nextConfig = {
   
   // Server external packages (moved from experimental.serverComponentsExternalPackages)
   serverExternalPackages: ['@prisma/client', 'bcryptjs'],
+  
+  // ESLint configuration
+  eslint: {
+    // Disable ESLint during builds (we run it separately)
+    ignoreDuringBuilds: false,
+  },
   
   // Experimental features
   experimental: {

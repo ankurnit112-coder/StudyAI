@@ -81,7 +81,9 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
       const userKey = `studentData_${data.name}_${data.currentClass}`
       localStorage.setItem(userKey, JSON.stringify(dashboardData))
     } catch (error) {
-      console.error('Failed to save student data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to save student data:', error)
+      }
     }
   }
 
@@ -209,7 +211,9 @@ export default function PredictionForm({ onComplete }: PredictionFormProps) {
         throw new Error(result.error || 'Prediction failed')
       }
     } catch (error: unknown) {
-      console.error("Prediction failed:", error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Prediction failed:", error)
+      }
       setFormState('error')
       setLastError(error instanceof Error ? error.message : "Failed to generate predictions")
       // Fallback to mock data if API fails

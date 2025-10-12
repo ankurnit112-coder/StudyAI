@@ -15,7 +15,6 @@ interface RefreshRequest {
 export async function POST(request: NextRequest) {
   const ip = SecurityUtils.getClientIP(request)
   // userAgent currently unused but kept for future logging implementation
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const userAgent = request.headers.get('user-agent') || ''
   
   try {

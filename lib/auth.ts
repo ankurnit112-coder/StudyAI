@@ -51,8 +51,18 @@ export interface SignupData {
   schoolName?: string
 }
 
-// API Base URL - adjust based on your backend deployment
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+// API Base URL - use Next.js API routes
+// Force use window.location.origin in production to ensure correct URL
+const API_BASE_URL = typeof window !== 'undefined' 
+  ? window.location.origin 
+  : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000')
+
+// Debug logging for API URL
+if (typeof window !== 'undefined') {
+  console.log('API_BASE_URL:', API_BASE_URL)
+  console.log('NEXT_PUBLIC_API_URL:', process.env.NEXT_PUBLIC_API_URL)
+  console.log('window.location.origin:', window.location.origin)
+}
 
 class AuthService {
   private static instance: AuthService

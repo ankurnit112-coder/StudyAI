@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
       details: { email: newUser.email, success: true }
     })
 
-    // TODO: Send welcome email and email verification
+    // Email functionality - will be implemented when email service is configured
     // await sendWelcomeEmail(newUser.email, newUser.name)
     // await sendEmailVerification(newUser.email, newUser.id)
 

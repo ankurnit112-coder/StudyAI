@@ -131,7 +131,10 @@ export default function ContactPage() {
         throw new Error("Submission failed")
       }
     } catch (error) {
-      console.error('Contact form submission error:', error)
+      // Log error for debugging in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Contact form submission error:', error)
+      }
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)

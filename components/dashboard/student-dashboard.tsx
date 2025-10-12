@@ -75,7 +75,9 @@ export default function StudentDashboard() {
         setStudentData(JSON.parse(savedData))
       }
     } catch (error) {
-      console.error('Failed to load student data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load student data:', error)
+      }
     } finally {
       setIsLoading(false)
     }

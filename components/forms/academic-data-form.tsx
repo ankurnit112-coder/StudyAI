@@ -64,6 +64,7 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
   const [academicRecords, setAcademicRecords] = useState<AcademicRecord[]>([])
   const [studySessions, setStudySessions] = useState<StudySession[]>([])
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const cbseSubjects = [
     "Mathematics", "Physics", "Chemistry", "Biology", 
@@ -77,13 +78,32 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
     "Practice Test", "Mock Test", "Assignment", "Project"
   ]
 
+  // Validation functions without side effects for checking state
+  const isProfileValid = () => {
+    return profile.name.trim() !== "" && 
+           profile.class !== "" && 
+           profile.school.trim() !== "" && 
+           profile.subjects.length >= 3 && 
+           profile.subjects.length <= 6
+  }
+
+  const areAcademicRecordsValid = () => {
+    if (academicRecords.length === 0) return false
+    
+    const recordSubjects = [...new Set(academicRecords.map(r => r.subject))]
+    const missingSubjects = profile.subjects.filter(s => !recordSubjects.includes(s))
+    
+    return missingSubjects.length === 0
+  }
+
+  // Validation functions with side effects for form submission
   const validateProfile = () => {
     const newErrors: { [key: string]: string } = {}
     
     if (!profile.name.trim()) newErrors.name = "Name is required"
     if (!profile.class) newErrors.class = "Class is required"
     if (!profile.school.trim()) newErrors.school = "School name is required"
-    if (profile.subjects.length === 0) newErrors.subjects = "Select at least one subject"
+    if (profile.subjects.length < 3) newErrors.subjects = "Select at least 3 subjects"
     if (profile.subjects.length > 6) newErrors.subjects = "Maximum 6 subjects allowed"
     
     setErrors(newErrors)
@@ -165,26 +185,34 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
     setStudySessions(sessions => sessions.filter(s => s.id !== id))
   }
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (!validateProfile() || !validateAcademicRecords()) {
       return
     }
     
-    onComplete({
-      profile,
-      academicRecords,
-      studySessions
-    })
+    setIsSubmitting(true)
+    
+    try {
+      await onComplete({
+        profile,
+        academicRecords,
+        studySessions
+      })
+    } catch (error) {
+      console.error('Error completing profile:', error)
+      setErrors({ submit: 'Failed to save profile. Please try again.' })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const getCompletionPercentage = () => {
     let completed = 0
-    const total = 4
+    const total = 3 // Profile, Records, Complete (Sessions are optional)
     
-    if (profile.name && profile.class && profile.school && profile.subjects.length > 0) completed++
-    if (academicRecords.length > 0) completed++
-    if (studySessions.length > 0) completed++
-    completed++ // Always count the final step
+    if (isProfileValid()) completed++
+    if (areAcademicRecordsValid()) completed++
+    if (isProfileValid() && areAcademicRecordsValid()) completed++ // Ready to complete
     
     return Math.round((completed / total) * 100)
   }
@@ -208,25 +236,71 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
         </CardContent>
       </Card>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs value={activeTab} onValueChange={(value) => {
+        // Only allow navigation to previous tabs or if current tab is valid
+        if (value === "profile") {
+          setActiveTab(value)
+        } else if (value === "records" && isProfileValid()) {
+          setActiveTab(value)
+        } else if (value === "sessions" && isProfileValid() && areAcademicRecordsValid()) {
+          setActiveTab(value)
+        } else if (value === "complete" && isProfileValid() && areAcademicRecordsValid()) {
+          setActiveTab(value)
+        }
+      }}>
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="profile" className="flex items-center gap-2">
             <BookOpen className="h-4 w-4" />
             Profile
           </TabsTrigger>
-          <TabsTrigger value="records" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="records" 
+            className="flex items-center gap-2"
+            disabled={!isProfileValid()}
+          >
             <BarChart3 className="h-4 w-4" />
             Academic Records
           </TabsTrigger>
-          <TabsTrigger value="sessions" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="sessions" 
+            className="flex items-center gap-2"
+            disabled={!isProfileValid() || !areAcademicRecordsValid()}
+          >
             <Clock className="h-4 w-4" />
             Study Sessions
           </TabsTrigger>
-          <TabsTrigger value="complete" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="complete" 
+            className="flex items-center gap-2"
+            disabled={!isProfileValid() || !areAcademicRecordsValid()}
+          >
             <Target className="h-4 w-4" />
             Complete
           </TabsTrigger>
         </TabsList>
+
+        {/* Validation Helper Text */}
+        {!isProfileValid() && activeTab !== "profile" && (
+          <div className="text-center py-2">
+            <Alert className="max-w-md mx-auto">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Complete your profile information to access other sections
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
+        
+        {isProfileValid() && !areAcademicRecordsValid() && (activeTab === "sessions" || activeTab === "complete") && (
+          <div className="text-center py-2">
+            <Alert className="max-w-md mx-auto">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Add at least one academic record for each subject to continue
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
 
         <TabsContent value="profile" className="space-y-6">
           <Card>
@@ -287,14 +361,23 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
                       size="sm"
                       onClick={() => handleSubjectSelection(subject)}
                       className="text-xs h-auto py-2 px-3 whitespace-normal text-center"
+                      disabled={!profile.subjects.includes(subject) && profile.subjects.length >= 6}
                     >
                       {subject}
                     </Button>
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">
-                    Selected: {profile.subjects.length} subjects
+                  <p className={`text-sm ${
+                    profile.subjects.length < 3 ? 'text-amber-600' : 
+                    profile.subjects.length > 6 ? 'text-red-600' : 
+                    'text-green-600'
+                  }`}>
+                    Selected: {profile.subjects.length} subjects {
+                      profile.subjects.length < 3 ? '(minimum 3 required)' :
+                      profile.subjects.length > 6 ? '(maximum 6 allowed)' :
+                      '✓'
+                    }
                   </p>
                   {profile.subjects.length > 0 && (
                     <div className="flex flex-wrap gap-1">
@@ -316,7 +399,7 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
                   }
                 }}
                 className="w-full"
-                disabled={!profile.name || !profile.class || !profile.school || profile.subjects.length === 0}
+                disabled={!isProfileValid()}
               >
                 Next: Add Academic Records
               </Button>
@@ -646,9 +729,22 @@ export default function AcademicDataForm({ onComplete }: AcademicDataFormProps) 
                 <Button variant="outline" onClick={() => setActiveTab("sessions")} className="flex-1">
                   Back
                 </Button>
-                <Button onClick={handleComplete} className="flex-1 bg-sky hover:bg-sky/90 text-white">
-                  <Target className="h-4 w-4 mr-2" />
-                  Complete Profile & Get Insights
+                <Button 
+                  onClick={handleComplete} 
+                  className="flex-1 bg-sky hover:bg-sky/90 text-white"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Target className="h-4 w-4 mr-2" />
+                      Complete Profile & Get Insights
+                    </>
+                  )}
                 </Button>
               </div>
             </CardContent>

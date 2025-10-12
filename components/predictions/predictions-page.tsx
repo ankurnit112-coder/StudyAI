@@ -9,6 +9,7 @@ import PredictionForm from "@/components/ui/prediction-form"
 import AcademicDataForm from "@/components/forms/academic-data-form"
 import { userDataService } from "@/lib/user-data-service"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import {
   Brain,
   TrendingUp,
@@ -22,7 +23,8 @@ import {
   Zap,
   Users,
   Clock,
-  Plus
+  Plus,
+  ArrowLeft
 } from "lucide-react"
 
 interface PredictionResult {
@@ -41,6 +43,7 @@ interface ApiPredictionResult {
 }
 
 export default function PredictionsPage() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("generate")
   const [predictions, setPredictions] = useState<PredictionResult[]>([])
   const [hasUserData, setHasUserData] = useState(false)
@@ -102,7 +105,9 @@ export default function PredictionsPage() {
       setHasUserData(true)
       setActiveTab("generate")
     } catch (error) {
-      console.error('Failed to save user data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to save user data:', error)
+      }
     }
   }
 
@@ -134,7 +139,9 @@ export default function PredictionsPage() {
       setPredictions(formattedResults)
       setActiveTab("results")
     } catch (error) {
-      console.error('Failed to save predictions:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to save predictions:', error)
+      }
     }
   }
 
@@ -156,6 +163,18 @@ export default function PredictionsPage() {
   if (!hasUserData) {
     return (
       <div className="space-y-6">
+        {/* Back Navigation */}
+        <div className="mb-6">
+          <Button 
+            variant="ghost" 
+            onClick={() => router.back()}
+            className="text-sky hover:text-sky/80"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+        </div>
+        
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Brain className="h-8 w-8 text-sky" />
@@ -198,6 +217,18 @@ export default function PredictionsPage() {
 
   return (
     <div className="space-y-6">
+      {/* Back Navigation */}
+      <div className="mb-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => router.back()}
+          className="text-sky hover:text-sky/80"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+      </div>
+      
       {/* Header */}
       <div className="text-center mb-8">
         <div className="flex items-center justify-center space-x-2 mb-4">
