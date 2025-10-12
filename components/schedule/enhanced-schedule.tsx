@@ -86,6 +86,64 @@ export default function EnhancedSchedule() {
     loadScheduleData()
   }, [])
 
+  const generateSampleEvents = (): ScheduleEvent[] => {
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    return [
+      {
+        id: "1",
+        title: "Mathematics Practice",
+        subject: "Mathematics",
+        type: "study",
+        date: today.toISOString().split('T')[0],
+        startTime: "09:00",
+        endTime: "10:30",
+        duration: 90,
+        description: "Integration and differentiation practice",
+        isRecurring: true,
+        priority: "high",
+        status: "completed",
+        reminder: true,
+        color: "bg-sky-500"
+      },
+      {
+        id: "2",
+        title: "Physics Unit Test",
+        subject: "Physics",
+        type: "exam",
+        date: tomorrow.toISOString().split('T')[0],
+        startTime: "10:00",
+        endTime: "12:00",
+        duration: 120,
+        description: "Mechanics and Thermodynamics",
+        location: "Room 201",
+        isRecurring: false,
+        priority: "high",
+        status: "upcoming",
+        reminder: true,
+        color: "bg-red-500"
+      },
+      {
+        id: "3",
+        title: "Chemistry Study Session",
+        subject: "Chemistry",
+        type: "study",
+        date: today.toISOString().split('T')[0],
+        startTime: "14:00",
+        endTime: "15:30",
+        duration: 90,
+        description: "Organic chemistry reactions",
+        isRecurring: false,
+        priority: "medium",
+        status: "upcoming",
+        reminder: true,
+        color: "bg-green-500"
+      }
+    ]
+  }
+
   const loadScheduleData = async () => {
     try {
       setIsLoading(true)
@@ -93,11 +151,19 @@ export default function EnhancedSchedule() {
       const savedSchedule = localStorage.getItem('userSchedule')
       if (savedSchedule) {
         setEvents(JSON.parse(savedSchedule))
+      } else {
+        // Generate sample events for demo
+        const sampleEvents = generateSampleEvents()
+        setEvents(sampleEvents)
+        localStorage.setItem('userSchedule', JSON.stringify(sampleEvents))
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Failed to load schedule data:', error)
       }
+      // Fallback to sample events
+      const sampleEvents = generateSampleEvents()
+      setEvents(sampleEvents)
     } finally {
       setIsLoading(false)
     }
@@ -393,7 +459,12 @@ export default function EnhancedSchedule() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Study Hours Today</p>
-                <p className="text-2xl font-bold text-sage">4.5h</p>
+                <p className="text-2xl font-bold text-sage">
+                  {getTodayEvents()
+                    .filter(e => e.type === 'study' && e.status === 'completed')
+                    .reduce((total, e) => total + (e.duration / 60), 0)
+                    .toFixed(1)}h
+                </p>
               </div>
               <Clock className="h-8 w-8 text-sage" />
             </div>
@@ -405,7 +476,9 @@ export default function EnhancedSchedule() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Upcoming Exams</p>
-                <p className="text-2xl font-bold text-red-600">3</p>
+                <p className="text-2xl font-bold text-red-600">
+                  {events.filter(e => e.type === 'exam' && e.status === 'upcoming').length}
+                </p>
               </div>
               <FileText className="h-8 w-8 text-red-600" />
             </div>
@@ -417,7 +490,11 @@ export default function EnhancedSchedule() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Completion Rate</p>
-                <p className="text-2xl font-bold text-teal">85%</p>
+                <p className="text-2xl font-bold text-teal">
+                  {events.length > 0 
+                    ? Math.round((events.filter(e => e.status === 'completed').length / events.length) * 100)
+                    : 0}%
+                </p>
               </div>
               <Target className="h-8 w-8 text-teal" />
             </div>
@@ -597,20 +674,46 @@ export default function EnhancedSchedule() {
                 <div>
                   <div className="flex justify-between text-sm mb-2">
                     <span>Study Time Progress</span>
-                    <span>4.5h / 6h</span>
+                    <span>
+                      {getTodayEvents()
+                        .filter(e => e.type === 'study' && e.status === 'completed')
+                        .reduce((total, e) => total + (e.duration / 60), 0)
+                        .toFixed(1)}h / 
+                      {getTodayEvents()
+                        .filter(e => e.type === 'study')
+                        .reduce((total, e) => total + (e.duration / 60), 0)
+                        .toFixed(1)}h
+                    </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-sky h-2 rounded-full" style={{ width: '75%' }}></div>
+                    <div 
+                      className="bg-sky h-2 rounded-full" 
+                      style={{ 
+                        width: `${getTodayEvents().filter(e => e.type === 'study').length > 0 
+                          ? (getTodayEvents().filter(e => e.type === 'study' && e.status === 'completed').reduce((total, e) => total + e.duration, 0) / 
+                             getTodayEvents().filter(e => e.type === 'study').reduce((total, e) => total + e.duration, 0)) * 100 
+                          : 0}%` 
+                      }}
+                    ></div>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between text-sm mb-2">
                     <span>Tasks Completed</span>
-                    <span>3 / 5</span>
+                    <span>
+                      {getTodayEvents().filter(e => e.status === 'completed').length} / {getTodayEvents().length}
+                    </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-sage h-2 rounded-full" style={{ width: '60%' }}></div>
+                    <div 
+                      className="bg-sage h-2 rounded-full" 
+                      style={{ 
+                        width: `${getTodayEvents().length > 0 
+                          ? (getTodayEvents().filter(e => e.status === 'completed').length / getTodayEvents().length) * 100 
+                          : 0}%` 
+                      }}
+                    ></div>
                   </div>
                 </div>
 

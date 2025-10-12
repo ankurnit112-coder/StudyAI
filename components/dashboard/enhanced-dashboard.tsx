@@ -49,9 +49,34 @@ interface StudySession {
 export default function EnhancedDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
   const [studyStreak] = useState(0) // Default to 0 for new users
-  const [todayProgress] = useState(0) // Default to 0 for new users
+  
+  // Calculate today's progress based on actual data
+  const calculateTodayProgress = () => {
+    if (!hasAcademicData || subjectPerformance.length === 0) return 0
+    
+    // Simple progress calculation based on recent performance
+    const avgPerformance = subjectPerformance.reduce((sum, s) => sum + s.current, 0) / subjectPerformance.length
+    return Math.min(Math.round(avgPerformance), 100)
+  }
+  
+  const [todayProgress] = useState(calculateTodayProgress())
   const [isNewUser, setIsNewUser] = useState(true) // Check if user is new
   const [hasAcademicData, setHasAcademicData] = useState(false)
+
+  // Check for existing data on component mount
+  useEffect(() => {
+    const checkExistingData = () => {
+      const savedRecords = localStorage.getItem('academicRecords')
+      const savedSchedule = localStorage.getItem('userSchedule')
+      
+      if (savedRecords || savedSchedule) {
+        setHasAcademicData(true)
+        setIsNewUser(false)
+      }
+    }
+    
+    checkExistingData()
+  }, [])
   const [subjectPerformance, setSubjectPerformance] = useState<SubjectPerformance[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -195,7 +220,9 @@ export default function EnhancedDashboard() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <Timer className="h-4 w-4 text-sky" />
-                  <span className="text-sm">2h 15m studied</span>
+                  <span className="text-sm">
+                    {hasAcademicData ? "2h 15m studied" : "0h studied"}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Trophy className="h-4 w-4 text-yellow" />
@@ -203,7 +230,9 @@ export default function EnhancedDashboard() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Target className="h-4 w-4 text-sage" />
-                  <span className="text-sm">3/5 goals completed</span>
+                  <span className="text-sm">
+                    {hasAcademicData ? "3/5 goals completed" : "0/0 goals completed"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -408,6 +437,13 @@ export default function EnhancedDashboard() {
                           size="sm" 
                           variant={insight.priority === "high" ? "default" : "outline"}
                           className={insight.priority === "high" ? "bg-red-600 hover:bg-red-700" : ""}
+                          onClick={() => {
+                            if (insight.action === "Continue Practice") {
+                              window.location.href = "/study-plan"
+                            } else if (insight.action === "Schedule Study Time") {
+                              window.location.href = "/schedule"
+                            }
+                          }}
                         >
                           <Zap className="h-3 w-3 mr-1" />
                           {insight.action}
