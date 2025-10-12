@@ -215,7 +215,7 @@ Before you begin, ensure you have the following installed:
 | 📦 **npm/yarn** | Latest | Package manager | Included with Node.js |
 | 🐍 **Python** | 3.9+ | Backend & ML models | [Download](https://python.org/) |
 | 🔧 **Git** | Latest | Version control | [Download](https://git-scm.com/) |
-| 💾 **SQLite** | 3.0+ | Database | Usually pre-installed |
+| 🗄️ **Supabase** | Latest | Database | [Sign up](https://supabase.com) |
 
 ### 🚀 **Option 1: Frontend Only (Recommended for Testing)**
 
@@ -313,7 +313,7 @@ docker-compose up -d
 1. **Frontend Check**: Visit http://localhost:3000 and see the StudyAI homepage
 2. **Backend Check**: Visit http://localhost:8000/api/health and see `{"status": "healthy"}`
 3. **API Documentation**: Visit http://localhost:8000/docs for interactive API docs
-4. **Database Check**: Ensure SQLite database is created in `backend/studyai.db`
+4. **Database Check**: Verify Supabase connection and tables are created
 5. **ML Models**: Check `backend/models/` directory for trained model files
 
 ### 🚨 **Troubleshooting**
@@ -686,7 +686,7 @@ StudyAI/
 |------------|---------|---------|-----------------|
 | 🚀 **FastAPI** | 0.104+ | Web Framework | High performance, automatic docs, async |
 | 🐍 **Python** | 3.9+ | Programming Language | ML ecosystem, rapid development |
-| 🗄️ **SQLite** | 3.0+ | Database | Lightweight, serverless, reliable |
+| 🗄️ **Supabase** | Latest | Database | PostgreSQL, real-time, authentication |
 | 🔗 **SQLAlchemy** | 2.0+ | ORM | Database abstraction, migrations |
 | 🤖 **Scikit-learn** | 1.3+ | Machine Learning | Proven ML algorithms, easy integration |
 | 📦 **Joblib** | 1.3+ | Model Serialization | Efficient model storage and loading |
@@ -969,9 +969,10 @@ NEXT_PUBLIC_SHOW_PERFORMANCE_METRICS=true
 
 #### **Backend Environment (.env)**
 ```env
-# Database
-DATABASE_URL=sqlite:///./studyai.db
-DATABASE_ECHO=false
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 
 # Security
 SECRET_KEY=your-super-secret-key-here-change-in-production
@@ -1081,7 +1082,7 @@ npm run format
 - **Redux DevTools**: State management debugging (if using Redux)
 - **Chrome DevTools**: Performance profiling and network analysis
 - **FastAPI Docs**: Interactive API testing at `/docs`
-- **Database Browser**: SQLite database inspection
+- **Supabase Dashboard**: Database inspection and real-time monitoring
 
 #### **Logging & Monitoring**
 ```bash
@@ -1716,7 +1717,7 @@ from app.models.academic_record import AcademicRecord
 class TestDatabase:
     @pytest.fixture
     def db_session(self):
-        engine = create_engine("sqlite:///./test.db")
+        # Use Supabase for testing or create test database
         Base.metadata.create_all(bind=engine)
         SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()

@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import AcademicDataForm from "@/components/forms/academic-data-form"
+import { userDataService } from "@/lib/user-data-service"
 import {
   BarChart3,
   TrendingUp,
@@ -58,6 +60,7 @@ export default function EnhancedPerformanceAnalytics() {
   // Load user's performance data
   const [subjectPerformance, setSubjectPerformance] = useState<SubjectPerformance[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [hasUserData, setHasUserData] = useState(false)
 
   useEffect(() => {
     loadPerformanceData()
@@ -66,36 +69,62 @@ export default function EnhancedPerformanceAnalytics() {
   const loadPerformanceData = async () => {
     try {
       setIsLoading(true)
-      // Try to load user's saved data from localStorage
-      const keys = Object.keys(localStorage).filter(key => key.startsWith('studentData_'))
       
-      if (keys.length > 0) {
-        const savedData = localStorage.getItem(keys[0])
-        if (savedData) {
-          const data = JSON.parse(savedData)
-          if (data.subjects) {
-            // Convert dashboard data to performance format
-            const performanceData: SubjectPerformance[] = data.subjects.map((subject: { name: string; current: number; target: number; trend: string; predicted?: number }) => ({
-              subject: subject.name,
-              currentScore: subject.current,
-              previousScore: Math.max(0, subject.current - Math.random() * 10), // Simulate previous score
-              trend: subject.trend,
-              improvement: (subject.predicted || subject.target) - subject.current,
-              predictedBoard: subject.predicted || subject.target,
-              confidence: 85 + Math.random() * 10, // Random confidence between 85-95%
-              rank: Math.floor(Math.random() * 50) + 1,
-              totalStudents: 120,
-              strengths: ["Topic 1", "Topic 2"],
-              weaknesses: ["Area for improvement"]
-            }))
-            setSubjectPerformance(performanceData)
-          }
+      if (userDataService.hasUserData()) {
+        const userData = userDataService.getUserData()
+        if (userData) {
+          setHasUserData(true)
+          const subjectPerf = userDataService.getSubjectPerformance()
+          
+          const performanceData: SubjectPerformance[] = subjectPerf.map(subject => ({
+            subject: subject.subject,
+            currentScore: subject.currentScore,
+            previousScore: Math.max(0, subject.currentScore - 5), // Simulate previous score
+            trend: subject.trend,
+            improvement: subject.predictedScore - subject.currentScore,
+            predictedBoard: subject.predictedScore,
+            confidence: subject.confidence * 100,
+            rank: Math.floor(Math.random() * 50) + 1, // Would come from actual ranking data
+            totalStudents: 120, // Would come from class data
+            strengths: ["Strong foundation", "Good problem solving"],
+            weaknesses: ["Needs more practice", "Time management"]
+          }))
+          setSubjectPerformance(performanceData)
         }
+      } else {
+        setHasUserData(false)
       }
     } catch (error) {
       console.error('Failed to load performance data:', error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleDataFormComplete = (data: {
+    profile: { name: string; class: string; school: string; subjects: string[] }
+    academicRecords: Array<{
+      id: string
+      subject: string
+      examType: string
+      marks: number
+      maxMarks: number
+      examDate: string
+    }>
+    studySessions: Array<{
+      id: string
+      subject: string
+      duration: number
+      topics: string[]
+      date: string
+    }>
+  }) => {
+    try {
+      userDataService.saveUserData(data)
+      setHasUserData(true)
+      loadPerformanceData() // Reload with new data
+    } catch (error) {
+      console.error('Failed to save user data:', error)
     }
   }
 
@@ -114,7 +143,7 @@ export default function EnhancedPerformanceAnalytics() {
     )
   }
 
-  if (subjectPerformance.length === 0) {
+  if (!hasUserData || subjectPerformance.length === 0) {
     return (
       <div className="min-h-screen bg-background p-6">
         <div className="max-w-7xl mx-auto space-y-6">
@@ -125,30 +154,29 @@ export default function EnhancedPerformanceAnalytics() {
             </div>
           </div>
           
-          <Card className="border-2 border-dashed border-gray-300">
-            <CardContent className="flex flex-col items-center justify-center py-12">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
-                  <BarChart3 className="h-8 w-8 text-sky" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900">No Performance Data Available</h3>
-                  <p className="text-gray-600 mt-2 max-w-md">
-                    Complete your academic profile first to see detailed performance analytics and AI-powered insights.
-                  </p>
-                </div>
-                <div className="flex space-x-3">
-                  <Button className="bg-sky hover:bg-sky/90 text-white" onClick={() => window.location.href = '/predictions'}>
+          {!hasUserData ? (
+            <AcademicDataForm onComplete={handleDataFormComplete} />
+          ) : (
+            <Card className="border-2 border-dashed border-gray-300">
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
+                    <BarChart3 className="h-8 w-8 text-sky" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900">No Performance Data Available</h3>
+                    <p className="text-gray-600 mt-2 max-w-md">
+                      Add more academic records to see detailed performance analytics and AI-powered insights.
+                    </p>
+                  </div>
+                  <Button className="bg-sky hover:bg-sky/90 text-white" onClick={() => window.location.href = '/dashboard'}>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Your Academic Data
-                  </Button>
-                  <Button variant="outline" onClick={() => window.location.href = '/dashboard'}>
-                    Go to Dashboard
+                    Add More Academic Data
                   </Button>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     )
@@ -166,15 +194,24 @@ export default function EnhancedPerformanceAnalytics() {
   //   { month: "Jan", mathematics: 88, physics: 78, chemistry: 85, english: 82, average: 83.25 }
   // ]
 
-  const overallStats = {
-    averageScore: 83.25,
-    improvement: 7,
-    predictedAverage: 86.5,
-    overallRank: 28,
-    totalStudents: 120,
-    studyStreak: 15,
-    completedGoals: 8,
-    totalGoals: 12
+  const overallStats = subjectPerformance.length > 0 ? {
+    averageScore: Math.round(subjectPerformance.reduce((sum, s) => sum + s.currentScore, 0) / subjectPerformance.length * 100) / 100,
+    improvement: Math.round(subjectPerformance.reduce((sum, s) => sum + s.improvement, 0) / subjectPerformance.length * 100) / 100,
+    predictedAverage: Math.round(subjectPerformance.reduce((sum, s) => sum + s.predictedBoard, 0) / subjectPerformance.length * 100) / 100,
+    overallRank: Math.floor(Math.random() * 50) + 1, // This would come from actual ranking data
+    totalStudents: 120, // This would come from class data
+    studyStreak: 0, // This would come from study session data
+    completedGoals: 0, // This would come from goal tracking
+    totalGoals: subjectPerformance.length * 2 // 2 goals per subject as example
+  } : {
+    averageScore: 0,
+    improvement: 0,
+    predictedAverage: 0,
+    overallRank: 0,
+    totalStudents: 0,
+    studyStreak: 0,
+    completedGoals: 0,
+    totalGoals: 0
   }
 
   const getTrendIcon = (trend: string) => {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { database } from '@/lib/database'
+import { database } from '@/lib/database-supabase'
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'your-secret-key-change-in-production'
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     // Verify token
     const { payload } = await jwtVerify(token, JWT_SECRET)
-    const userId = parseInt(payload.sub as string)
+    const userId = payload.sub as string
 
     // Find user
     const user = await database.getUserById(userId)

@@ -3,7 +3,7 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.6
 
-# Database (SQLite for local development)
+# Database (PostgreSQL via Supabase)
 sqlalchemy==2.0.23
 
 # Machine Learning

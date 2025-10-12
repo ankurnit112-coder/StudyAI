@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://studyai.com/dashboard</loc><lastmod>2025-10-10T09:28:33.077Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/board-predictions</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/performance</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/settings</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/schedule</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/profile</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/study-plan</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/demo</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/notifications</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/cbse-classes</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/academic-records</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://studyai.com/predictions</loc><lastmod>2025-10-10T09:28:33.078Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/cbse-classes</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/dashboard</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/notifications</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/academic-records</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/profile</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/predictions</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/study-plan</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/board-predictions</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/demo</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/schedule</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/performance</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://studyai.com/settings</loc><lastmod>2025-10-11T16:24:49.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

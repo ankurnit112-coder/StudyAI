@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PredictionForm from "@/components/ui/prediction-form"
+import AcademicDataForm from "@/components/forms/academic-data-form"
+import { userDataService } from "@/lib/user-data-service"
 import Link from "next/link"
 import {
   Brain,
@@ -21,6 +22,7 @@ import {
   Zap,
   Users,
   Clock,
+  Plus
 } from "lucide-react"
 
 interface PredictionResult {
@@ -32,62 +34,166 @@ interface PredictionResult {
   recommendations: string[]
 }
 
+interface ApiPredictionResult {
+  subject: string
+  predicted_score: number
+  confidence: number
+}
+
 export default function PredictionsPage() {
   const [activeTab, setActiveTab] = useState("generate")
   const [predictions, setPredictions] = useState<PredictionResult[]>([])
+  const [hasUserData, setHasUserData] = useState(false)
   // const [isLoading, setIsLoading] = useState(false)
 
-  // Sample prediction results
-  const samplePredictions: PredictionResult[] = [
-    {
-      subject: "Mathematics",
-      currentScore: 85,
-      predictedScore: 92,
-      confidence: 94,
-      improvement: 7,
-      recommendations: [
-        "Focus on integration by parts problems",
-        "Practice coordinate geometry daily",
-        "Review calculus fundamentals"
-      ]
-    },
-    {
-      subject: "Physics",
-      currentScore: 78,
-      predictedScore: 84,
-      confidence: 89,
-      improvement: 6,
-      recommendations: [
-        "Strengthen mechanics concepts",
-        "Practice numerical problems",
-        "Review wave theory"
-      ]
-    },
-    {
-      subject: "Chemistry",
-      currentScore: 82,
-      predictedScore: 87,
-      confidence: 91,
-      improvement: 5,
-      recommendations: [
-        "Focus on organic chemistry reactions",
-        "Practice inorganic chemistry",
-        "Review physical chemistry formulas"
-      ]
+  const checkUserData = useCallback(() => {
+    const hasData = userDataService.hasUserData()
+    setHasUserData(hasData)
+    
+    if (hasData) {
+      const userData = userDataService.getUserData()
+      if (userData && userData.predictions.length > 0) {
+        const formattedPredictions = userData.predictions.map(pred => ({
+          subject: pred.subject,
+          currentScore: pred.currentScore,
+          predictedScore: pred.predictedScore,
+          confidence: Math.round(pred.confidence * 100),
+          improvement: Math.max(0, pred.predictedScore - pred.currentScore),
+          recommendations: [
+            `Focus on ${pred.subject.toLowerCase()} fundamentals`,
+            `Practice ${pred.subject.toLowerCase()} problems daily`,
+            `Review key ${pred.subject.toLowerCase()} concepts`
+          ]
+        }))
+        setPredictions(formattedPredictions)
+      }
     }
-  ]
+  }, [])
 
-  const handlePredictionComplete = () => {
-    setPredictions(samplePredictions)
-    setActiveTab("results")
+  useEffect(() => {
+    // Use setTimeout to avoid synchronous setState in effect
+    const timer = setTimeout(() => {
+      checkUserData()
+    }, 0)
+    
+    return () => clearTimeout(timer)
+  }, [checkUserData])
+
+  const handleDataFormComplete = (data: {
+    profile: { name: string; class: string; school: string; subjects: string[] }
+    academicRecords: Array<{
+      id: string
+      subject: string
+      examType: string
+      marks: number
+      maxMarks: number
+      examDate: string
+    }>
+    studySessions: Array<{
+      id: string
+      subject: string
+      duration: number
+      topics: string[]
+      date: string
+    }>
+  }) => {
+    try {
+      userDataService.saveUserData(data)
+      setHasUserData(true)
+      setActiveTab("generate")
+    } catch (error) {
+      console.error('Failed to save user data:', error)
+    }
   }
 
-  const overallStats = {
-    averagePredicted: 87.7,
-    averageConfidence: 91.3,
-    totalImprovement: 18,
-    strongestSubject: "Mathematics",
-    focusArea: "Physics"
+  const handlePredictionComplete = (results: ApiPredictionResult[]) => {
+    try {
+      // Save predictions to user data service
+      const predictionData = results.map(result => ({
+        subject: result.subject,
+        currentScore: 0, // Will be calculated from academic records
+        predictedScore: result.predicted_score,
+        confidence: result.confidence
+      }))
+      
+      userDataService.updatePredictions(predictionData)
+      
+      // Convert API results to our format for display
+      const formattedResults = results.map(result => ({
+        subject: result.subject,
+        currentScore: 0, // Will be populated from form data
+        predictedScore: result.predicted_score,
+        confidence: Math.round(result.confidence * 100),
+        improvement: Math.max(0, result.predicted_score - 70), // Estimate improvement
+        recommendations: [
+          `Focus on ${result.subject.toLowerCase()} fundamentals`,
+          `Practice ${result.subject.toLowerCase()} problems daily`,
+          `Review key ${result.subject.toLowerCase()} concepts`
+        ]
+      }))
+      setPredictions(formattedResults)
+      setActiveTab("results")
+    } catch (error) {
+      console.error('Failed to save predictions:', error)
+    }
+  }
+
+  const overallStats = predictions.length > 0 ? {
+    averagePredicted: Math.round(predictions.reduce((sum, p) => sum + p.predictedScore, 0) / predictions.length * 10) / 10,
+    averageConfidence: Math.round(predictions.reduce((sum, p) => sum + p.confidence, 0) / predictions.length * 10) / 10,
+    totalImprovement: predictions.reduce((sum, p) => sum + p.improvement, 0),
+    strongestSubject: predictions.sort((a, b) => b.predictedScore - a.predictedScore)[0]?.subject || "N/A",
+    focusArea: predictions.sort((a, b) => a.predictedScore - b.predictedScore)[0]?.subject || "N/A"
+  } : {
+    averagePredicted: 0,
+    averageConfidence: 0,
+    totalImprovement: 0,
+    strongestSubject: "N/A",
+    focusArea: "N/A"
+  }
+
+  // Show data input form if user hasn't completed their profile
+  if (!hasUserData) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <Brain className="h-8 w-8 text-sky" />
+            <h1 className="text-3xl font-bold text-navy">AI Board Exam Predictions</h1>
+          </div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
+            Complete your academic profile first to get personalized AI predictions
+          </p>
+          
+          <Card className="border-2 border-dashed border-gray-300 max-w-2xl mx-auto">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
+                  <BarChart3 className="h-8 w-8 text-sky" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">Academic Profile Required</h3>
+                  <p className="text-gray-600 mt-2 max-w-md">
+                    Add your academic records and study data to generate accurate AI predictions for your board exams.
+                  </p>
+                </div>
+                <Button 
+                  className="bg-sky hover:bg-sky/90 text-white"
+                  onClick={() => setActiveTab("setup")}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Complete Academic Profile
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {activeTab === "setup" && (
+          <AcademicDataForm onComplete={handleDataFormComplete} />
+        )}
+      </div>
+    )
   }
 
   return (

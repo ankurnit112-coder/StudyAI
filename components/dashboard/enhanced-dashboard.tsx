@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import EmptyStateDashboard from "./empty-state-dashboard"
+import AcademicDataForm from "@/components/forms/academic-data-form"
+import { userDataService } from "@/lib/user-data-service"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -22,8 +24,7 @@ import {
   ArrowDown,
   Star,
   Timer,
-  BookMarked,
-  Plus
+  BookMarked
 } from "lucide-react"
 
 interface SubjectPerformance {
@@ -43,12 +44,7 @@ interface StudySession {
   score?: number
 }
 
-interface SavedSubjectData {
-  name: string
-  current: number
-  predicted: number
-  trend: "up" | "down" | "stable"
-}
+
 
 export default function EnhancedDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -66,30 +62,53 @@ export default function EnhancedDashboard() {
   const loadUserData = async () => {
     try {
       setIsLoading(true)
-      // Try to load user's saved data from localStorage
-      const keys = Object.keys(localStorage).filter(key => key.startsWith('studentData_'))
       
-      if (keys.length > 0) {
-        const savedData = localStorage.getItem(keys[0])
-        if (savedData) {
-          const data = JSON.parse(savedData)
-          if (data.subjects && data.subjects.length > 0) {
-            setHasAcademicData(true)
-            setSubjectPerformance(data.subjects.map((subject: SavedSubjectData) => ({
-              subject: subject.name,
-              current: subject.current,
-              predicted: subject.predicted,
-              trend: subject.trend,
-              confidence: 85 + Math.random() * 10, // Random confidence
-              lastUpdated: "Recently"
-            })))
-          }
+      if (userDataService.hasUserData()) {
+        const userData = userDataService.getUserData()
+        if (userData) {
+          setHasAcademicData(true)
+          const subjectPerf = userDataService.getSubjectPerformance()
+          setSubjectPerformance(subjectPerf.map(subject => ({
+            subject: subject.subject,
+            current: subject.currentScore,
+            predicted: subject.predictedScore,
+            trend: subject.trend,
+            confidence: Math.round(subject.confidence * 100),
+            lastUpdated: "Recently"
+          })))
         }
       }
     } catch (error) {
       console.error('Failed to load user data:', error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleDataFormComplete = (data: {
+    profile: { name: string; class: string; school: string; subjects: string[] }
+    academicRecords: Array<{
+      id: string
+      subject: string
+      examType: string
+      marks: number
+      maxMarks: number
+      examDate: string
+    }>
+    studySessions: Array<{
+      id: string
+      subject: string
+      duration: number
+      topics: string[]
+      date: string
+    }>
+  }) => {
+    try {
+      userDataService.saveUserData(data)
+      setHasAcademicData(true)
+      loadUserData() // Reload the dashboard with new data
+    } catch (error) {
+      console.error('Failed to save user data:', error)
     }
   }
 
@@ -108,42 +127,19 @@ export default function EnhancedDashboard() {
     )
   }
 
-  // Empty state for users without academic data
+  // Show data input form for users without academic data
   if (!hasAcademicData) {
     return (
       <div className="min-h-screen bg-background p-6">
         <div className="max-w-7xl mx-auto space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Enhanced Dashboard</h1>
-              <p className="text-muted-foreground">Your comprehensive academic overview</p>
-            </div>
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to StudyAI</h1>
+            <p className="text-muted-foreground text-lg">
+              Let&apos;s set up your academic profile to unlock AI-powered insights and predictions
+            </p>
           </div>
           
-          <Card className="border-2 border-dashed border-gray-300">
-            <CardContent className="flex flex-col items-center justify-center py-12">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-sky/10 rounded-full flex items-center justify-center mx-auto">
-                  <BarChart3 className="h-8 w-8 text-sky" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Complete Your Academic Profile</h3>
-                  <p className="text-gray-600 mt-2 max-w-md">
-                    Add your academic data to unlock advanced analytics, AI predictions, and personalized insights.
-                  </p>
-                </div>
-                <div className="flex space-x-3">
-                  <Button className="bg-sky hover:bg-sky/90 text-white" onClick={() => window.location.href = '/predictions'}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Academic Data
-                  </Button>
-                  <Button variant="outline" onClick={() => window.location.href = '/dashboard'}>
-                    Go to Basic Dashboard
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <AcademicDataForm onComplete={handleDataFormComplete} />
         </div>
       </div>
     )
@@ -151,76 +147,33 @@ export default function EnhancedDashboard() {
 
 
 
-  const recentSessions: StudySession[] = hasAcademicData ? [
-    {
-      subject: "Mathematics",
-      duration: 45,
-      completed: true,
-      date: "Today",
-      score: 88
-    },
-    {
-      subject: "Physics",
-      duration: 30,
-      completed: true,
-      date: "Today",
-      score: 82
-    },
-    {
-      subject: "Chemistry",
-      duration: 60,
-      completed: false,
-      date: "Today"
-    }
-  ] : []
+  const recentSessions: StudySession[] = [] // Will be populated from user's actual study sessions
 
-  const aiInsights = [
-    {
-      type: "urgent",
-      title: "Physics Mechanics Needs Attention",
-      description: "Your recent test scores show a 15% drop in mechanics problems. Focus on Newton&apos;s laws.",
-      action: "Start Practice",
-      priority: "high"
-    },
+  const aiInsights = hasAcademicData && subjectPerformance.length > 0 ? [
     {
       type: "opportunity",
-      title: "Mathematics Streak Building",
-      description: "You&apos;ve improved 12% in calculus over the past week. Keep the momentum!",
+      title: `${subjectPerformance[0]?.subject} Shows Promise`,
+      description: `Your ${subjectPerformance[0]?.subject} performance is trending ${subjectPerformance[0]?.trend}. Keep up the good work!`,
       action: "Continue Practice",
       priority: "medium"
     },
     {
       type: "reminder",
-      title: "Chemistry Revision Due",
-      description: "It&apos;s been 3 days since your last organic chemistry session.",
-      action: "Schedule Review",
+      title: "Regular Study Sessions",
+      description: "Maintain consistent study habits across all subjects for optimal results.",
+      action: "Schedule Study Time",
       priority: "low"
     }
-  ]
+  ] : []
 
-  const upcomingTasks = [
-    {
-      task: "Complete Physics Assignment",
-      subject: "Physics",
-      due: "Tomorrow",
-      priority: "high",
-      estimated: "2 hours"
-    },
-    {
-      task: "Math Practice Test",
-      subject: "Mathematics",
-      due: "2 days",
-      priority: "medium",
-      estimated: "1.5 hours"
-    },
-    {
-      task: "Chemistry Lab Report",
-      subject: "Chemistry",
-      due: "3 days",
-      priority: "medium",
+  const upcomingTasks = hasAcademicData && subjectPerformance.length > 0 ? 
+    subjectPerformance.slice(0, 3).map((subject, index) => ({
+      task: `Practice ${subject.subject}`,
+      subject: subject.subject,
+      due: `${index + 1} day${index > 0 ? 's' : ''}`,
+      priority: subject.trend === "down" ? "high" : "medium",
       estimated: "1 hour"
-    }
-  ]
+    })) : []
 
   // Show empty state for new users
   if (isNewUser && !hasAcademicData) {
@@ -274,10 +227,14 @@ export default function EnhancedDashboard() {
                 <BarChart3 className="h-4 w-4 text-sky" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-navy">81.6%</div>
+                <div className="text-2xl font-bold text-navy">
+                  {subjectPerformance.length > 0 
+                    ? Math.round(subjectPerformance.reduce((sum, s) => sum + s.current, 0) / subjectPerformance.length * 10) / 10
+                    : 0}%
+                </div>
                 <div className="flex items-center text-xs text-sage">
                   <ArrowUp className="h-3 w-3 mr-1" />
-                  +3.2% this week
+                  Based on your data
                 </div>
               </CardContent>
             </Card>
@@ -288,10 +245,16 @@ export default function EnhancedDashboard() {
                 <TrendingUp className="h-4 w-4 text-sage" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-navy">85.6%</div>
+                <div className="text-2xl font-bold text-navy">
+                  {subjectPerformance.length > 0 
+                    ? Math.round(subjectPerformance.reduce((sum, s) => sum + s.predicted, 0) / subjectPerformance.length * 10) / 10
+                    : 0}%
+                </div>
                 <div className="flex items-center text-xs text-sky">
                   <Star className="h-3 w-3 mr-1" />
-                  92% confidence
+                  {subjectPerformance.length > 0 
+                    ? Math.round(subjectPerformance.reduce((sum, s) => sum + s.confidence, 0) / subjectPerformance.length)
+                    : 0}% confidence
                 </div>
               </CardContent>
             </Card>
@@ -302,19 +265,19 @@ export default function EnhancedDashboard() {
                 <Clock className="h-4 w-4 text-teal" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-navy">4.2h</div>
-                <div className="text-xs text-gray-600">Daily average</div>
+                <div className="text-2xl font-bold text-navy">0h</div>
+                <div className="text-xs text-gray-600">Add study sessions</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Rank</CardTitle>
+                <CardTitle className="text-sm font-medium">Subjects</CardTitle>
                 <Award className="h-4 w-4 text-yellow" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-navy">#23</div>
-                <div className="text-xs text-gray-600">In your class</div>
+                <div className="text-2xl font-bold text-navy">{subjectPerformance.length}</div>
+                <div className="text-xs text-gray-600">Tracked subjects</div>
               </CardContent>
             </Card>
           </div>

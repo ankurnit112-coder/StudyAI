@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { database } from '@/lib/database'
+import { database } from '@/lib/database-supabase'
 import { SecurityUtils } from '@/lib/security'
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -25,13 +25,13 @@ export async function POST(request: NextRequest) {
       token = cookieStore.get('access_token')?.value
     }
 
-    let userId: number | null = null
+    let userId: string | null = null
 
     if (token) {
       try {
         // Verify token before blacklisting
         const { payload } = await jwtVerify(token, JWT_SECRET)
-        userId = parseInt(payload.sub as string)
+        userId = payload.sub as string
         
         // Add token to blacklist (in production, use Redis or database)
         tokenBlacklist.add(token)

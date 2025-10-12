@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { database } from '@/lib/database'
+import { database } from '@/lib/database-supabase'
 import { SecurityUtils } from '@/lib/security'
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const userId = parseInt(payload.sub as string)
+    const userId = payload.sub as string
     
     // Find user by ID
     const user = await database.getUserById(userId)

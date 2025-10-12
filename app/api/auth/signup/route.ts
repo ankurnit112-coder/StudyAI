@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { SignJWT } from 'jose'
 import bcrypt from 'bcryptjs'
 import { cookies } from 'next/headers'
-import { database } from '@/lib/database'
+import { database } from '@/lib/database-supabase'
 import { Validator } from '@/lib/validation'
 import { SecurityUtils } from '@/lib/security'
 

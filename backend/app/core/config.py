@@ -4,7 +4,7 @@ import os
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "sqlite:///./studyai.db"
+    DATABASE_URL: str = "postgresql://user:password@localhost:5432/studyai_db"
     
     # Redis
     REDIS_URL: str = "redis://localhost:6379"

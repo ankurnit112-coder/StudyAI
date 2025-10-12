@@ -26,7 +26,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=sqlite:///./studyai_dev.db
+      - DATABASE_URL=postgresql://studyai:${DB_PASSWORD}@postgres:5432/studyai_dev
       - ML_MODEL_PATH=/app/models
       - TRAINING_DATA_PATH=/app/data
       - DEBUG=true
