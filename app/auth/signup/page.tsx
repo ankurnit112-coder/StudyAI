@@ -1,29 +1,40 @@
 "use client"
 
-import { useState } from "react"
-import { authService } from "@/lib/auth"
-import { useAuth } from "@/contexts/auth-context"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-
+import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
-
-import { Brain, Mail, Lock, User, ArrowLeft, GraduationCap, Eye, EyeOff, CheckCircle, Shield, Smartphone, Star } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { 
+  Brain, 
+  Mail, 
+  Lock, 
+  User, 
+  ArrowLeft, 
+  GraduationCap, 
+  Eye, 
+  EyeOff, 
+  Loader2,
+  School
+} from "lucide-react"
 
 export default function SignUpPage() {
   const router = useRouter()
-  const { signup } = useAuth()
+  const { signup, isAuthenticated } = useAuth()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    role: "student",
+    role: "student" as const,
+    currentClass: 10,
+    schoolName: "",
     agreeToTerms: false
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -32,34 +43,50 @@ export default function SignUpPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [passwordStrength, setPasswordStrength] = useState(0)
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/dashboard")
+    }
+  }, [isAuthenticated, router])
+
+  const calculatePasswordStrength = (password: string) => {
+    let strength = 0
+    if (password.length >= 8) strength += 25
+    if (/[A-Z]/.test(password)) strength += 25
+    if (/[0-9]/.test(password)) strength += 25
+    if (/[^A-Za-z0-9]/.test(password)) strength += 25
+    return strength
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
 
-    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match")
       setIsLoading(false)
       return
     }
 
+    if (!formData.agreeToTerms) {
+      setError("Please agree to the Terms of Service and Privacy Policy")
+      setIsLoading(false)
+      return
+    }
+
     try {
-      // Save email for future convenience
-      authService.saveRememberedEmail(formData.email)
-      
-      // Create account using auth service
       await signup({
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role: formData.role as 'student'
+        role: formData.role,
+        currentClass: formData.currentClass,
+        schoolName: formData.schoolName || undefined
       })
-      
-      // Redirect to dashboard after successful signup
       router.push("/dashboard")
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to create account. Please try again.")
+      setError(error instanceof Error ? error.message : "Failed to create account")
     } finally {
       setIsLoading(false)
     }
@@ -72,22 +99,9 @@ export default function SignUpPage() {
       [name]: value
     }))
 
-    // Calculate password strength
     if (name === "password") {
-      let strength = 0
-      if (value.length >= 8) strength += 25
-      if (/[A-Z]/.test(value)) strength += 25
-      if (/[0-9]/.test(value)) strength += 25
-      if (/[^A-Za-z0-9]/.test(value)) strength += 25
-      setPasswordStrength(strength)
+      setPasswordStrength(calculatePasswordStrength(value))
     }
-  }
-
-  const handleRoleChange = (value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      role: value
-    }))
   }
 
   const getPasswordStrengthText = () => {
@@ -106,55 +120,47 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky/10 via-white to-sage/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-lg w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center space-x-2 text-sky hover:opacity-80 transition-opacity mb-6">
+          <Link 
+            href="/" 
+            className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors mb-6"
+          >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Home</span>
           </Link>
           
           <div className="flex justify-center mb-6">
             <div className="flex items-center space-x-2">
-              <Brain className="h-8 w-8 text-sky" />
-              <span className="text-2xl font-bold text-navy">StudyAI</span>
+              <Brain className="h-8 w-8 text-blue-600" />
+              <span className="text-2xl font-bold text-gray-900">StudyAI</span>
             </div>
           </div>
           
-          <h2 className="text-3xl font-bold text-navy">Create your account</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Create your account</h2>
           <p className="mt-2 text-gray-600">Get started with AI-powered CBSE exam preparation</p>
         </div>
 
         {/* Sign Up Form */}
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-lg border-0">
           <CardHeader className="text-center pb-6">
             <CardTitle className="text-2xl">Join StudyAI</CardTitle>
             <CardDescription className="text-base">
-              Start your AI-powered CBSE exam preparation journey
+              Start your AI-powered learning journey
             </CardDescription>
-            <div className="flex items-center justify-center space-x-4 mt-4 text-sm text-gray-600">
-              <div className="flex items-center space-x-1">
-                <Star className="h-4 w-4 text-yellow fill-current" />
-                <span>50K+ Students</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span>Free Trial</span>
-              </div>
-            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-center space-x-2">
-                  <div className="w-4 h-4 bg-red-600 rounded-full flex-shrink-0"></div>
-                  <span>{error}</span>
-                </div>
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+                <Label htmlFor="name">Full Name</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -163,7 +169,7 @@ export default function SignUpPage() {
                     type="text"
                     autoComplete="name"
                     required
-                    className="pl-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
+                    className="pl-10 h-12"
                     placeholder="Enter your full name"
                     value={formData.name}
                     onChange={handleInputChange}
@@ -172,7 +178,7 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                <Label htmlFor="email">Email address</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -181,7 +187,7 @@ export default function SignUpPage() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="pl-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
+                    className="pl-10 h-12"
                     placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -190,7 +196,7 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -199,7 +205,7 @@ export default function SignUpPage() {
                     type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
-                    className="pl-10 pr-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
+                    className="pl-10 pr-10 h-12"
                     placeholder="Create a strong password"
                     value={formData.password}
                     onChange={handleInputChange}
@@ -235,7 +241,7 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -244,7 +250,7 @@ export default function SignUpPage() {
                     type={showConfirmPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
-                    className="pl-10 pr-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
+                    className="pl-10 pr-10 h-12"
                     placeholder="Confirm your password"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
@@ -262,22 +268,44 @@ export default function SignUpPage() {
                 )}
               </div>
 
-              <div className="space-y-4">
-                <Label className="text-sm font-medium">I am a:</Label>
-                <RadioGroup value={formData.role} onValueChange={handleRoleChange}>
-                  <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:border-sky transition-colors">
-                    <RadioGroupItem value="student" id="student" />
-                    <Label htmlFor="student" className="flex items-center space-x-3 cursor-pointer flex-1">
-                      <div className="w-8 h-8 bg-sky/20 rounded-full flex items-center justify-center">
-                        <GraduationCap className="h-4 w-4 text-sky" />
-                      </div>
-                      <div>
-                        <div className="font-medium">Student</div>
-                        <div className="text-xs text-gray-600">Classes 9-12 CBSE</div>
-                      </div>
-                    </Label>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="currentClass">Class</Label>
+                  <div className="relative">
+                    <GraduationCap className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="currentClass"
+                      name="currentClass"
+                      type="number"
+                      min="9"
+                      max="12"
+                      required
+                      className="pl-10 h-12"
+                      placeholder="10"
+                      value={formData.currentClass}
+                      onChange={(e) => setFormData(prev => ({ 
+                        ...prev, 
+                        currentClass: parseInt(e.target.value) || 10 
+                      }))}
+                    />
                   </div>
-                </RadioGroup>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="schoolName">School (Optional)</Label>
+                  <div className="relative">
+                    <School className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="schoolName"
+                      name="schoolName"
+                      type="text"
+                      className="pl-10 h-12"
+                      placeholder="Your school"
+                      value={formData.schoolName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-start space-x-2">
@@ -291,11 +319,11 @@ export default function SignUpPage() {
                 />
                 <Label htmlFor="agreeToTerms" className="text-sm text-gray-600 leading-relaxed">
                   I agree to the{" "}
-                  <Link href="/terms" className="text-sky hover:text-sky/80 font-medium">
+                  <Link href="/terms" className="text-blue-600 hover:text-blue-700">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-sky hover:text-sky/80 font-medium">
+                  <Link href="/privacy" className="text-blue-600 hover:text-blue-700">
                     Privacy Policy
                   </Link>
                 </Label>
@@ -303,14 +331,14 @@ export default function SignUpPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-sky hover:bg-sky/90 text-white h-12 text-base font-medium"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700"
                 disabled={isLoading || !formData.agreeToTerms}
               >
                 {isLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Creating account...</span>
-                  </div>
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
                 ) : (
                   "Create Account"
                 )}
@@ -329,28 +357,10 @@ export default function SignUpPage() {
               
               <div className="mt-6 text-center">
                 <Link href="/auth/signin">
-                  <Button variant="outline" className="w-full h-12 text-base">
+                  <Button variant="outline" className="w-full h-12">
                     Sign in instead
                   </Button>
                 </Link>
-              </div>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <div className="flex items-center justify-center space-x-6 text-xs text-gray-500">
-                <div className="flex items-center space-x-1">
-                  <Shield className="h-3 w-3" />
-                  <span>Secure & Private</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Smartphone className="h-3 w-3" />
-                  <span>Mobile Ready</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <CheckCircle className="h-3 w-3" />
-                  <span>Free Trial</span>
-                </div>
               </div>
             </div>
           </CardContent>

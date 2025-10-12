@@ -4,17 +4,17 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
-import { authService } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Brain, Mail, Lock, ArrowLeft, Eye, EyeOff, CheckCircle, Smartphone, Shield } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Brain, Mail, Lock, ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react"
 
 export default function SignInPage() {
   const router = useRouter()
-  const { login } = useAuth()
+  const { login, isAuthenticated } = useAuth()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,19 +24,21 @@ export default function SignInPage() {
   const [error, setError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  // Load remembered email and remember me preference on component mount
   useEffect(() => {
-    const rememberedEmail = authService.getRememberedEmail()
-    const isRememberMeEnabled = authService.isRememberMeEnabled()
+    if (isAuthenticated) {
+      router.push("/dashboard")
+    }
     
+    // Load remembered email
+    const rememberedEmail = localStorage.getItem('remembered_email')
     if (rememberedEmail) {
       setFormData(prev => ({
         ...prev,
         email: rememberedEmail,
-        rememberMe: isRememberMeEnabled
+        rememberMe: true
       }))
     }
-  }, [])
+  }, [isAuthenticated, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,13 +46,7 @@ export default function SignInPage() {
     setError("")
 
     try {
-      await login({
-        email: formData.email,
-        password: formData.password,
-        rememberMe: formData.rememberMe
-      })
-      
-      // Redirect to dashboard after successful login
+      await login(formData)
       router.push("/dashboard")
     } catch (error) {
       setError(error instanceof Error ? error.message : "Invalid email or password")
@@ -67,45 +63,47 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky/10 via-white to-sage/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center space-x-2 text-sky hover:opacity-80 transition-opacity mb-6">
+          <Link 
+            href="/" 
+            className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors mb-6"
+          >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Home</span>
           </Link>
           
           <div className="flex justify-center mb-6">
             <div className="flex items-center space-x-2">
-              <Brain className="h-8 w-8 text-sky" />
-              <span className="text-2xl font-bold text-navy">StudyAI</span>
+              <Brain className="h-8 w-8 text-blue-600" />
+              <span className="text-2xl font-bold text-gray-900">StudyAI</span>
             </div>
           </div>
           
-          <h2 className="text-3xl font-bold text-navy">Welcome back</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
           <p className="mt-2 text-gray-600">Sign in to your account to continue</p>
         </div>
 
         {/* Sign In Form */}
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-lg border-0">
           <CardHeader className="text-center pb-6">
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl">Sign In</CardTitle>
             <CardDescription className="text-base">
-              Sign in to continue your CBSE exam preparation journey
+              Continue your CBSE exam preparation journey
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-center space-x-2">
-                  <div className="w-4 h-4 bg-red-600 rounded-full flex-shrink-0"></div>
-                  <span>{error}</span>
-                </div>
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                <Label htmlFor="email">Email address</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -114,7 +112,7 @@ export default function SignInPage() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="pl-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
+                    className="pl-10 h-12"
                     placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -123,7 +121,7 @@ export default function SignInPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -132,7 +130,7 @@ export default function SignInPage() {
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
                     required
-                    className="pl-10 pr-10 h-12 border-gray-200 focus:border-sky focus:ring-sky"
+                    className="pl-10 pr-10 h-12"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleInputChange}
@@ -162,7 +160,7 @@ export default function SignInPage() {
                 </div>
                 <Link 
                   href="/auth/forgot-password" 
-                  className="text-sm text-sky hover:text-sky/80 transition-colors font-medium"
+                  className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   Forgot password?
                 </Link>
@@ -170,14 +168,14 @@ export default function SignInPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-sky hover:bg-sky/90 text-white h-12 text-base font-medium"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700"
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Signing in...</span>
-                  </div>
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
                 ) : (
                   "Sign In"
                 )}
@@ -196,28 +194,10 @@ export default function SignInPage() {
               
               <div className="mt-6 text-center">
                 <Link href="/auth/signup">
-                  <Button variant="outline" className="w-full h-12 text-base">
+                  <Button variant="outline" className="w-full h-12">
                     Create your account
                   </Button>
                 </Link>
-              </div>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <div className="flex items-center justify-center space-x-6 text-xs text-gray-500">
-                <div className="flex items-center space-x-1">
-                  <Shield className="h-3 w-3" />
-                  <span>Secure</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Smartphone className="h-3 w-3" />
-                  <span>Mobile Ready</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <CheckCircle className="h-3 w-3" />
-                  <span>CBSE Approved</span>
-                </div>
               </div>
             </div>
           </CardContent>

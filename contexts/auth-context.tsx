@@ -1,7 +1,32 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { authService, User, LoginCredentials, SignupData } from '@/lib/auth'
+import { useRouter } from 'next/navigation'
+
+interface User {
+  id: string
+  email: string
+  name: string
+  role: string
+  currentClass?: number
+  schoolName?: string
+  emailVerified: boolean
+}
+
+interface LoginCredentials {
+  email: string
+  password: string
+  rememberMe?: boolean
+}
+
+interface SignupData {
+  name: string
+  email: string
+  password: string
+  role: 'student'
+  currentClass?: number
+  schoolName?: string
+}
 
 interface AuthContextType {
   user: User | null
@@ -18,32 +43,68 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
-    // Check if user is already authenticated on app load
-    const initializeAuth = async () => {
-      try {
-        if (authService.isAuthenticated()) {
-          const currentUser = authService.getCurrentUser()
-          setUser(currentUser)
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    initializeAuth()
+    checkAuthStatus()
   }, [])
+
+  const checkAuthStatus = async () => {
+    try {
+      const token = localStorage.getItem('access_token')
+      if (!token) {
+        setIsLoading(false)
+        return
+      }
+
+      const response = await fetch('/api/auth/me', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        const userData = await response.json()
+        setUser(userData.user)
+      } else {
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error)
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const login = async (credentials: LoginCredentials) => {
     setIsLoading(true)
     try {
-      const user = await authService.login(credentials)
-      setUser(user)
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.detail || 'Login failed')
+      }
+
+      localStorage.setItem('access_token', data.access_token)
+      localStorage.setItem('refresh_token', data.refresh_token)
+      
+      if (credentials.rememberMe) {
+        localStorage.setItem('remembered_email', credentials.email)
+      }
+
+      setUser(data.user)
     } catch (error) {
-      setUser(null)
       throw error
     } finally {
       setIsLoading(false)
@@ -53,10 +114,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signup = async (data: SignupData) => {
     setIsLoading(true)
     try {
-      const user = await authService.signup(data)
-      setUser(user)
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+
+      const responseData = await response.json()
+
+      if (!response.ok) {
+        throw new Error(responseData.detail || 'Signup failed')
+      }
+
+      localStorage.setItem('access_token', responseData.access_token)
+      localStorage.setItem('refresh_token', responseData.refresh_token)
+      localStorage.setItem('remembered_email', data.email)
+
+      setUser(responseData.user)
     } catch (error) {
-      setUser(null)
       throw error
     } finally {
       setIsLoading(false)
@@ -66,34 +143,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     setIsLoading(true)
     try {
-      // Check remember me status before logout (since logout clears it)
-      const wasRememberMeEnabled = authService.isRememberMeEnabled()
-      await authService.logout()
-      
-      // Only clear remembered email if remember me was not enabled
-      if (!wasRememberMeEnabled) {
-        authService.clearRememberedEmail()
+      const token = localStorage.getItem('access_token')
+      if (token) {
+        await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
       }
-      setUser(null)
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      setUser(null)
       setIsLoading(false)
+      router.push('/auth/signin')
     }
   }
 
   const refreshUser = async () => {
-    try {
-      if (authService.isAuthenticated()) {
-        const currentUser = authService.getCurrentUser()
-        setUser(currentUser)
-      } else {
-        setUser(null)
-      }
-    } catch (error) {
-      console.error('User refresh error:', error)
-      setUser(null)
-    }
+    await checkAuthStatus()
   }
 
   const value: AuthContextType = {
@@ -121,16 +192,22 @@ export function useAuth() {
   return context
 }
 
-// Higher-order component for protected routes
 export function withAuth<P extends object>(Component: React.ComponentType<P>) {
   return function AuthenticatedComponent(props: P) {
     const { isAuthenticated, isLoading } = useAuth()
+    const router = useRouter()
+
+    useEffect(() => {
+      if (!isLoading && !isAuthenticated) {
+        router.push('/auth/signin')
+      }
+    }, [isAuthenticated, isLoading, router])
 
     if (isLoading) {
       return (
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-sky border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-8 h-8 border-2 border-sky-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-gray-600">Loading...</p>
           </div>
         </div>
@@ -138,10 +215,6 @@ export function withAuth<P extends object>(Component: React.ComponentType<P>) {
     }
 
     if (!isAuthenticated) {
-      // Redirect to login page
-      if (typeof window !== 'undefined') {
-        window.location.href = '/auth/signin'
-      }
       return null
     }
 
