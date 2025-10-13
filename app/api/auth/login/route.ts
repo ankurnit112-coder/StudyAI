@@ -81,10 +81,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Find user with password hash
-    console.log('Looking for user with email:', email.toLowerCase())
     const user = await database.getUserByEmailWithPassword(email)
-    console.log('User found:', user ? 'Yes' : 'No')
-    
     if (!user) {
       await database.incrementLoginAttempts(email)
       SecurityUtils.logSecurityEvent({
@@ -116,10 +113,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify password
-    console.log('Verifying password for user:', user.email)
     const isValidPassword = await bcrypt.compare(password, user.password)
-    console.log('Password valid:', isValidPassword)
-    
     if (!isValidPassword) {
       await database.incrementLoginAttempts(email)
       SecurityUtils.logSecurityEvent({

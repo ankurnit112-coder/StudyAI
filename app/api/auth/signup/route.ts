@@ -93,7 +93,6 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
     // Create user
-    console.log('Creating user with email:', email.toLowerCase())
     const newUser = await database.createUser({
       email: email.toLowerCase(),
       name: SecurityUtils.sanitizeInput(name.trim()),
@@ -113,7 +112,6 @@ export async function POST(request: NextRequest) {
         }
       }
     })
-    console.log('User created successfully with ID:', newUser.id)
 
     // Create tokens (signup defaults to remember me for better UX)
     const accessToken = await new SignJWT({
