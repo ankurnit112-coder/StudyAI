@@ -494,6 +494,117 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
+  
+  /* Content Structure Fixes */
+  .content-section {
+    display: block;
+    position: relative;
+  }
+  
+  .section-heading {
+    display: block;
+    margin-top: 0;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  .content-block {
+    display: block;
+    position: relative;
+  }
+  
+  .text-block {
+    display: block;
+    margin-top: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  .content-grid {
+    display: grid;
+    width: 100%;
+  }
+  
+  .content-container {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Prevent text from appearing as single block */
+  .article-content > * {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .article-content > *:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Ensure proper paragraph spacing */
+  p {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  
+  /* Ensure proper heading spacing */
+  h1, h2, h3, h4, h5, h6 {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+  
+  /* Ensure proper list spacing */
+  ul, ol {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  
+  li {
+    display: list-item;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Fix for content extraction issues */
+  .extracted-content {
+    white-space: normal;
+    word-spacing: normal;
+    letter-spacing: normal;
+    text-transform: none;
+    text-indent: 0;
+    text-shadow: none;
+    text-decoration: none;
+  }
+  
+  .extracted-content > * {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .extracted-content h1,
+  .extracted-content h2,
+  .extracted-content h3,
+  .extracted-content h4,
+  .extracted-content h5,
+  .extracted-content h6 {
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .extracted-content h1 { font-size: 2rem; }
+  .extracted-content h2 { font-size: 1.75rem; }
+  .extracted-content h3 { font-size: 1.5rem; }
+  .extracted-content h4 { font-size: 1.25rem; }
+  .extracted-content h5 { font-size: 1.125rem; }
+  .extracted-content h6 { font-size: 1rem; }
 }
 
 /* Mobile-specific improvements */
